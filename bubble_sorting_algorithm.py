@@ -24,7 +24,7 @@ def sort_array():
     while (y < comparisons):
         x = 0
         while (x < comparisons):
-            while (scores_array[x] > scores_array[x + 1]):
+            if (scores_array[x] > scores_array[x + 1]):
                 swap()
             x = x + 1
         y = y + 1
@@ -44,7 +44,7 @@ fill_array()
 
 print("\n")
 
-#sort_array()
+sort_array()
 
 display_array()
 
