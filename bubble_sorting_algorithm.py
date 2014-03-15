@@ -25,11 +25,11 @@ def sort_array():
         x = 0
         while (x < comparisons):
             if (scores_array[x] > scores_array[x + 1]):
-                swap()
+                swap(x)
             x = x + 1
         y = y + 1
 
-def swap():
+def swap(x):
     temp = scores_array[x + 1]
     scores_array[x + 1] = scores_array[x]
     scores_array[x] = temp
