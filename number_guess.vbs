@@ -67,18 +67,22 @@ Function highscore( userScore )
 	playerName = InputBox( "You have received a high score! Please enter your name: ")
 	
 	set fso = CreateObject("Scripting.FileSystemObject")
-	set highScoresFile = fso.OpenTextFile("..\highscores.txt", 1, true) 
+	set highScoresFile = fso.OpenTextFile("highscores.txt", 1, true) 
 	
 	Do Until highScoresFile.atEndOfStream = true
-		name = highScoresFile.readLine( )
-		score = highScoresFile.readLine( )
-		nameScoreClicked = MsgBox( name & " " & score )
+		highscoreline = highScoresFile.readLine( )
+		nameScoreClicked = MsgBox( highscoreline)
+		'name = highScoresFile.readLine( )
+		'score = highScoresFile.readLine( )
+		'nameScoreClicked = MsgBox( name & " " & score )
 	Loop
 	
-	set highScoresFile = fso.OpenTextFile( "..\highscores.txt", 8, true )
+	set highScoresFile = fso.OpenTextFile( "highscores.txt", 8, true )
 	
-	highScoresFile.writeLine( playerName )
-	highScoresFile.writeLine( userScore ) 
+	playerAndScore = playerName + " " + Cstr(userScore)
+	highScoresFile.writeLine( playerAndScore )
+	'highScoresFile.writeLine( playerName ) 
+	'highScoresFile.writeLine( userScore ) 
 	highScoresFile.close( )
 	
 	
