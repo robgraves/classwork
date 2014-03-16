@@ -14,7 +14,6 @@ def fill_array():
     while (x < array_size):
         userinput = input("Enter a score:\n")
         userinput = int(userinput)
-        #for i in range(5):
         scores_array.append(userinput)
         x = x + 1
 
@@ -24,15 +23,15 @@ def sort_array():
     while (y < comparisons):
         x = 0
         while (x < comparisons):
-            if (scores_array[x] > scores_array[x + 1]):
-                swap(x)
+            if (scores_array[x] < scores_array[x + 1]): #flip sign on this line to reverse,
+                swap(x)                                 # > for ascending, < for descending
             x = x + 1
         y = y + 1
 
-def swap(x):
-    temp = scores_array[x + 1]
-    scores_array[x + 1] = scores_array[x]
-    scores_array[x] = temp
+def swap(z):
+    temp = scores_array[z + 1]
+    scores_array[z + 1] = scores_array[z]
+    scores_array[z] = temp
 
 def display_array():
     x = 0
@@ -42,7 +41,7 @@ def display_array():
 
 fill_array()
 
-print("\n")
+print("\nSorted scores:")
 
 sort_array()
 
