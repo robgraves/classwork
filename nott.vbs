@@ -1,4 +1,4 @@
-' Matthew Page CSCS1240 Spring 2014 nott() logic library
+' Matthew Page CSCS1240 Spring 2014 nott() logic library function
 
 const preferred = "t"
 const notpreferred = "f"

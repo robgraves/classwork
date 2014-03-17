@@ -3,11 +3,12 @@
 ' and send any necessary info to the library or receive any info back.
 
 set fso = CreateObject("Scripting.FilesystemObject")
-set library = fso.opentextfile("nott.vbs", 1, false )
+set library = fso.opentextfile("andd.vbs", 1, false )
 libraryscript = library.readall()
 executeGlobal libraryscript
 
-test = "t"
-test_returned = nott( test )
+test1 = "t"
+test2 = "t"
+test_returned = andd( test1, test2 )
 btn = msgbox( test_returned )
 
