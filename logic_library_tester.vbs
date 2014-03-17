@@ -7,7 +7,7 @@ set library = fso.opentextfile("nott.vbs", 1, false )
 libraryscript = library.readall()
 executeGlobal libraryscript
 
-test = true
+test = "t"
 test_returned = nott( test )
 btn = msgbox( test_returned )
 

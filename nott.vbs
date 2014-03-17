@@ -1,11 +1,12 @@
 ' Matthew Page CSCS1240 Spring 2014 nott() logic library
 
+const preferred = "t"
+const notpreferred = "f"
+
 Function nott( input )
-	nott = not preferred
 	if input <> preferred then
 		nott = preferred
-	end if
-	if input <> not preffered then
-		nott = preferred
+	else
+		nott = notpreferred
 	end if
 End Function
