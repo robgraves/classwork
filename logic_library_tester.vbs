@@ -3,12 +3,18 @@
 ' and send any necessary info to the library or receive any info back.
 
 set fso = CreateObject("Scripting.FilesystemObject")
-set library = fso.opentextfile("andd.vbs", 1, false )
+set library = fso.opentextfile("xorr.vbs", 1, false ) 	'currently have nott.vbs, andd.vbs, orr.vbs, and xorr.vbs
 libraryscript = library.readall()
 executeGlobal libraryscript
 
-test1 = "t"
-test2 = "t"
-test_returned = andd( test1, test2 )
-btn = msgbox( test_returned )
+''one argument section
+'oneArg = "true"					'change as necessary to test the logic gate
+'oneArg_returned = nott( oneArg )
+'btn = msgbox( oneArg_returned )
+
+''two argument section
+twoArgs1 = "true"					'change as necessary for testing the logic gates
+twoArgs2 = "true"					'change as necessary for testing the logic gates					
+twoArgs_returned = xorr( twoArgs1, twoArgs2 )
+btn = msgbox( twoArgs_returned )
 
