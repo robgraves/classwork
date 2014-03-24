@@ -5,31 +5,35 @@ red = inputbox("Enter a number between 0 and 255 for red value: ")
 green = inputbox("Enter a number between 0 and 255 for green value: ")
 blue = inputbox("Enter a number between 0 and 255 for blue value: ")
 
-if (red > blue) and (red > green) then
+If ((red > blue) And (red > green)) Then
     most = red
-if (blue > red) and (blue > green) then
+ElseIf ((blue > red) And (blue > green)) Then
     most = blue
-if (green > blue) and (green > red) then
+Else '((green > blue) And (green > red))
     most = green 
-
-if (red < blue) and (red < green) then
+End If
+	
+If ((red < blue) And (red < green)) Then
     least = red
-if (blue < red) and (blue < green) then
+ElseIf ((blue < red) And (blue < green)) Then
     least = blue
-if (green < blue) and (green < red) then
+Else '((green < blue) And (green < red))
     least = green
-
-if (most = red) and (least = green) then
+End If
+	
+If ((most = red) And (least = green)) Then
     middle = blue
-if (most = red) and (least = blue) then
+ElseIf ((most = red) And (least = blue)) Then
     middle = green
-if (most = blue) and (least = red) then
+ElseIf ((most = blue) And (least = red)) Then
     middle = green
-if (most = blue) and (least = green) then
+ElseIf ((most = blue) And (least = green)) Then
     middle = red
-if (most = green) and (least = red) then
+ElseIf ((most = green) And (least = red)) Then
     middle = blue
-if (most = green) and (least = blue) then
+Else '((most = green) And (least = blue))
     middle = red
+End If
 
+	
 btnClicked = msgbox(middle & "-ish " & most & " with a bit of " & least)
