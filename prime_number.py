@@ -10,3 +10,6 @@ while x > 1:
     x-=1
 else:
     print(y, 'is prime')
+
+
+#test

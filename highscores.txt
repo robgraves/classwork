@@ -1,4 +1,2 @@
-Matt 10
+Matt 20
 Joe 30
-Matt 3000
-Joe 1000

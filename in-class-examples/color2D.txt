@@ -1,0 +1,23 @@
+set fso = CreateObject( "Scripting.FileSystemObject" )
+set aFile = fso.OpenTextFile( "TwoXTwo.bmp", 1, False, 0 )
+
+
+'identity
+signature = "signature is "
+
+nextByte = aFile.read( 1 )
+signature = signature & asc( nextByte )
+
+signature = signature & ", " & asc( aFile.read( 1 ) )
+
+btn = MsgBox( signature )
+
+'file size
+filesize = asc( aFile.read( 1 ) ) & filesize 
+filesize = asc( aFile.read( 1 ) ) & filesize
+filesize = asc( aFile.read( 1 ) ) & filesize
+filesize = asc( aFile.read( 1 ) ) & filesize
+fileSize = " filesize is " & fileSize
+
+btn = MsgBox( fileSize )
+
