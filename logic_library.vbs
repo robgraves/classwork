@@ -42,8 +42,36 @@ End Function
 Function xorr( input1, input2 )
 	xorr = notpreferred
 	if orr( input1, input2 ) = preferred then
-		if nott(andd( input1, input2 )) = preferred then
+		if nandd( input1, input2 ) = preferred then
 			xorr = preferred
 		end if
 	end if
+End Function
+
+'nand function
+Function nandd ( input1, input2 )
+	nandd = nott(andd( input1, input2 ))
+End Function
+
+'halfSum function
+
+'halfCarry function
+
+'fullSum function
+
+'fullCarry function
+
+'add function
+Function add( input1, input2 )
+	add = input1 + input2
+End Function
+
+'multiply function
+Function multiply( input1, input2)  
+	multiply = input1 * input2
+End Function
+
+'power (exponentiation) function
+Function power( input1, input2 )
+	power = input1^input2
 End Function
