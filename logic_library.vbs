@@ -4,8 +4,8 @@
 ' one file, which is this file to be appended as needed to add more functions.
 
 'declaring constants of preferred and notpreferred 
-const preferred = "true"
-const notpreferred = "false"
+const preferred = 1
+const notpreferred = 0
 
 'nott() logic function
 Function nott( input )
@@ -42,8 +42,52 @@ End Function
 Function xorr( input1, input2 )
 	xorr = notpreferred
 	if orr( input1, input2 ) = preferred then
-		if nott(andd( input1, input2 )) = preferred then
+		if nandd( input1, input2 ) = preferred then
 			xorr = preferred
 		end if
 	end if
+End Function
+
+'nandd function
+Function nandd( input1, input2 )
+	nandd = nott(andd( input1, input2 ))
+End Function
+
+'halfSum function
+Function halfSum( input1, input2 )
+	halfSum = xorr( input1, input2)
+End Function
+
+'halfCarry function
+Function halfCarry( input1, input2 )
+	halfCarry = andd( input1, input2)
+End Function
+
+'fullSum function
+Function fullSum( input1, input2, carryIn)
+	first_operation = halfSum( input1, input2 )
+	fullSum = xorr( first_operation, carryIn )
+End Function
+
+'fullCarry function
+Function fullCarry( input1, input2, carryIn )
+	first_op = halfSum( input1, input2)
+	firstAndGate = andd( first_op, carryIn )
+	secondAndGate = andd( input1, input2 )
+	fullCarry = orr( firstAndGate, secondAndGate )
+End Function
+
+'add function
+Function add( input1, input2 )
+	add = input1 + input2
+End Function
+
+'multiply function
+Function multiply( input1, input2)  
+	multiply = input1 * input2
+End Function
+
+'power (exponentiation) function
+Function power( input1, input2 )
+	power = input1^input2
 End Function

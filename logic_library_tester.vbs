@@ -13,8 +13,14 @@ executeGlobal libraryscript
 'btn = msgbox( oneArg_returned )
 
 ''two argument section
-twoArgs1 = "true"					'change as necessary for testing the logic gates
-twoArgs2 = "true"					'change as necessary for testing the logic gates					
+twoArgs1 = 1					'change as necessary for testing the logic gates
+twoArgs2 = 1					'change as necessary for testing the logic gates					
 twoArgs_returned = xorr( twoArgs1, twoArgs2 )
 btn = msgbox( twoArgs_returned )
+
+''math operations section
+'twoMathArgs1 = 5
+'twoMathArgs2 = 2
+'twoMathArgs_returned = power( twoMathArgs1, twoMathArgs2 )
+'btn = msgbox( twoMathArgs_returned )
 
