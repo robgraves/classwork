@@ -2,7 +2,23 @@
 
 set fso = CreateObject("Scripting.FileSystemObject")
 set MyFile = fso.OpenTextFile("somefilewithwords.txt", 1, False)
+
+'Class txtstream
+'	str = MyFile 
+'	Function testLength( str )
+'		if str.length > 0 then 
+'			str.ReadAll = TextStream.ReadAll()
+'		else
+'			str.ReadAll() = ""
+'		end if
+'	End Function
+'End Class
+
+'filedata = txtstream.testLength( MyFile.ReadAll )
+
 filedata = MyFile.ReadAll()
+
+
 
 word_counter = 0
 iteration_count = 1
