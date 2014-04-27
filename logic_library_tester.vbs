@@ -13,12 +13,19 @@ executeGlobal libraryscript
 'btn = msgbox( oneArg_returned )
 
 ''two argument section
-twoArgs1 = 1					'change as necessary for testing the logic gates
-twoArgs2 = 1					'change as necessary for testing the logic gates					
-twoArgs_returned = xorr( twoArgs1, twoArgs2 )
-btn = msgbox( twoArgs_returned )
+'twoArgs1 = 1					'change as necessary for testing the logic gates
+'twoArgs2 = 1					'change as necessary for testing the logic gates					
+'twoArgs_returned = halfcarry( twoArgs1, twoArgs2 )
+'btn = msgbox( twoArgs_returned )
 
-''math operations section
+''three arguments section
+carryIn = 1
+threeArgs1 = 1
+threeArgs2 = 1
+threeArgs_returned = fullCarry(threeArgs1, threeArgs2, carryIn)
+btn = msgbox( threeArgs_returned )
+
+''math operations section OLD and now irrelevant
 'twoMathArgs1 = 5
 'twoMathArgs2 = 2
 'twoMathArgs_returned = power( twoMathArgs1, twoMathArgs2 )

@@ -1,7 +1,4 @@
 ' Matthew Page CSCS1240 Spring 2014 logic library, 
-' Apparently I had all of my logic functions nott(), andd() orr(), xorr() as
-' separate files, and the desired state is to have all the logic functions in 
-' one file, which is this file to be appended as needed to add more functions.
 
 'declaring constants of preferred and notpreferred 
 const preferred = 1
@@ -78,16 +75,23 @@ Function fullCarry( input1, input2, carryIn )
 End Function
 
 'add function
-Function add( input1, input2 )
-	add = input1 + input2
+Function addd( input1, input2 )
+	carryIn = 0
+	Dim arrayInput1 = ( input1 ) 
+	Dim arrayInput2 = ( input2 )
+	Do
+	
+	Loop
+	total = fullSum( input1, input2, carryIn)
+	carryOut = FullCarry(input1, input2 carryIn)
 End Function
 
 'multiply function
-Function multiply( input1, input2)  
+Function multiplyy( input1, input2)  
 	multiply = input1 * input2
 End Function
 
 'power (exponentiation) function
-Function power( input1, input2 )
+Function powerr( input1, input2 )
 	power = input1^input2
 End Function
