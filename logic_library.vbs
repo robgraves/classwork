@@ -1,8 +1,8 @@
 ' Matthew Page CSCS1240 Spring 2014 logic library, 
 
 'declaring constants of preferred and notpreferred 
-const preferred = 1
-const notpreferred = 0
+const preferred = "1"
+const notpreferred = "0"
 
 'nott() logic function
 Function nott( input )
@@ -76,22 +76,51 @@ End Function
 
 'add function
 Function addd( input1, input2 )
-	carryIn = 0
-	Dim arrayInput1 = ( input1 ) 
-	Dim arrayInput2 = ( input2 )
+	carryIn = "0"
+	iteration = 1
+	total = ""
+	binaryNum1 = revString(input1)
+	binaryNum2 = revString(input2)
+	endConditionLength = len(input1)
 	Do
-	
-	Loop
-	total = fullSum( input1, input2, carryIn)
-	carryOut = FullCarry(input1, input2 carryIn)
+		char_read_bin1 = Mid(binaryNum1, iteration, 1)
+		char_read_bin2 = Mid(binaryNum2, iteration, 1)
+		column_sum = fullSum(char_read_bin1, char_read_bin2, carryIn)
+		carryIn = fullCarry(char_read_bin1, char_read_bin2, carryIn)
+		total = total & column_sum
+		iteration = iteration + 1
+	Loop Until iteration = endConditionLength + 1
+	addd = revString(total)
 End Function
 
-'multiply function
-Function multiplyy( input1, input2)  
-	multiply = input1 * input2
+'multiply function NOT FUNCTIONING YET
+Function multiplyy( input1, input2) 
+	product = 0
+	counter = 0
+	Do
+		product = product + input1
+		counter = counter + 1 
+	Loop Until counter = input2 - 1
+	multiplyy = product
 End Function
 
-'power (exponentiation) function
+'power (exponentiation) function NOT FUNCTIONIGN YET
 Function powerr( input1, input2 )
-	power = input1^input2
+	result = 0
+	counter = 0
+	Do
+		result = result * input1
+		counter = counter + 1
+	Loop Until counter = input2 - 1
+	powerr = result
+End Function
+
+Function revString(input_string)
+	new_string = ""
+	pos = 0
+	Do
+		new_string = new_string & mid(input_string, len(input_string)-pos, 1)
+		pos = pos + 1
+	Loop Until pos = len(input_string)
+	revString = new_string
 End Function

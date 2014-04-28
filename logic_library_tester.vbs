@@ -19,15 +19,15 @@ executeGlobal libraryscript
 'btn = msgbox( twoArgs_returned )
 
 ''three arguments section
-carryIn = 1
-threeArgs1 = 1
-threeArgs2 = 1
-threeArgs_returned = fullCarry(threeArgs1, threeArgs2, carryIn)
-btn = msgbox( threeArgs_returned )
+'carryIn = 1
+'threeArgs1 = 1
+'threeArgs2 = 1
+'threeArgs_returned = fullCarry(threeArgs1, threeArgs2, carryIn)
+'btn = msgbox( threeArgs_returned )
 
-''math operations section OLD and now irrelevant
-'twoMathArgs1 = 5
-'twoMathArgs2 = 2
-'twoMathArgs_returned = power( twoMathArgs1, twoMathArgs2 )
-'btn = msgbox( twoMathArgs_returned )
+''math operations section
+twoMathArgs1 = "00010100"
+twoMathArgs2 = "00001100"
+twoMathArgs_returned = addd( twoMathArgs1, twoMathArgs2 )
+btn = msgbox( twoMathArgs_returned )
 
