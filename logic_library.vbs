@@ -93,25 +93,26 @@ Function addd( input1, input2 )
 	addd = revString(total)
 End Function
 
-'multiply function NOT FUNCTIONING YET
-Function multiplyy( input1, input2) 
-	product = 0
-	counter = 0
+'multiplyy function
+Function multiplyy( input1, input2 ) 
+	product = "00000000"
+	counter = "00000000"
 	Do
-		product = product + input1
-		counter = counter + 1 
-	Loop Until counter = input2 - 1
+		product = addd(product, input1)
+		counter = addd(counter, "00000001") 
+	Loop Until counter = (input2)
 	multiplyy = product
 End Function
 
-'power (exponentiation) function NOT FUNCTIONIGN YET
+'powerr (exponentiation) function
 Function powerr( input1, input2 )
-	result = 0
-	counter = 0
-	Do
-		result = result * input1
-		counter = counter + 1
-	Loop Until counter = input2 - 1
+	result = "00000000"
+	counter = "00000000"
+	result = addd(result, input1)
+	Do Until addd(counter, "00000001") = input2
+		result = multiplyy(result, input1)
+		counter = addd(counter, "00000001")
+	Loop
 	powerr = result
 End Function
 

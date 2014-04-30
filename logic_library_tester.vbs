@@ -26,8 +26,8 @@ executeGlobal libraryscript
 'btn = msgbox( threeArgs_returned )
 
 ''math operations section
-twoMathArgs1 = "00010100"
-twoMathArgs2 = "00001100"
-twoMathArgs_returned = addd( twoMathArgs1, twoMathArgs2 )
+twoMathArgs1 = "00000100"
+twoMathArgs2 = "00000011"
+twoMathArgs_returned = powerr( twoMathArgs1, twoMathArgs2 )
 btn = msgbox( twoMathArgs_returned )
 
