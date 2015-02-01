@@ -1,0 +1,82 @@
+======Introduction======
+
+Welcome to this chronicling of my semester's computer science work at Corning Community College.  My name is Matthew Page and I will be your guide through this adventure...buckle up cause it might get bumpy. I have an A.S. in Liberal Arts from CCC in 2002. Currently, I am enrolled in the Computer Science program at CCC this fall semester in 2014. I am taking 2 computer science classes that I will be documenting my work, progress, and thoughts on throughout the semester.  
+   
+I have spent most of my life working with computers, but not ever as a profession, and not always as a major interest or pursuit in my life.    When I was maybe 7 or 8 years old, which would have been late 1980's, my parents got me and my sister a Commodore 64, which I remember at the time it being hugely disappointing because all our friends had an NES, Nintendo Entertainment System (Mario, Duck Hunt, Tetris, Zelda, Punch-Out, etc.)and my sister and I never did end up ever getting an NES, more because it was superceded than anything else. 
+{{http://i.imgur.com/nKh1kMH.jpg|Nintendo Entertainment System}}
+**Nintendo Entertainment System**
+ 
+
+In retrospect, however, the Commodore 64 was an AMAZING tool at the time for me to play with, the first computer I had unlimited access to.  In grade school we used Apple II's 
+
+{{http://i.imgur.com/wGctG2c.jpg|Apple II Computer}}
+
+**Apple II Computer**
+
+but only for maybe an hour at a time once a week where we mostly did typing tutorials.  The commodore 64 on the other hand originally it's main focus for me was to play games, I played some Mario clones, Hardball (a baseball game my dad and I religiously challenged each other to over and over.)  I played with some synthesizer or music creating software. But I also got my very first taste of programming on the Commodore 64 when a babysitter of mine, who was taking a programming class in high school showed me some BASIC on the Commodore 64 
+
+{{http://i.imgur.com/qVWuFIY.jpg|Commodore 64}}
+**Commodore 64**
+
+This system used the old 5 and 1/4 inch floppy disks that predated the 3.5 inch disks that I used in middle and high school. But the whole system was a keyboard, a floppy disk drive and we had our TV used as our monitor, in addition to other periphials like some joysticks and a printer.  But we booted the machine up to this blue command line and the exact command I used a million times to load my floppy disk games 'LOAD"*",8,1' is shown in the image below.  Next to it is a Hello World program on a Commodore 64.
+
+{{http://i.imgur.com/AOThHQP.jpg|Commodore 64 command line}}  {{http://i.imgur.com/9XzU84F.png|A Hello World program in BASIC}}
+
+**Commodore 64 command line on the left, A Hello World program in BASIC on the right.** 
+
+Once in middle school we had moved on to a Windows 3.1 system on top of DOS 5.0, in which we booted up to DOS and started windows manually from within DOS.  Some of our programs ran in DOS including America Online 2.0 and Doom, and others ran in Windows like Sim City 2000, Wordperfect, etc.  You can actually experience what Windows 3.1 was like in a web browser here:
+[[http://www.michaelv.org/|Windows 3.1 OS in Browser]]  
+
+{{http://i.imgur.com/5O45bvH.png|Windows 3.1}} {{http://i.imgur.com/6S798Sq.png|Sim City 2000}} {{http://i.imgur.com/oyXFZJ8.png|Doom}}
+
+**Windows 3.1 on the top left, Sim City 2000 on the top right, Doom on the bottom.**
+
+Around this time period in my life was when I was first discovering the Internet, which was a vast unknown that fascinated me.  We used dial-up connections to connect to AOL 2.0 and up for the next several years.  Back in those days (I feel like Grandpa Simpson when I phrase it that way) 
+
+{{http://i.imgur.com/wasOSkt.jpg|Grandpa Simpson}}
+
+**Grandpa Simpson, from the "The Simpsons" animated TV show**
+
+ we only got like "20 hours per month" for our monthly subscription, a limitation I could not fathom having to deal with in todays world where my machines do things online 24-7-365 sometimes.  I remember the concept of a chat room was a novel thing at the time, so one of the things I frequently did on early AOL was join chat rooms and talk to people from all over, which quickly burnt through our monthly quota of internet usage, you could go beyond the limit, but it charged my parents credit card like 3 or 4 dollars I think per hour, maybe even 5 dollars later on, for exceeding your alloted hours in a month(Trust me, I got yelled at for this occurring because of me many times.)   I quickly found a loophole.  When people had technical support problems with AOL they would join tech support rooms, which were backed up with a poor ratio of tech support people to the number of users with issues, So you'd join and get a message saying "matthewpage you are now number 125 in the queue." or something to that effect.  The techs would address the current #1 in the queue and in the meantime people could crosstalk between other waiting users.  But what made this exploitative was that your monthly quota clock stopped while in that chatroom, so I started to opt in lieu of the regular chatrooms to chat in tech support while waiting in the queue.  Inevitably it would come time for me to ask my question and I'd either a) ask a troll-like nonsensical question or b) a question I already knew the answer to and then leave and rejoin the tech support room at the end of the queue. I was 13 at the time and it was amusing to me then, and it also bought me more "free internet time." 
+
+{{http://i.imgur.com/CWtDG70.png|America Online}}{{youtube>D1UY7eDRXrs?medium}}
+
+**Top: One of the early America Online main menus, Bottom: Video of AOL dial up connection noises.**
+
+In high school I took a programming class and learned some Pascal and I remember none of it at this point, but it was my first real formal teaching of any programming language. I used Windows 95 and 98 through high school and into my first time at Corning Community College on my home computer.  At school we used Macinotoshs that looked like this in High School.  
+this was also literally the last Apple product I have used to date(08/26/2014).
+
+{{http://i.imgur.com/QE8CTT7.jpg|Macintosh Computer}}  
+
+**Macintosh Computer made by Apple, Inc.**
+
+In college I had no idea what I wanted to do, so I had a different major almost every semester I was in college which is why I ultimately ended up with an A.S. in Liberal Arts.  My best friend from high school went away to college for electrical engineering and this is where I first heard about Linux, just off the cuff and in passing conversations, until I asked him and some of his friends from college about it enough that it had piqued my interest.   At one point I bought a brand new Windows XP desktop and decided I'd try to set up a dual boot system with Windows XP and a Linux distro.  At the time one of the popular ones was Red Hat(this was before Red Hat Enterprise Linux, approximately 2003-2004), and I think I downloaded the iso files (CD images) for Red Hat 9 if I remember correctly.
+
+ {{http://i.imgur.com/TPY7bNM.png|Tux}}   {{http://i.imgur.com/fvpZml1.jpg|Red Hat Linux}}
+
+**"Tux" the Linux mascot on left, and the Red Hat Linux logo on right.**
+
+After a lot of hair pulling, I had successfully set up a dual boot system, which was alot harder then than it is today.  I bought a linux book, read through it, practiced some command line stuff, but ultimately whenever I encountered an issue or didn't know how to do something in Linux, I'd reboot and just do it in Windows XP.  Eventually this setup lead to me staying in Windows XP most of the time and neglecting the Linux installation, so my learning stagnated, and after only 3 months I removed Red Hat and went back to Windows XP solely.  This is why consequently in the last 4 or 5 years since I've been heavily using Linux systems, I try to make a point to find the solution, come hell or highwater, do whatever research I need to do, and exhaust all possibilities, to force myself to learn ways to solve problems instead fo retreating to what I know.  So about 4 or 5 years ago I was reading about a distro that hadn't existed when I originally took a taste of linux.  I was hearing a lot about the accessibility of Ubuntu, so I took my brand new Windows 7 laptop, and set up a dual boot system in no time, compared to my original venture 10 years ago.  I decided to live in it ALL THE TIME, and I did.  I bought books, read books, bought more books, read more books, re-read books, started to take an interest in learning some programming languages in addition to learning and using linux.  So I started learning some Python alongside some C++ over the last roughly 4 years.  When Ubuntu decided to ditch the GNOME desktop environment for their own Unity Desktop Environment... 
+
+{{http://i.imgur.com/Q9h6Ypf.png|Ubuntu running the GNOME Desktop environment}} {{http://i.imgur.com/nBd0wAn.jpg|Ubuntu running the Unity desktop}}
+
+**Top: Ubuntu running the GNOME Desktop environment, Bottom: Ubuntu running their own desktop environment created in house at Canonical called the Unity desktop.**
+
+...I bailed on Ubuntu as I despised Unity in its early days.  I tried many of the popular distros: Fedora, Mint, OpenSuse, Debian.  I had heard through linux communities of Arch Linux and was initially intimidated by the amount of what you were responsible for setting up on your own system, but also its reputation (which is greatly exaggerated.)  I installed Arch and used it and forced myself to deal with issues that I encountered.  This same time period I fell into an amazing and helpful linux community, The Linux Distro Community which I have been active with ever since.  I live in their IRC channel #linuxdistrocommunity on irc.freenode.net and frequent their forums often (additionally I have 2 IRC channels of my own on irc.freenode.net that anyone is welcome to join #robgraves and #spoonbomb: [[https://www.linuxdistrocommunity.com/|Linux Distro Community]] This community has a lot of screencasters and youtubers and they had encouraged me to show how I had dealt with pacman-key errors in installation when they added key signing to packages to Arch and I had succeeded in installing Arch where others were failing so I actually have video documentation of my earlier days of using Arch Linux on my youtube channel in addition to being a guest on another members PodCast a couple times under my handle "robgraves":  [[https://www.youtube.com/channel/UCHEUsGhZagxdEiUK82a5zVA|My Youtube Channel]]
+
+{{http://i.imgur.com/8aHsB9K.jpg|My actual desktop from a few years ago running Arch Linux with wmii tiling window manager}}  {{http://i.imgur.com/fvNJBzY.png|Another actual desktop of mine from a couple years ago running Gentoo with the GNOME desktop}}
+
+**Top: My actual desktop from a few years ago running Arch Linux with wmii tiling window manager, Bottom: Another actual desktop of mine from a couple years ago running Gentoo with the GNOME desktop.** 
+
+Later I decided also that I am officially game for trying any distro, so I learned and used Gentoo for over a year, used Slackware for a while, and made a failed attempt at Linux From Scratch on a virtual machine becuase the toolchain never compiled correctly, at some point I want to re-attempt to do that.  I also have no experience with any of the BSD's and I want to at least use them enought to be familiar with how they operate.
+
+Later I set up a machine at home with a LAMP stack (Linux, Apache, MySQL, and PHP) not for any real purpose, other than to 1) see if I could, 2) learn how to run a webserver and learn system admin like stuff and experiment.  So I bought a couple domains, and my websites were less about making a useful website than it was to answer questions like "how do I host multiple websites on one webserver" and after playing around with virtual hosts and apache config, I had my server machine hosting 5 domains and real websites albeit mostly junk.  The only 2 websites that remain today are my personal website: [[http://www.matthewjpage.com/|matthewjpage.com]]  and the one I was originally planning on doing as a collaborative "sharing our efforts and not duplicating work" with my little brother (whom I have converted to the Church of Linux): 
+[[http://www.spoonbomb.com/|spoonbomb.com]].  Both websites are rough, theres a lot of copying and pasting stuff into them, both were written from scratch in vim while ssh'd into the server machine, no IDE's, no WYSIWYG editor...vim, and I know ZERO HTML or any web design...for now.  They both could desperately use a major overhaul, except I'm not sure of their purpose anymore.  I had even set up forums, not for people actually use, but to see if I could and to deal with MySQL and try to learn that.  Holy spambots, batman!  I was innundated with spambots, eventually I got tired of banning accounts and trying to filter new registrations.
+
+{{http://i.imgur.com/lWl812x.jpg|My geeky section of my bookshelf.}}
+
+**My geeky section of my bookshelf.**
+
+I have repos both on [[https://github.com/robgraves|github.com]] and [[https://bitbucket.org/mp010784|bitbucket.org]], not that theres anything particularly amazing on either site, but specifically I'm trying to start accumulating dotfiles for configurations of Linux utilities on github, and any code I write to try to push those to one or both of the aforementioned sites. 
+
+--Matthew Page 08/26/2014 

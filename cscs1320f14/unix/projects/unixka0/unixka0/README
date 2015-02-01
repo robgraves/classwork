@@ -1,0 +1,42 @@
+UNIX Knowledge Assessment #0
+============================
+Overview
+========
+You have the entirety of class today to solve this task- this activity is
+OPEN RESOURCE with the exception of other people. In that regard, it is
+CLOSED PERSON. You are to do this on your own.
+
+If you are reading this, you have successfully accessed and extracted the
+files from the archive. In addition to this file, you should also have
+the following additional new files:
+
+	data.file - information you have to unscramble
+	dec2asc.c - a C program that converts space-separated decimal values
+	            to their corresponding ASCII representation
+	
+	hex2asc.c - a C program that converts space-separated hexadecimal
+				values (in byte-sized chunks) to their corresponding
+				ASCII representation
+
+Instructions
+============
+Using your skills, unravel 'data.file' until you encounter a message that
+"YOU ARE DONE SUBMIT NOW!!" (note that it may not be in this exact type
+of orientation, but will be readable along with recognizable information)
+
+When you reach the submit state, before submitting, you MUST do the
+following in order to get full credit:
+
+	1. Put the fully readable/recognizable end result of data.file into
+	   a new file called 'results'
+	
+	2. At the end of the file, put the exact sequence of commands you 
+	   used from the point of copying the archive through all this step:
+	   I should be able to run each command end end up with your exact
+	   same end result.
+	
+	3. Submit this 'results' file using the submit tool:
+
+			submit unix unixka0 results
+
+Now you really are done!

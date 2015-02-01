@@ -1,0 +1,62 @@
+This took me a few minutes to figure out, but it looks like to compile this so that it runs cleanly, well I should start with what i initially did which was:
+
+gcc info.c -o info
+
+which compiles ok but when run it gives an error:
+mp010784@lab46 dataproc $ ./info 
+ERROR: filename is incorrect!
+       must match name[] string
+
+but then I started lookign at the code and after a couple mistranslations, (dp3C, dp3C\0, etc) I eventually got to one that ran cleanly with no errors:
+
+gcc info.c -o dp37
+
+which when run outputs nothign with no additional arguments:
+mp010784@lab46 dataproc $ ./dp37 
+mp010784@lab46 dataproc $
+
+then when given a number as an argument I get that number of lines of data back:
+mp010784@lab46 dataproc $ ./dp37 12
+1   671-1501
+2   blank
+3   742-1987
+4   726-1738
+5   blank
+6   467-585
+7   804-1014
+8   001-000
+8   440-1319
+9   340-1254
+10  601-1793
+11  583-1922
+12  blank
+mp010784@lab46 dataproc $ ./dp37 13
+1   671-1501
+2   blank
+3   742-1987
+4   726-1738
+5   blank
+6   467-585
+7   804-1014
+8   001-000
+8   440-1319
+9   340-1254
+10  601-1793
+11  583-1922
+12  blank
+13  error 19
+
+then to meet the 8 lines of output criteria I run:
+b46 dataproc $ ./dp37 8
+1   671-1501
+2   blank
+3   742-1987
+4   726-1738
+5   blank
+6   467-585
+7   804-1014
+8   001-000
+8   440-1319
+mp010784@lab46 dataproc 
+
+thus I think task 2 is complete now.

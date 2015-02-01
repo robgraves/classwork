@@ -1,0 +1,26 @@
+#!/bin/bash
+#############################################
+#
+# Matthew Page
+#
+# 12/6/2014
+# CSCS 1730
+#
+# palindrome  - script determining if
+#               command line argument(s)
+#               given to it are a
+#               plaindrome, First version.
+#
+#############################################
+
+input=$*
+input=`echo $input | sed 's/ //g'`
+flipped=`echo $input | rev`
+
+if [ "$input" == "$flipped" ];then
+    echo "This is a palindrome"
+else
+    echo "Not a plaindrome"
+fi
+
+exit 0

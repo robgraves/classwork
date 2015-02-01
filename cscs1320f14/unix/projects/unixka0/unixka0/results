@@ -1,0 +1,34 @@
+1	Y                             Jgy__
+2	O                           jWW  `""9Wf
+3	U                         _#WWW     IW
+4	                         jWWWWW     IW
+5	A                __,yyyyyWWWWW     IWyyyy___
+6	R           _jyWWP"^``"`.C"9*,J _.mqD:^^"WWWWWWQg__
+7	E         jgW"^.C/"    .C'     I    `D.     'D._"WQg_
+8	        jWP` .C"       C'      I     `D._     `D._ "Qg_
+9	D     jQP`  .C    ,d^^b._      I      _.d^^b.   `D._ "Qg
+10	O    jQ^  .C"   /`   .+" \     I     / "+.   `\   `D.  XQ
+11	N   jQ'  .C'   |`  ."    )    _I    (     ".  |    `D.  4#
+12	E   Qf  .C     (   (    /    / /\    \     )  )     `D.  Qg
+13	   jW   C'      \__\_.+'    / /  \    `+._/__/       `D  jQ
+14	S  Qf   C         C        /_/    \         D         D   Qk
+15	U  Qf   C      _  C        \_\____/         D  _      D   QF
+16	B  QL   C      \`+.__     _______     ______.+'/      D   QF
+17	M  B&   C.      \   \|    ||     |    ||      /       D   Qf
+18	I  jQ   `C.      \   |____|/     |____|/__   /      .D'   jW
+19	T   TQ   `C.      \._   `+.__________/___/|_/      .D'   jQ`
+20	     9Q   `C.      C.`+._           |   |/.D'     .D'   jQ'
+21	N     "Qg  `C.     `C.   `"+-------'   ' .D'     .D'   pW`
+22	O      ^WQy `C.     `C.        I        .D'    _.D' yW"
+23	W        ^9Qy_`C.    `C.       I       .D'   _.D jgW"
+24	!           `9WQgC.__ `C.      I      .D'  _.Dp@@"`
+25	!          ilmk `""9WQQggyyyyyygyyyyyQggQWQH""
+tar -xvf unixka0.tar.xz
+chmod 755 ./*
+cat README
+gcc dec2asc.c -o dec2asc
+gcc hex2asc.c -o hex2asc
+cat data.file | ./hex2asc | grep -v "FILE" > reversed
+cat reversed | rev
+cat reversed | rev | sort -n
+cat reversed | rev | sort -n > result

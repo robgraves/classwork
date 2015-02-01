@@ -1,0 +1,153 @@
+#!/bin/bash
+#########################################################
+#
+# Matthew Page
+# 11/20/2014
+# CSCS 1730
+# 
+# timeonline -  a script to caclulate number of logins
+#               and time online.
+#
+#########################################################
+
+#establishing user
+if [ $# -eq 1 ];then
+    userexists=`last | grep $1`
+    if [ "$userexists" == "" ];then
+        echo "¡NO BUENO! User $1 does not exist!"
+        exit 0
+    fi
+    person=$1
+else
+    person=$(echo $USER)
+fi
+
+echo "Please wait...Processing..."
+
+#variables for number of logins per month
+auglogins=`last | grep $person | grep Aug | wc -l`
+seplogins=`last | grep $person | grep Sep | wc -l`
+octlogins=`last | grep $person | grep Oct | wc -l`
+novlogins=`last | grep $person | grep Nov | wc -l`
+declogins=`last | grep $person | grep Dec | wc -l`
+totallogins=$(echo "($auglogins + $seplogins + $octlogins + $novlogins + $declogins)" | bc -l)
+
+#searching for logins that contain more than a day (denoted by a plus sign) and totaling those days
+days=`last | grep $person | grep '+' | cut -d '(' -f2 | cut -d '+' -f1`
+totaldays=`echo $days | xargs | sed 's/\ /+/g' | bc -l` 
+
+#searching for logins hours and minutes sections within the subset of logins that have more than a day
+#(denoted by a plus sign) and totaling them
+hoursfrompluslines=`last | grep $person | cut -d '(' -f2 | grep '+' | cut -d '+' -f2 | cut -d ':' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+minutesfrompluslines=`last | grep $person | cut -d '(' -f2 | grep '+' | cut -d '+' -f2 | cut -d ':' -f2 | cut -d ')' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+
+#some users have no plus signs (multiple day logins) so their value of the following three variables was
+#an empty srting so i had to check for that then set those empty string variabels to 0's
+if [ "$hoursfrompluslines" == "" ];then
+    hoursfrompluslines=0
+fi
+
+if [ "$minutesfrompluslines" == "" ];then
+    minutesfrompluslines=0
+fi
+
+if [ "$totaldays" == "" ];then
+    totaldays=0
+fi
+
+#searching for logins hours and minutes sections outside the subset of logins that have more than a day
+#(denoted by a plus sign) and totaling them
+hoursfromNONpluslines=`last | grep $person | grep -v '+' | grep -v "still logged in" | grep -v "gone - no logout" | cut -d '(' -f2 | cut -d ':' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+minutesfromNONpluslines=`last | grep $person | grep -v '+' | grep -v "still logged in" | grep -v "gone - no logout" | cut -d '(' -f2 | cut -d ':' -f2 | cut -d ')' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+
+#adding up the seperated 2 subsets of hours and minutes to get total hours and total minutes variables,
+#however called "unrefined" referring to them not being converted up, (i.e. 123 minutes would be 2 hours
+# and 3 minutes ultimately later)
+unrefinedhours=$(echo "($hoursfrompluslines+$hoursfromNONpluslines)" | bc -l)
+unrefinedminutes=$(echo "($minutesfrompluslines+$minutesfromNONpluslines)" | bc -l)
+
+#loop to convert up minutes to hours after every 60 minutes
+totalminutes=0
+while [ $unrefinedminutes -ge 60 ];do
+    unrefinedminutes=$(echo "($unrefinedminutes-60)" | bc -l)
+    unrefinedhours=$(echo "($unrefinedhours+1)" | bc -l)
+    totalminutes=$(echo $unrefinedminutes)
+done
+
+#loop to convert up hours to days fter every 24 hours
+totalhours=0
+while [ $unrefinedhours -ge 24 ];do
+    unrefinedhours=$(echo "($unrefinedhours-24)" | bc -l)
+    totaldays=$(echo "($totaldays+1)" | bc -l)
+    totalhours=$(echo $unrefinedhours)
+done
+
+#loop to print a star for every 10 logins in august
+augtemp=$(echo $auglogins)
+augstars=$(echo "")
+while [ $augtemp -ge 10 ];do
+    augtemp=$(echo "($augtemp-10)" | bc -l)
+    augstars=$(echo $augstars+"*")
+done
+
+#loop to print a star for every 10 logins in september
+septemp=$(echo $seplogins)
+sepstars=$(echo "")
+while [ $septemp -ge 10 ];do
+    septemp=$(echo "($septemp-10)" | bc -l)
+    sepstars=$(echo $sepstars+"*")
+done
+
+#loop to print a star for every 10 logins in october
+octtemp=$(echo $octlogins)
+octstars=$(echo "")
+while [ $octtemp -ge 10 ];do
+    octtemp=$(echo "($octtemp-10)" | bc -l)
+    octstars=$(echo $octstars+"*")
+done
+
+#loop to print a star for every 10 logins in november
+novtemp=$(echo $novlogins)
+novstars=$(echo "")
+while [ $novtemp -ge 10 ];do
+    novtemp=$(echo "($novtemp-10)" | bc -l)
+    novstars=$(echo $novstars+"*")
+done
+
+#loop to print a star for every 10 logins in december
+dectemp=$(echo $declogins)
+decstars=$(echo "")
+while [ $dectemp -ge 10 ];do
+    dectemp=$(echo "($dectemp-10)" | bc -l)
+    decstars=$(echo $decstars+"*")
+done
+
+#loop to print a star for every 10 logins in total logins section
+totaltemp=$(echo $totallogins)
+totalstars=$(echo "")
+while [ $totaltemp -ge 10 ];do
+    totaltemp=$(echo "($totaltemp-10)" | bc -l)
+    totalstars=$(echo $totalstars+"*")
+done
+
+#final output section
+echo "_____________________________"
+echo " USER  : $person   "
+echo "_____________________________"
+echo " Total Login Time: "
+echo "_____________________________"
+echo " Days:   | $totaldays"
+echo " Hours:  | $totalhours"
+echo " Minutes | $totalminutes"
+echo "_____________________________"
+echo " Total Logins Per Month: "
+echo "_____________________________"
+echo " Aug   | `echo $augstars | sed 's/+//g'` $auglogins"
+echo " Sep   | `echo $sepstars | sed 's/+//g'` $seplogins"
+echo " Oct   | `echo $octstars | sed 's/+//g'` $octlogins"
+echo " Nov   | `echo $novstars | sed 's/+//g'` $novlogins"
+echo " Dec   | `echo $decstars | sed 's/+//g'` $declogins"
+echo "_____________________________"
+echo " TOTAL : `echo $totalstars | sed 's/+//g'` $totallogins"
+
+

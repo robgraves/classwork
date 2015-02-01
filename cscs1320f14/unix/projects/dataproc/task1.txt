@@ -1,0 +1,13 @@
+to copy to HOME itself I could have done:
+
+cp /var/public/UNIX/projects/dataproc/info.c ~
+
+or 
+
+cp /var/public/UNIX/projects/dataproc/info.c /home/mp010784/
+
+but what i actually did was move it into the approprate subdirectory I had created for it in my home
+folder with:
+
+cp /var/public/UNIX/projects/dataproc/info.c ~/src/unix/projects/dataproc/
+

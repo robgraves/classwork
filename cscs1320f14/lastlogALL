@@ -1,0 +1,309 @@
+Username         Port     From             Latest
+root             pts/15   aquarius.lair.la Sat Oct 25 16:08:24 -0400 2014
+daemon                                     **Never logged in**
+bin                                        **Never logged in**
+sys                                        **Never logged in**
+sync                                       **Never logged in**
+games                                      **Never logged in**
+man                                        **Never logged in**
+lp                                         **Never logged in**
+mail                                       **Never logged in**
+news                                       **Never logged in**
+uucp                                       **Never logged in**
+proxy                                      **Never logged in**
+www-data                                   **Never logged in**
+backup                                     **Never logged in**
+list                                       **Never logged in**
+irc                                        **Never logged in**
+gnats                                      **Never logged in**
+nobody                                     **Never logged in**
+sshd                                       **Never logged in**
+ntp                                        **Never logged in**
+tss                                        **Never logged in**
+statd                                      **Never logged in**
+nslcd                                      **Never logged in**
+uuidd                                      **Never logged in**
+wedge            pts/3    ldhcp-190.lair.l Wed Nov 26 04:34:32 -0500 2014
+ian              pts/35   torg.lair.lan    Wed Oct 22 16:05:44 -0400 2014
+squirrel         pts/70   sqws.lair.lan    Tue Nov 18 21:22:56 -0500 2014
+synack           pts/17   171.119.255.173. Wed Nov 26 14:57:47 -0500 2014
+joe              pts/0    10.100.20.38     Mon Mar  3 17:04:32 -0500 2014
+alius            pts/28   c-71-58-68-25.hs Wed Nov  5 11:08:41 -0500 2014
+wknowle1         pts/41   rrcs-24-213-255- Tue Dec 11 14:43:34 -0500 2012
+mtaft4           pts/3    cpe-142-105-166- Wed Nov 13 08:27:22 -0500 2013
+jluedema         pts/31   c-174-58-255-200 Wed Nov  5 23:22:33 -0500 2014
+abrunda1         pts/3    cpe-104-228-81-1 Fri Oct 31 10:32:08 -0400 2014
+haas             pts/30   gnu.offbyone.lan Wed Nov 17 14:25:02 -0500 2010
+kinney           pts/36   143.66.25.6      Fri Oct 28 11:24:42 -0400 2011
+jj001572         pts/89   208.49.182.106   Fri Nov  9 15:59:01 -0500 2012
+dates            pts/17   rrcs-208-125-155 Tue Jun  3 12:48:49 -0400 2014
+astrupp          pts/15   10.100.20.8      Mon Nov 17 14:44:59 -0500 2014
+appelthp         pts/33   cpe-67-251-69-24 Wed May  7 18:22:58 -0400 2014
+oppenheim        pts/0    10.100.20.38     Mon Mar  3 17:04:32 -0500 2014
+rfinney2         pts/17   168.169.188.9    Tue Jun  3 08:43:29 -0400 2014
+strego           pts/32   129.21.75.168    Thu Feb 23 14:14:58 -0500 2012
+en007636         pts/12   portal.corning.c Tue Jul 10 12:58:51 -0400 2012
+sweller5         pts/0    cpe-67-242-125-1 Tue Jan 14 19:56:19 -0500 2014
+hhabelt          pts/59   cpe-69-204-214-2 Sun Mar 16 12:59:08 -0400 2014
+jmanley3         pts/14   rrcs-208-105-106 Wed Feb 15 20:21:00 -0500 2012
+egleason         pts/50   cpe-24-94-60-90. Thu Dec 20 17:28:38 -0500 2012
+dparson3         pts/31   irc.offbyone.lan Fri Nov  7 00:14:32 -0500 2014
+erebus           pts/10   166.170.33.132   Sat Aug 30 16:58:43 -0400 2014
+gr015546         pts/8    grrasp.offbyone. Thu May 17 13:00:15 -0400 2012
+kreed11          pts/27   172.16.196.145   Mon Apr  2 10:02:14 -0400 2012
+nblancha         pts/0    cpe-67-242-122-3 Fri Feb 28 01:44:16 -0500 2014
+ssmith85         pts/2    cpe-67-252-121-1 Sat Mar 29 13:29:45 -0400 2014
+reedkl           pts/50   rrcs-184-74-34-1 Thu Mar  3 11:22:06 -0500 2011
+jsulliv3                                   **Never logged in**
+jcardina         pts/22   cpe-24-94-57-8.s Thu Mar 14 05:45:20 -0400 2013
+dshadeck         pts/18   cpe-67-255-59-31 Sat Nov 22 14:11:08 -0500 2014
+jshort6          pts/0    cpe-74-67-80-198 Tue Jul 15 22:57:48 -0400 2014
+mshort3          pts/37   cpe-74-67-80-198 Fri Oct  4 17:38:59 -0400 2013
+rmoses           pts/11   cpe-67-255-115-2 Wed Sep 10 19:27:25 -0400 2014
+afassett         pts/0    c-76-99-92-174.h Thu Dec 19 19:41:56 -0500 2013
+jr018429         pts/28   cpe-74-65-111-14 Fri Mar 15 22:04:14 -0400 2013
+bblack1          pts/89   cpe-24-94-59-118 Tue May  8 11:29:19 -0400 2012
+tcolli12         pts/64   cpe-104-228-77-1 Tue Nov 18 20:19:52 -0500 2014
+mgough           pts/3    cpe-74-78-230-41 Tue Nov 25 19:35:09 -0500 2014
+bh011695         pts/17   cpe-67-241-224-3 Wed Nov 26 14:49:08 -0500 2014
+ryoung12         pts/24   cpe-67-242-122-7 Fri Oct 19 23:43:09 -0400 2012
+mcooper6         pts/0    pool-96-255-220- Sat Jul 12 17:09:32 -0400 2014
+ngraham2         pts/72   grrasp.offbyone. Wed Apr 18 14:15:38 -0400 2012
+jhammo13         pts/0    73.51.90.31      Sun Jun 29 15:16:12 -0400 2014
+jwalrat2         pts/30   17.sub-70-194-80 Mon Oct 28 13:44:01 -0400 2013
+syang            pts/6    cpe-67-241-230-9 Thu Aug 14 21:10:21 -0400 2014
+acarpen5         pts/6    cpe-69-205-158-2 Tue Jan 29 04:15:28 -0500 2013
+wezlbot                                    **Never logged in**
+jjohns43         pts/6    cpe-67-242-125-2 Fri Aug 30 14:50:19 -0400 2013
+sswimle1         pts/94   cpe-74-67-117-66 Wed May  9 22:24:20 -0400 2012
+bewanyk          pts/16   cpe-67-255-59-13 Wed Jul 30 16:24:46 -0400 2014
+tgalpin2         pts/41   cpe-74-65-106-20 Wed Dec 26 13:02:25 -0500 2012
+nsano            pts/73   172.16.198.219   Thu Nov 20 13:21:15 -0500 2014
+rthatch2         pts/4    cpe-67-242-121-9 Wed Jun 19 12:53:28 -0400 2013
+jvanott1         pts/24   pool-96-238-200- Sat Nov 17 20:49:28 -0500 2012
+dschoeff         pts/0    pool-71-248-179- Wed Jul 16 19:50:50 -0400 2014
+mbw6                                       **Never logged in**
+asowers          pts/7    cpe-69-205-233-2 Sun Aug 10 15:01:39 -0400 2014
+bkenne11         pts/23   108-250-253-15.l Sun Jan 26 16:21:55 -0500 2014
+dgirard3         pts/53   157.62.23.63     Mon Nov 17 14:59:41 -0500 2014
+emorris4         pts/1    rrcs-50-75-135-9 Mon Sep 17 08:41:39 -0400 2012
+kkrauss1         pts/23   cpe-67-251-70-19 Mon Sep 30 21:20:25 -0400 2013
+kpryslop         pts/0    10.100.20.48     Mon Nov  4 10:04:31 -0500 2013
+acanfie1         pts/31   cpe-69-205-135-2 Thu Feb  9 19:53:24 -0500 2012
+jdavis34         pts/49   rrcs-69-193-35-8 Thu Feb  7 11:22:11 -0500 2013
+pmcconn1         pts/16   10.100.21.31     Thu Feb 24 08:22:54 -0500 2011
+brobbin4         pts/1    cpe-67-252-120-1 Mon Jun 17 03:02:56 -0400 2013
+srk3             pts/25   node032.ds.genes Mon Feb 25 19:04:20 -0500 2013
+wag2             pts/0    node032.ds.genes Wed Jan 18 14:00:12 -0500 2012
+ccaccia          pts/34   10.100.20.140    Fri Nov 16 10:13:56 -0500 2012
+cforman          pts/38   cpe-69-205-155-1 Wed Nov 20 09:13:59 -0500 2013
+drobie2          pts/31   grrasp.offbyone. Tue Aug 28 14:44:39 -0400 2012
+lgottsha         pts/100  172.16.194.136   Thu Apr 26 14:30:54 -0400 2012
+mowens3          pts/29   129.3.214.44     Thu Mar 27 13:09:00 -0400 2014
+mwitter3         pts/48   cpe-67-255-46-23 Wed Oct 29 20:47:38 -0400 2014
+rlott            pts/74   cpe-69-205-159-8 Wed May  9 23:54:24 -0400 2012
+rrichar8         pts/24   cpe-67-246-144-1 Thu Oct  4 19:49:55 -0400 2012
+swilli31         pts/83   grrasp.offbyone. Thu Sep 27 14:38:32 -0400 2012
+tfitch1          pts/20   cpe-67-255-61-24 Tue May  6 23:01:29 -0400 2014
+vcordes1         pts/17   cpe-67-251-96-64 Thu Nov 13 20:52:08 -0500 2014
+ggamarra         pts/17   cpe-69-205-154-5 Sun Feb 10 17:54:00 -0500 2013
+jsmit176         pts/50   10.100.20.17     Tue Sep 27 10:52:43 -0400 2011
+jwilso39         pts/32   10.100.21.24     Fri Mar  2 13:20:35 -0500 2012
+bboaz            pts/5    cpe-67-241-243-5 Sat Jan 28 09:38:41 -0500 2012
+bkrishe3         pts/2    184.52.75.124    Wed Jul  9 04:48:08 -0400 2014
+cacquah          pts/6    cpe-67-241-238-1 Tue Jan 29 12:13:21 -0500 2013
+dmckinn2         pts/22   rrcs-184-74-40-1 Fri Dec 14 21:06:39 -0500 2012
+dsherbur         pts/18   10.100.20.196    Thu Sep 25 14:05:48 -0400 2014
+jbamper          pts/76   cpe-67-241-230-1 Fri Feb 24 16:41:12 -0500 2012
+jcavalu3         pts/9    cpe-74-65-73-128 Fri Oct 17 20:03:01 -0400 2014
+jpettie          pts/8    50.121.72.3      Wed Feb  5 11:17:49 -0500 2014
+mfaucet2         pts/67   10.100.20.229    Mon Oct  6 18:06:40 -0400 2014
+mpage9                                     **Never logged in**
+rhensen          pts/0    cpe-67-240-190-2 Fri May 17 09:20:17 -0400 2013
+rmatsch          pts/0    1550-39.se.rit.e Thu Mar  7 16:03:53 -0500 2013
+rsantia4         pts/32   cpe-74-65-85-121 Mon Jan 30 20:53:48 -0500 2012
+skinney1         pts/94   cpe-24-94-52-91. Wed May  9 21:21:12 -0400 2012
+smalik2          pts/50   204.14.77.62     Thu Mar 13 10:34:41 -0400 2014
+tedmist1         pts/31   ba222-17.mgdwks. Thu Nov 20 12:08:00 -0500 2014
+thakes3          pts/15   cpe-67-251-108-3 Tue Nov 25 21:05:59 -0500 2014
+zmccann          pts/67   cpe-24-94-55-105 Thu Feb 16 21:03:38 -0500 2012
+eryan3           pts/0    cpe-67-255-36-65 Thu May 16 18:06:43 -0400 2013
+jferrito         pts/55   pod02.offbyone.l Wed Oct 23 15:08:06 -0400 2013
+ta018998         pts/76   10.100.21.99     Thu Feb 16 10:32:54 -0500 2012
+mcantin3         pts/73   10.100.20.28     Thu Feb 16 10:11:28 -0500 2012
+ahazen           pts/89   10.100.21.34     Fri Mar 30 12:55:43 -0400 2012
+csit2310         pts/38   pool-96-247-147- Sun Nov 10 14:12:58 -0500 2013
+pmk              pts/72   10.100.20.107    Wed Apr 25 10:58:50 -0400 2012
+akundlas         pts/2    cpe-74-69-139-47 Thu Aug 23 09:11:33 -0400 2012
+amorse15         pts/29   69.80.175.161    Sun Nov 11 15:49:02 -0500 2012
+mkelly23         pts/38   10.100.20.134    Tue Mar  5 14:46:51 -0500 2013
+eolson1          pts/10   136.224.94.160   Thu Nov 20 18:58:52 -0500 2014
+lalexan3         pts/0    cpe-69-205-139-8 Sat Dec 14 23:39:11 -0500 2013
+ccornair         pts/24   10.100.20.86     Fri May  2 12:55:16 -0400 2014
+cgaines          pts/43   64.sub-174-236-3 Thu May  8 14:59:00 -0400 2014
+jwixon           pts/78   184-8-183-43.dr0 Thu Dec 13 22:42:29 -0500 2012
+khoose2          pts/12   cpe-69-205-140-1 Thu Jul 24 21:20:08 -0400 2014
+smeas            pts/73   cpe-74-69-131-95 Thu Nov 20 15:55:12 -0500 2014
+ks010285         pts/36   24.sub-174-252-4 Sun Dec 16 21:09:38 -0500 2012
+csimon1          pts/67   cpe-24-94-60-72. Thu Dec 13 21:00:29 -0500 2012
+byang            pts/84   grrasp.offbyone. Fri Oct  5 14:47:29 -0400 2012
+escoute1         pts/9    cpe-72-230-217-3 Mon Mar 25 01:04:27 -0400 2013
+mp015470         pts/28   cpe-69-205-204-2 Tue Sep 25 09:18:21 -0400 2012
+sb014848         pts/15   10.100.20.134    Tue Jan 28 18:18:53 -0500 2014
+cruger1          pts/1    10.100.20.104    Fri Oct  5 08:38:46 -0400 2012
+fermanov         pts/55   cpe-69-205-128-2 Fri Oct  5 23:18:23 -0400 2012
+hfarrand         pts/24   cpe-67-246-137-1 Tue Nov 20 16:40:08 -0500 2012
+droan            pts/21   10.100.20.229    Fri Sep 28 08:45:47 -0400 2012
+msabin2          pts/66   172.16.192.230   Fri Mar 14 11:26:58 -0400 2014
+award4           pts/37   cpe-69-205-234-4 Fri Oct  5 20:42:31 -0400 2012
+awarunek         pts/34   10.100.20.134    Fri Oct  5 08:41:58 -0400 2012
+rwilhelm                                   **Never logged in**
+swood5           pts/37   10.100.20.192    Mon Oct 21 08:54:45 -0400 2013
+cclay            pts/18   cpe-67-255-43-1. Sat Nov 22 17:03:34 -0500 2014
+zdann            pts/18   twctech24.main.a Mon Nov 24 14:17:28 -0500 2014
+jdow             pts/57   pod00.offbyone.l Fri Jan 25 15:42:08 -0500 2013
+mgardne8         pts/4    cpe-74-65-127-22 Fri Nov 21 23:47:21 -0500 2014
+mhuff3           pts/76   pod02.offbyone.l Fri Dec 13 14:13:20 -0500 2013
+hlongwe1         pts/31   pod01.offbyone.l Wed May  7 09:40:17 -0400 2014
+jmendoza         pts/37   10.100.20.85     Wed May  7 11:23:55 -0400 2014
+epresto3                                   **Never logged in**
+psechris         pts/20   10.100.20.22     Fri Feb 14 15:39:00 -0500 2014
+jserosky         pts/17   141.238.60.48    Fri Oct 17 14:50:08 -0400 2014
+dstull1          pts/54   pod02.offbyone.l Wed Mar 27 15:26:56 -0400 2013
+jvanzil4         pts/17   172.16.196.117   Fri Sep 26 08:39:06 -0400 2014
+mb006142         pts/18   cpe-74-74-79-188 Wed Nov 26 16:40:45 -0500 2014
+jbelmon1                                   **Never logged in**
+cbenne17         pts/36   10.100.20.66     Wed May  7 11:39:47 -0400 2014
+dblanch1         pts/0    cpe-67-252-70-71 Wed Aug 13 23:29:51 -0400 2014
+ddenunz2         pts/54   pod02.offbyone.l Wed Dec  4 12:23:30 -0500 2013
+ahughe12         pts/4    cpe-198-255-214- Wed Nov 26 01:09:06 -0500 2014
+asutclif         pts/81   cpe-67-255-39-24 Tue Mar 19 19:17:11 -0400 2013
+esuttonj         pts/53   10.100.20.28     Mon Mar 25 11:15:05 -0400 2013
+mwalrut1         pts/17   75-104-129-179.c Fri Feb  8 13:50:35 -0500 2013
+nbrimme1         pts/15   cpe-74-74-72-214 Wed Nov 19 22:19:45 -0500 2014
+slogiudi         pts/61   10.100.20.85     Fri Mar 15 11:31:09 -0400 2013
+asulliv9         pts/38   10.100.20.36     Mon Mar 25 10:44:45 -0400 2013
+jcolli22                                   **Never logged in**
+cflahiv3                                   **Never logged in**
+ningraha                                   **Never logged in**
+klittle4                                   **Never logged in**
+tpilon                                     **Never logged in**
+rrychel1                                   **Never logged in**
+asutton5         pts/0    172.16.202.184   Thu Oct 24 10:59:17 -0400 2013
+cvalley                                    **Never logged in**
+cwheel18                                   **Never logged in**
+ewoodar5         pts/30   10.100.20.60     Mon Sep 23 08:44:01 -0400 2013
+lwooster                                   **Never logged in**
+pfero1           pts/27   cpe-67-255-45-80 Fri May  9 10:16:56 -0400 2014
+kbrown38         pts/71   res555574741716. Fri Nov  7 12:22:29 -0500 2014
+bg016372         pts/12   cpe-69-204-223-1 Tue Jan 21 13:27:16 -0500 2014
+jkosty6          pts/17   cpe-67-252-76-7. Wed Nov 19 16:56:36 -0500 2014
+jwebb4           pts/8    cpe-67-242-123-2 Thu Jan  9 14:14:18 -0500 2014
+dwoodco2         pts/39   10.100.20.56     Fri Nov 21 14:17:09 -0500 2014
+adahmane         pts/48   136.224.250.215  Fri Nov  7 13:17:06 -0500 2014
+kehrlich         pts/61   172.16.198.253   Fri Nov  1 15:55:34 -0400 2013
+aforce2          pts/30   cpe-67-252-123-2 Thu May  8 11:33:54 -0400 2014
+mhether2         pts/0    10.100.20.27     Mon Nov  4 08:12:28 -0500 2013
+klockwo1         pts/15   cpe-104-228-74-1 Wed Nov 26 17:42:54 -0500 2014
+tmitch10         pts/18   ool-182faccb.dyn Wed Nov 26 14:24:32 -0500 2014
+lwall1           pts/77   pod02.offbyone.l Wed Nov 19 11:24:54 -0500 2014
+jwheato7         pts/16   150.sub-70-198-1 Wed Jul  9 03:00:26 -0400 2014
+nadams1          pts/90   10.100.20.125    Wed Oct 16 09:20:14 -0400 2013
+mcampb26         pts/30   10.100.20.83     Mon Oct 21 08:50:21 -0400 2013
+jf009341         pts/86   172.16.202.95    Wed Oct 16 09:18:36 -0400 2013
+gerth                                      **Never logged in**
+jkenne23         pts/18   10.100.20.165    Mon Oct 21 08:57:57 -0400 2013
+clundber         pts/89   10.100.20.205    Wed Oct 16 09:20:00 -0400 2013
+dparmale                                   **Never logged in**
+apaul9           pts/83   10.100.20.119    Wed Oct 16 09:17:59 -0400 2013
+zrolfe           pts/58   10.100.20.134    Mon Sep 23 08:45:34 -0400 2013
+msanto           pts/91   10.100.21.50     Wed Oct 16 09:22:29 -0400 2013
+asmit125         pts/18   10.100.20.217    Mon Oct 21 08:49:45 -0400 2013
+jlapham1         pts/26   cpe-72-230-222-1 Tue Jan 21 16:00:23 -0500 2014
+mpotapen         pts/82   149.119.252.156  Wed Dec 11 12:36:09 -0500 2013
+bkathan          pts/10   cpe-74-67-71-47. Tue Nov 18 21:33:39 -0500 2014
+acrowle1         pts/31   10.100.20.115    Fri May  9 11:05:52 -0400 2014
+adier            pts/31   pod02.offbyone.l Thu Nov 20 09:09:08 -0500 2014
+afervan          pts/74   pod02.offbyone.l Tue Nov 18 09:15:23 -0500 2014
+apardini         pts/48   cpe-67-251-98-11 Mon Oct  6 21:36:09 -0400 2014
+bfairch2         pts/21   pod01.offbyone.l Thu Nov 20 08:57:50 -0500 2014
+cberry6          pts/41   cpe-67-255-42-24 Mon Nov 10 11:40:32 -0500 2014
+ccampane         pts/30   caprisun.offbyon Thu May  8 11:28:57 -0400 2014
+cvaughn3         pts/39   pod02.offbyone.l Thu May  8 15:26:45 -0400 2014
+dmearman         pts/91   c-50-138-111-88. Fri Sep  5 17:25:34 -0400 2014
+ds003277         pts/8    pod00.offbyone.l Tue Apr 29 14:29:02 -0400 2014
+jhauck1          pts/68   cpe-67-252-73-10 Wed Nov 19 22:19:52 -0500 2014
+jmorri15         pts/30   10.100.20.101    Fri May  9 10:55:21 -0400 2014
+jp003256         pts/24   cpe-69-205-131-2 Thu May  8 21:58:08 -0400 2014
+jsylves2         pts/36   172.16.196.229   Fri Nov 21 11:15:03 -0500 2014
+lbelloma         pts/0    cpe-104-228-70-2 Thu Nov 20 20:22:32 -0500 2014
+lellis3          pts/17   cpe-74-65-96-169 Sun May 25 16:10:33 -0400 2014
+nhrynkiw         pts/24   10.100.20.115    Fri May  9 16:00:24 -0400 2014
+scrutten         pts/0    cpe-67-252-100-6 Thu Nov 20 23:30:13 -0500 2014
+tarnold4         pts/92   cpe-74-74-96-128 Thu Nov 20 15:00:01 -0500 2014
+wa015321         pts/32   cpe-74-65-87-3.s Thu May  8 11:34:07 -0400 2014
+zcicora          pts/1    csec-nat.csec.ri Fri Sep 12 08:13:28 -0400 2014
+zcratsle         pts/22   pod00.offbyone.l Tue Jan 21 15:08:02 -0500 2014
+gcooper6         pts/20   cpe-74-67-119-75 Mon May  5 19:59:05 -0400 2014
+cgamet           pts/19   10.100.20.92     Mon Apr 21 11:53:43 -0400 2014
+sgreen11         pts/25   10.100.20.1      Mon May  5 12:50:30 -0400 2014
+mhall22                                    **Never logged in**
+zjones                                     **Never logged in**
+mkaniew1         pts/28   10.100.20.85     Mon May  5 12:44:33 -0400 2014
+lknighto         pts/20   10.100.20.128    Mon May  5 10:03:31 -0400 2014
+clyon3           pts/31   cpe-69-205-158-2 Sun May  4 19:50:15 -0400 2014
+cmarti17         pts/0    10.100.20.218    Mon Jan 27 12:49:28 -0500 2014
+bmayo2           pts/21   10.100.20.21     Wed Apr 30 12:45:32 -0400 2014
+gobrian1         pts/35   10.100.20.6      Wed Jan 29 11:52:31 -0500 2014
+rstaffel         pts/25   10.100.20.82     Wed Jan 29 11:52:08 -0500 2014
+esweeney         pts/23   10.100.20.66     Mon May  5 13:45:46 -0400 2014
+jvennett         pts/25   10.100.21.42     Mon Jan 27 12:45:09 -0500 2014
+rhenggel         pts/78   pod01.offbyone.l Thu Nov 20 16:02:24 -0500 2014
+gwentlin         pts/37   cpe-74-67-119-84 Thu May  8 09:43:15 -0400 2014
+mslater2         pts/28   cpe-74-65-110-53 Sun May  4 15:28:52 -0400 2014
+sbaldwi3                                   **Never logged in**
+acampb11                                   **Never logged in**
+lchesebr                                   **Never logged in**
+ddewert1         pts/33   172.16.199.17    Thu Nov 20 16:42:49 -0500 2014
+kharrell                                   **Never logged in**
+tkamanga                                   **Never logged in**
+blee4                                      **Never logged in**
+emcelduf                                   **Never logged in**
+apauckes                                   **Never logged in**
+kphill11                                   **Never logged in**
+lvinal                                     **Never logged in**
+bbrewst3                                   **Never logged in**
+abuck4           pts/105  172.16.195.40    Thu Nov 20 16:05:55 -0500 2014
+acarson1         pts/39   pod01.offbyone.l Thu Nov 20 16:14:59 -0500 2014
+ahoover3         pts/21   172.16.192.231   Thu Nov 20 17:12:46 -0500 2014
+avolino          pts/36   pod01.offbyone.l Thu Nov 20 16:13:36 -0500 2014
+crankin1         pts/80   cpe-74-65-125-12 Wed Nov 19 21:41:53 -0500 2014
+dsaunde6         pts/10   172.16.195.25    Thu Nov 20 16:37:22 -0500 2014
+dsoutha3         pts/4    cpe-67-242-98-46 Tue Nov 25 12:23:32 -0500 2014
+jcliteur         pts/35   10.100.20.52     Fri Nov 21 11:04:21 -0500 2014
+jgates1          pts/22   172.16.192.170   Thu Oct 23 14:21:22 -0400 2014
+jjacobs7         pts/40   pod01.offbyone.l Thu Nov 20 16:15:19 -0500 2014
+mgleaso7         pts/3    93.sub-70-209-13 Mon Nov 24 20:21:46 -0500 2014
+mmerrick         pts/31   10.100.20.47     Fri Nov 21 09:39:08 -0500 2014
+mp010784         pts/18   www.spoonbomb.co Wed Nov 26 18:39:00 -0500 2014
+mquesad1         pts/102  pod00.offbyone.l Thu Nov 20 16:05:23 -0500 2014
+nvitull1         pts/92   pod02.offbyone.l Thu Nov 20 15:27:04 -0500 2014
+rakbar           pts/4    cpe-24-94-43-109 Tue Nov 25 20:46:48 -0500 2014
+sarnol15         pts/62   pod02.offbyone.l Thu Nov 20 16:59:21 -0500 2014
+skramer1         pts/41   pod01.offbyone.l Tue Sep  9 16:58:57 -0400 2014
+ssmit133         pts/18   10.100.20.160    Fri Nov 21 13:36:39 -0500 2014
+stiwari1         pts/0    10.100.20.47     Fri Nov 21 14:07:27 -0500 2014
+tmosgrov         pts/17   rrcs-24-105-180- Mon Nov 24 17:22:25 -0500 2014
+vgarfiel         pts/18   cpe-104-228-83-2 Sun Nov 23 14:13:16 -0500 2014
+zgolden          pts/80   10.100.20.52     Wed Nov 19 15:21:44 -0500 2014
+zwade                                      **Never logged in**
+jcleary4         pts/46   cpe-74-67-71-227 Fri Nov  7 19:27:06 -0500 2014
+dobsonde                                   **Never logged in**
+agreible         pts/9    172.16.197.38    Wed Sep 17 14:25:22 -0400 2014
+cjenkin5                                   **Never logged in**
+pmallaco         pts/40   10.100.21.14     Fri Nov  7 09:58:43 -0500 2014
+dpalmer5                                   **Never logged in**
+asorber                                    **Never logged in**
+athoma13                                   **Never logged in**
+teames3                                    **Never logged in**
+jfenchel         pts/48   10.100.21.65     Mon Oct  6 18:39:42 -0400 2014

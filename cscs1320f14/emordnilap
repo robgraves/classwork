@@ -1,0 +1,23 @@
+#!/bin/bash
+
+input=$*
+input=`echo $input | sed 's/ //g'`
+   
+#./palindrome $input
+echo $input > forward
+echo $input | rev > backward
+
+forward=`md5sum forward | cut -d " " -f1`
+backward=`md5sum backward | cut -d " " -f1`
+
+if [ "$forward" == "$backward" ];then
+    echo "This is a palindrome"
+else
+    echo "Not a palindrome"
+fi
+
+rm -rf forward
+rm -rf backward
+
+exit 0
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+choice=$((($RANDOM%100)+1))
+guess=0
+#echo $choice //cheat mode enabled/disabled
+while [ "$guess" -lt 6 ];do
+    echo -n "Guess a number: "
+    read number
+    if [ "$number" -eq "$choice" ];then
+        echo "You have correct now"
+        exit 0
+    elif [ "$number" -lt "$choice" ];then
+        echo "Higher"
+    else
+        echo "lower"
+    fi
+    let guess=$guess+1
+done
+exit 0

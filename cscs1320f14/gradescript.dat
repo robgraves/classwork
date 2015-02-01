@@ -1,0 +1,56 @@
+ATTENDANCE
+          [UNIX] 238 240 245 247 252 254 259 261 266 268 273 275 280 282 294 296 
+      [mp010784] 238 240 245 247 252 254 259 261 266 268 273 275 280 282 294 296 
+
+OPUS
+    1:opus:week1entry
+    1:opus:week2entry
+    1:opus:week3entry
+    1:opus:week4entry
+    1:opus:week5entry
+    1:opus:week6entry
+    1:opus:week7entry
+    1:opus:week8entry
+
+PROJECTS
+    1:titlecustomize:customized Opus title section
+    1:resume:created resume at designated URL
+    1:resumelayout:applied wiki styling
+    1:resumesubmit:submit resume project
+    1:introcustomize:customized Opus intro
+    1:introsubmit:submitted URL to Opus
+    1:authorcontent:08/28/2014 author (bonus)
+    1:designerlayout:08/28/2014 designer (bonus)
+    1:authorcontent:08/26/2014 author (bonus)
+    1:designerlayout:08/28/2014 designer (bonus)
+    1:reviewerhelpfulness:09/09/2014 notes
+    1:reviewerdeadline:09/09/2014 notes
+    1:designerlayout:09/18/2014 notes
+    1:designerdeadline:09/18/2014 notes
+    1:project submitted (archives)
+    1:project submitted before deadline (archives)
+    1:archive exists and is named correctly (archives)
+    1:smallest file is correct (archives)
+    1:small file is correct (archives)
+    1:big file is correct (archives)
+    1:biggest file is correct (archives)
+    1:archive compression is correct (archives)
+    1:submitted project (puzzlebox)
+    1:submitted project on time (puzzlebox)
+    1:results file exists (puzzlebox)
+    1:results file is valid (puzzlebox)
+    1:submitted project (puzzlebox2)
+    1:submitted project on time (puzzlebox2)
+    1:results.txt file exists (puzzlebox2)
+    1:results.txt file is valid (puzzlebox2)
+
+SUBMISSION REPORT
+unix projects:
+    intro, submitted on 20140831-132213
+    resume, submitted on 20140901-220455
+    archives, submitted on 20140906-171904
+    puzzlebox, submitted on 20140918-133831
+    puzzlebox2, submitted on 20140923-200952
+    dataproc, submitted on 20141004-170947
+    unixka0, submitted on 20141030-171844
+

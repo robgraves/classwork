@@ -1,0 +1,66 @@
+#!/bin/bash
+
+####################################################################
+# 
+# Matthew Page
+# me@matthewjpage.com
+# 10/25/2014
+# CSCS 1730 Unix/Linux
+#
+# gradescript - a script to take the output from the status script
+#               and then calculate the grade, section by section, 
+#               and then ultimately calculate the overall grade.
+#
+####################################################################
+
+#changed to one "cat gradescript.dat" command usage, then just cat the file I create
+#I also then change all the "cat gradescript.dat" commands to "cat gradescript"
+
+#attempting to add time condition to check if file is older than an hour, if so,
+#rerun status unix and output to gradescript.dat, if not then use existing gradescript.
+
+if [ ! -e "gradescript.dat" ];then
+    status unix > gradescript.dat
+fi
+
+ftime=`date -d "$(stat gradescript.dat | grep "Modify" | sed 's/^Modify://g')" +%s`
+ctime=`date +%s`
+let dtime=$ctime-$ftime
+
+if [ $dtime -gt 3600 ];then
+    status unix > gradescript.dat
+fi
+
+#status unix > gradescript.dat 
+
+#ATTENDANCE SECTION
+attendance_total=`cat gradescript.dat | grep UNIX | tr " " "\n" | grep -v "^$" | grep -v "UNIX" | wc -l`
+attendance_missed=`cat gradescript.dat | grep $USER | tr " " "\n" | grep -v "^$" | grep -v $USER | grep 'X' | wc -l `
+attendance_user=$(echo "($attendance_total-$attendance_missed)" | bc -l)
+attendance_percent=$(echo "($attendance_user/$attendance_total)*100" | bc -l | cut -d '.' -f1)
+
+#OPUS SECTION
+opus_points_total=`cat gradescript.dat | sed -n '/OPUS/,/PROJECTS/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "OPUS" | grep -v "PROJECTS" | wc -l`
+opus_points_earned=`cat gradescript.dat | sed -n '/OPUS/,/PROJECTS/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "OPUS" | grep -v "PROJECTS" | grep '1' | wc -l`
+opus_percent=$(echo "($opus_points_earned/$opus_points_total)*100" | bc -l | cut -d '.' -f1)
+
+#PROJECT SECTION
+project_points_total=`cat gradescript.dat | sed -n '/PROJECTS/,/SUBMISSION/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "PROJECTS" | grep -v "SUBMISSION" | wc -l`
+project_points_earned=`cat gradescript.dat | sed -n '/PROJECTS/,/SUBMISSION/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "PROJECTS" | grep -v "SUBMISSION" | grep '1' | wc -l`
+project_percent=$(echo "($project_points_earned/$project_points_total)*100" | bc -l | cut -d '.' -f1)
+
+#WEIGHTED SECTION
+weighted_attendance=$(echo "(28*$attendance_user)/$attendance_total" | bc -l | cut -d '.' -f1)
+weighted_opus=$(echo "(36*$opus_points_earned)/$opus_points_total" | bc -l | cut -d '.' -f1)
+weighted_project=$(echo "(36*$project_points_earned)/$project_points_total" | bc -l | cut -d '.' -f1)
+
+#TOTAL GRADE
+total_grade=$(echo "($weighted_attendance+$weighted_opus+$weighted_project)" | bc -l)
+
+#OUTPUT RESULTS
+echo "You attended $attendance_user out of $attendance_total class days for $attendance_percent% Attendance score."
+echo "You completed $opus_points_earned opus entries out of $opus_points_total for $opus_percent% Opus score."
+echo "You earned $project_points_earned project points out of $project_points_total for $project_percent% Projects score."
+echo "For a total grade of $total_grade in Unix/Linux class!"
+
+#rm -f gradescript.dat

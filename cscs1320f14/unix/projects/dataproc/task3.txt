@@ -1,0 +1,3 @@
+I Executed the program to generate 1024 lines of output by running:
+mp010784@lab46 dataproc $ ./dp37 1024
+

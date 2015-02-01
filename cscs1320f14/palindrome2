@@ -1,0 +1,43 @@
+#!/bin/bash
+#############################################
+#
+# Matthew Page
+# 
+# 12/8/2014
+# CSCS 1730
+#
+# palindrome2 - script determining if
+#               command line argument(s)
+#               given to it are a 
+#               plaindrome, 2nd alternate
+#               version.
+#
+#############################################
+
+input=$*
+input=`echo $input | sed 's/ //g'`
+strlen=${#input}
+
+begin=1
+end=$(echo $strlen)
+
+counter=$(echo $strlen)
+
+x=1
+y=$(echo $strlen)
+
+while [ $counter -gt 0 ];do
+    begin=`echo $input | cut -c $x`
+    end=`echo $input | cut -c $y`
+    if [ "$begin" != "$end" ];then
+        echo "Not a palindrome!"
+        exit 0
+    else
+        break
+    fi 
+    let x=$x+1
+    let y=$y-1
+    let counter=$counter-1
+done
+echo "This is a palindrome!"
+exit 0

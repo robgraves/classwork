@@ -1,0 +1,24 @@
+---------------------------------------------------------------------------
+Congratulations! You unravelled the puzzle box!
+
+To finish, you must perform these two additional steps, which take the
+form of command-lines.
+
+Assuming you have named this file "results", you may use the following
+examples:
+
+---------------------------------------------------------------------------
+Action 1: Submit this files using the "submit" tool. 
+--------  Just run the following to perform that action:
+
+	$ submit unix puzzlebox results
+
+---------------------------------------------------------------------------
+Action 2: mail this file's contents to your instructor as well as
+--------  yourself. Just run the following:
+
+	$ cat results | mail -s "[PROJECT: the puzzle box]" wedge $USER
+
+NOTE: If successful, you should receive a copy of this file in your e-mail.
+---------------------------------------------------------------------------
+

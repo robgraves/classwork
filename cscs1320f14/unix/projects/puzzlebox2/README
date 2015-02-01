@@ -1,0 +1,41 @@
+Puzzlebox Deux
+==============
+You got this far- good!
+
+Now the real fun begins. There is a file in the archive
+called 'big_endian.ascii'; its password is "1337" (without the quotes).
+Decrypt and extract it from the archive.
+
+Look inside: big_endian.ascii
+
+Figure out the encoding and 'decode' it.
+
+Put it in a file called: stage2
+
+Run this command:
+
+cat stage2 | cut -d':' -f2 > $(cat stage2 | cut -d':' -f1).ascii
+
+List your files. Anything new? That's where you want to direct your
+attention next. Another (similar) code, just expressed differently.
+
+Go and decode it, putting the result in a file called: password
+
+The password to unlock the other files is stored in this file! Note
+any and all spaces!
+
+You should now be able to decrypt the remainder of the archive; there
+are 4 files you are after: part1, part2, part3, and part4.
+
+You need to combine parts 1, 2, and 3 into one file (called together.txt),
+and arrange the lines in sequential order. Save the final combined/sorted
+file as a file called 'result.txt'.
+
+The contents of the file 'part4' are then to be appended to the end of
+your 'result.txt' file.
+
+That's it! Go ahead and submit it! You've solved this Puzzlebox!
+
+The command to submit this project is:
+
+submit unix puzzlebox2 results.txt

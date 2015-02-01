@@ -1,0 +1,145 @@
+#!/bin/bash
+##################################################
+#
+# Matthew Page
+# 
+# 12/10/2014
+# CSCS 1730
+# 
+# datareform -  CSCS 1730 UNIX/Linux eoce 0x3
+#               data reformatting, to got through
+#               status script output, and organize
+#               by project type and show points 
+#               out of total per each project and 
+#               to show bonus points as extra that
+#               don't count against you.
+#
+##################################################
+
+#trying to only use status script once
+status unix > original_out
+
+#getting variables for the numbers I need later 
+statuscalc_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "statuscalc" | grep "0" | wc -l`
+statuscalc_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "statuscalc" | grep "1" | wc -l`
+statuscalc_project_total=$(echo "($statuscalc_project_missed+$statuscalc_project_earned)" | bc -l)
+
+#echo $statuscalc_project_total
+
+notes_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "notes" | grep "0:" | wc -l`
+notes_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "notes" | grep "1" | wc -l`
+notes_project_total=$(echo "($notes_project_missed+$notes_project_earned)" | bc -l)
+
+#echo $notes_project_missed
+#echo $notes_project_earned
+#echo $notes_project_total
+
+unixka0_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "unixka0" | grep "0:" | wc -l`
+unixka0_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "unixka0" | grep "1" | wc -l`
+unixka0_project_total=$(echo "($unixka0_project_missed+$unixka0_project_earned)" | bc -l)
+
+#echo $unixka0_project_total
+
+dataproc_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "dataproc" | grep "0:" | wc -l`
+dataproc_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "dataproc" | grep "1" | wc -l`
+dataproc_project_total=$(echo "($dataproc_project_missed+$dataproc_project_earned)" | bc -l)
+
+#echo $dataproc_project_missed
+#echo $dataproc_project_earned
+#echo $dataproc_project_total
+
+puzzlebox_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "puzzlebox)" | grep "0" | wc -l`
+puzzlebox_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "puzzlebox)" | grep "1" | wc -l`
+puzzlebox_project_total=$(echo "($puzzlebox_project_missed+$puzzlebox_project_earned)" | bc -l)
+
+#echo $puzzlebox_project_total
+
+puzzlebox2_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "puzzlebox2" | grep "0" | wc -l`
+puzzlebox2_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "puzzlebox2" | grep "1" | wc -l`
+puzzlebox2_project_total=$(echo "($puzzlebox2_project_missed+$puzzlebox2_project_earned)" | bc -l)
+
+#echo $puzzlebox2_project_total
+
+archives_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "archives" | grep "0" | wc -l`
+archives_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "archives" | grep "1" | wc -l`
+archives_project_total=$(echo "($archives_project_missed+$archives_project_earned)" | bc -l)
+
+#echo $archives_project_total
+
+##this section is partially pointless, as the bonus points arent someothignout of something
+##and they do not count against you if you miss them.
+bonus_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "bonus" | grep "0:" | wc -l`
+bonus_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "bonus" | grep "1" | wc -l`
+bonus_project_total=$(echo "($bonus_project_missed+$bonus_project_earned)" | bc -l)
+
+#echo $bonus_project_total
+
+opus_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "Opus" | grep "0" | wc -l`
+opus_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "Opus" | grep "1" | wc -l`
+opus_project_total=$(echo "($opus_project_missed+$opus_project_earned)" | bc -l)
+
+#echo $opus_project_total
+
+resume_project_missed=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "resume" | grep "0" | wc -l`
+resume_project_earned=`cat original_out | sed -n '/PROJECTS/,/SUBMISSION/p' | grep "resume" | grep "1" | wc -l`
+resume_project_total=$(echo "($resume_project_missed+$resume_project_earned)" | bc -l)
+
+#echo $resume_project_total
+
+#some data manimpulation and saving to separate files
+cat original_out | grep "(statuscalc)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > statuscalc
+cat original_out | grep "(notes)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > notes
+cat original_out | grep "(unixka0)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > unixka0
+cat original_out | grep "(dataproc)" | sed 's/1:/*:/g'| sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > dataproc
+cat original_out | grep "(puzzlebox2)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > puzzlebox2
+cat original_out | grep "(puzzlebox)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > puzzlebox
+cat original_out | grep "(archives)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > archives
+cat original_out | grep "(bonus)" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/0\]/g' > bonus
+cat original_out | grep "Opus" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > opus
+cat original_out | grep "resume" | sed 's/1:/*:/g' | sed 's/^[ \t]*//' | sed 's/$/ \[1\/1\]/g' > resume
+
+#final output section
+echo "$resume_project_earned:resume:final tally of results (out of $resume_project_total)"
+cat statuscalc
+
+echo "$opus_project_earned:Opus:final tally of results (out of $opus_project_total)"
+cat opus
+
+echo "$bonus_project_earned:bonus:final tally of results (out of $bonus_project_total)"
+cat bonus
+
+echo "$archives_project_earned:archives:final tally of results (out of $archives_project_total)"
+cat archives
+
+echo "$puzzlebox_project_earned:puzzlebox:final tally of results (out of $puzzlebox_project_total)"
+cat puzzlebox
+
+echo "$puzzlebox2_project_earned:puzzlebox2:final tally of results (out of $puzzlebox2_project_total)"
+cat puzzlebox2
+
+echo "$dataproc_project_earned:dataproc:final tally of results (out of $dataproc_project_total)"
+cat dataproc
+
+echo "$unixka0_project_earned:unixka0:final tally of results (out of $unixka0_project_total)"
+cat unixka0
+
+echo "$notes_project_earned:notes:final tally of results (out of $notes_project_total)"
+cat notes
+
+echo "$statuscalc_project_earned:statuscalc:final tally of results (out of $statuscalc_project_total)"
+cat statuscalc
+
+#clean up of files used
+rm -rf statuscalc
+rm -rf notes
+rm -rf unixka0
+rm -rf dataproc
+rm -rf puzzlebox2
+rm -rf puzzlebox
+rm -rf archives
+rm -rf bonus
+rm -rf opus
+rm -rf resume
+rm -rf original_out
+
+exit 0

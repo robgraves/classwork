@@ -1,0 +1,1 @@
+status unix | grep 'opus' | sed 's/^.*\([01]\):\([a-z][a-z]*\):\(week\)\([0-9]\)\(.*\)$/\5 for \3 \4 \2 [\1]/g'

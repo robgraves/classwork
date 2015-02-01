@@ -1,0 +1,93 @@
+ATTENDANCE
+          [UNIX] 238 240 245 247 252 254 259 261 266 268 273 275 280 282 294 296 301 303 308 310 315 317 322 324 336 
+      [mp010784] 238 240 245 247 252 254 259 261 266 268 273 275 280 282 294 296 301 303 308 310 315 317 322 324 336 
+
+OPUS
+    1:opus:week1entry
+    1:opus:week2entry
+    1:opus:week3entry
+    1:opus:week4entry
+    1:opus:week5entry
+    1:opus:week6entry
+    1:opus:week7entry
+    1:opus:week8entry
+    1:opus:week9entry
+    1:opus:week10entry
+    1:opus:week11entry
+    1:opus:week12entry
+    1:opus:week13entry
+
+PROJECTS
+    1:titlecustomize:customized Opus title section
+    1:resume:created resume at designated URL
+    1:resumelayout:applied wiki styling
+    1:resumesubmit:submit resume project
+    1:introcustomize:customized Opus intro
+    1:introsubmit:submitted URL to Opus
+    1:authorcontent:08/28/2014 author (bonus)
+    1:designerlayout:08/28/2014 designer (bonus)
+    1:authorcontent:08/26/2014 author (bonus)
+    1:designerlayout:08/28/2014 designer (bonus)
+    1:project submitted (archives)
+    1:project submitted before deadline (archives)
+    1:archive exists and is named correctly (archives)
+    1:smallest file is correct (archives)
+    1:small file is correct (archives)
+    1:big file is correct (archives)
+    1:biggest file is correct (archives)
+    1:archive compression is correct (archives)
+    1:submitted project (puzzlebox)
+    1:submitted project on time (puzzlebox)
+    1:results file exists (puzzlebox)
+    1:results file is valid (puzzlebox)
+    1:submitted project (puzzlebox2)
+    1:submitted project on time (puzzlebox2)
+    1:results.txt file exists (puzzlebox2)
+    1:results.txt file is valid (puzzlebox2)
+    1:submitted project (dataproc)
+    1:submitted project on time (dataproc)
+    1:files correctly named (dataproc)
+    1:files submit in a correctly named archive (dataproc)
+    1:files submit in a tar archive (dataproc)
+    1:archive compressed with gzip (dataproc)
+    1:task0 question posted (dataproc)
+    1:task0 posted response (dataproc)
+    1:task1 copied successfully (dataproc)
+    1:task2 compiled correctly (dataproc)
+    1:task3 run with argument (dataproc)
+    1:task4 output saved to file (dataproc)
+    1:task5 output filtered ok (dataproc)
+    1:task5 output saved to file (dataproc)
+    1:task6 output filtered ok (dataproc)
+    1:task6 output saved to file (dataproc)
+    1:performed (unixka0)
+    1:submit (unixka0)
+    1:decode successful (unixka0)
+    1:provided steps taken (unixka0)
+    1:designer layout 09/18/2014 [1/1] (notes)
+    1:designer deadline 09/18/2014 [1/1] (notes)
+    1:reviewer helpfulness 09/09/2014 [1/1] (notes)
+    1:reviewer deadline 09/09/2014 [1/1] (notes)
+    1:submitted project (statuscalc)
+    1:submitted project on time (statuscalc)
+    1:runs without warnings/errors (statuscalc)
+    1:output is reasonably correct (statuscalc)
+    1:project percentage is reasonably correct (statuscalc)
+    1:project calculation logic correct (statuscalc)
+    1:project grade component is reasonably correct (statuscalc)
+    1:project shell logic is reasonably correct (statuscalc)
+    1:attendance percentage is reasonably correct (statuscalc)
+    1:attendance calculation logic correct (statuscalc)
+    1:attendance grade component is reasonably correct (statuscalc)
+    1:attendance shell logic is reasonably correct (statuscalc)
+    1:opus percentage is reasonably correct (statuscalc)
+    1:opus calculation logic correct (statuscalc)
+    1:opus grade component is reasonably correct (statuscalc)
+    1:opus shell logic is reasonably correct (statuscalc)
+
+SUBMISSION REPORT
+unix projects:
+    eoce0, due on 20141218 (in 7 days)
+    timeonline, submitted on 20141206-221819
+    statuscalc, submitted on 20141118-133627
+

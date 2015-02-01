@@ -1,0 +1,14 @@
+#!/bin/bash
+
+total=0
+evens=0
+
+for number in `cat datastuff`;do
+    evenchk=`echo "$number%2" | bc`
+    if [ "$evenchk" -eq 0 ];then
+        let evens=$evens+1
+    fi
+    let total=$total+1
+done
+echo "Out of $total numbers, there are $evens even numbers."
+exit 0

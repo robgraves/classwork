@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Run this script as follows: ./script 44 33 22 11 12 23 34 45 5 1 3 2 4
+#
+
+#function process() {
+#    sleep   "$1"
+#    #echo -n "$1 "
+#    echo "$1"
+#}
+
+for data in $*; do
+    echo $data >> poop
+    sorted=`cat poop | sort -nr`
+    #process "$data" &
+done
+echo $sorted
+#wait
+#echo
+rm -rf poop
+exit 0

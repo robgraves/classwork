@@ -1,0 +1,5651 @@
+
+======C/C++ Programming Journal======
+
+====Tuesday, August 26, 2014====
+
+First day of class today for C/C++ and the majority of the class was spent reviewing the syllabus online.  We also received our logins to lab46 in the LAIR in the basement of Corning Community College's Business Development Center.
+
+---------------------------------------------------------------------------------------------------------
+
+From within the LAIR, one logs in with:
+<cli>ssh lab46</cli> 
+and the website for the syllabus and course related material online is:
+[[http://www/haas/fall2014/cprog|http://www/haas/fall2014/cprog]]
+
+---------------------------------------------------------------------------------------------------------
+
+From an external machine from home, or when using WiFi in the LAIR on own laptop one logs in with:
+<cli>ssh username@lab46.corning-cc.edu</cli>
+and the same website as above for syllabus, course info, etc. is located at:
+[[http://lab46.corning-cc.edu/haas/fall2014/cprog|http://lab46.corning-cc.edu/haas/fall2014/cprog]]
+
+
+
+
+====Thursday, August 28, 2014====
+
+We set up our IRC session today, using irrssi as an IRC chat client and screen as a terminal multiplexer.  I personally have used both of these before, and on my own I usually use weechat for a terminal based IRC client and and tmux as a terminal multiplexer and I use both on my server.  The only caveat with tmux, is that I've altered the configuration to use Ctrl-a as its Mod key-combo in lieu of Ctrl-b which conflicts with the page scrollback on vim.  Hence, why I changed it to what screen uses. 
+I'm not going to use screen as I prefer tmux over screen, but I plan to write down the commands associated with screen here. As a side note I will try irssi again (I haven't used it a couple years) as my chat client that I leave running in tmux on lab46, maybe I'll even end up liking it more than weechat and switch the client I use on the server...we'll see.
+
+---------------------------------------------------------------------------------------------------------
+
+To start a screen session:
+<cli>screen</cli>
+then you can run any commands in here, like the example we did in class was:
+<cli>who</cli>
+The method to detach is confusing if you aren't use to this procedure, but you hit Ctrl+a then release Ctrl+a and then hit d.  Ctrl+a is a modifier key combination that tells screen that we are inputting command to it, tmux functions the same way but by default it's Ctrl+b is its modifier.  To reattach to a detached screen session:
+<cli>screen -r</cli>
+
+---------------------------------------------------------------------------------------------------------
+
+**---My tmux diversion---**
+
+In tmux I start the program with an added option to name the tmux session something so that I could opt to have multiple tmux sessions going with differing purposes.  I'm sure screen as similar funcionality.
+Anyway, I almost always call my tmux irc sesions simply "irc" with this command:
+<cli>tmux -S irc</cli>
+the -S is an option for a socket path, and I would usually put a path to a location my brother (whom I was teaching linux-esque things to could access on my machine, change the permissons on said path, and allow him to join my tmux session with:
+<cli>tmux -S /path/to/session attach</cli>
+then I could show him directly how I did certain things.
+
+Tmux has Ctrl+b as its modifier by default, I created a file in my home directory called ~/.tmux.conf (~ being a shortcut for home, then a preceding . before a file is a hidden file, which will only appear with ls if the -a flag is used:
+<cli>ls -a</cli>
+
+My tmux configuration file is so small and easy that I'll share it here:
+<code>
+unbind-key C-b
+set -g prefix C-a
+bind-key C-a send-prefix
+</code>
+
+If you already have a tmux session running you can reload the tmux configuration file from within tmux with Ctrl+b then releasing and pressing ":" with Shift+; whcih brings up a command prompt (yellow border on bottom with ":" prompt)in which you enter:
+<cli>source-file ~/.tmux.conf</cli>
+OR from a regular command line with:
+<cli>tmux source-file ~/.tmux.conf</cli>
+and then Ctrl+a will be the new modifier key-combo.
+
+Tmux also uses Ctrl+b (Ctrl+a in my case) and then release that key combo and then press d to detach from said session.  Then I reattach again with:
+<cli>tmux -S irc attach</cli>
+
+---------------------------------------------------------------------------------------------------------
+
+**Ok back to C...**
+
+We wrote our very first C program today, the Hello World! program, called hello.c :
+
+<code c 1>
+#include <stdio.h>
+
+int main()
+{
+    fprintf(stdout, "Hello, World\n");c 1
+    return 0;
+}
+</code>
+
+then we compiled this with:
+<cli>gcc hello.c -o hello</cli>
+
+---------------------------------------------------------------------------------------------------------
+
+====Week 1 - C/C++ Lab Class====
+
+In Joe's C/C++ Lab Class period, we spend creating our repositories on bitbucket.org, and granting joe access to our repositories in addition to getting access to joe's classroom repository for announcements, issues, wiki, downloads, etc.  We learned how to install and set up Mercurial and TortoiseHg the GUI frontend for mercurial. 
+
+I already have mercurial and TortoiseHg installed on all the machine's and OS's, both Windows(7 & 8) and varying linux distros(Ubuntu, Debian, Arch, and Gentoo) machines at home, and from previous semester's work.
+
+I personally live in linux 95% of the time, and as such prefer to do things via command line than GUI tools if possible.  I am 100% comfortable with cloning my repo, cloning Joe or anybody else's repo, making changes, commiting said changes, pushing and pulling, as necessary.  I figure I'll do a quick breakdown of my Linux CLI method for start to finish common commands I use regarding mercurial.  
+
+First of all I'm starting from a point where I assume mercurial is installed on any given distro, how to do that would vary (only slightly) depending on which linux distribution you are using.  Also assuming one can get into a Terminal Emulator or any access to a command line within a linux system (including lab46).
+
+So on my machines at home, I use robgraves as a username and I have all of my classwork in a specific folder at /home/robgraves/scripts/class I can create this whole path with one command using mkdir with the -p flag for //path  // as so:
+<cli>mkdir -p ~/scripts/class</cli>
+which will create the whole path, then you can switch to that directory quickly by:
+<cli>cd !$</cli>
+"!$" this funky thing will take the last command's argument, in this case "~/scripts/class" as the argument to the current comamnd which is "cd" ...MUCH quicker than typing out a very long path.
+
+now we are in that directory, which could be verified with:
+<cli>pwd</cli>
+"pwd" stands for "print working directory"
+which should return the absolute path, for me its /home/robgraves/scripts/class
+This directory is empty initially since we just created it we are going to clone the repo we created on bitbucket,org with the following comand:
+<cli>hg clone https://username@bitbucket.org/username/repoName</cli>
+a more specific one would look like:
+<cli>hg clone https://mp010784@bitbucket.org/mp010784/cscs1320f14</cli>
+after this a couple of different things can occur, if it worked it will prompt you for your password to your bitbucket account, you can get errors which may include not having the webcacerts, or the user not being known to hg.  This can be resolved by adding to ~/.hgrc in your home directory:
+<cli>nano ~/.hgrc</cli>
+and adding:
+
+<code>
+[web]
+
+cacerts = /etc/ssl/certs/ca-certificates.crt
+
+[ui]
+
+username = FirstName LastName <email@somedomain.com>
+</code>
+
+Save that file and try to rerun the clone command:
+<cli>hg clone https://username@bitbucket.org/username/repoName</cli>
+and it should prompt you for a password and upon successfully entering it clone your repo to the current directory, in my case it clones cscs1320f14 to /home/robgraves/scripts/class which I am still in, so if I run "ls" I should see my repo directory now in this directory, which I will change to:
+<cli> cd cscs1320f14</cli>
+once I will have anything that was already in my repo on bitbucket or nothing if applicable.  But lets say im gonna create a README, I can use any text editor, I use vim noramlly, but again nano for simplicity:
+<cli>nano README</cli>
+I can enter some text like "README for cscs1320f14" save it with Crtl+x, then it asks if I want to save type yes, then confirm the name and hit Enter to save the file in nano
+now if I run:
+<cli>hg status</cli>
+it will show something like:
+<cli>? README</cli>
+because this file README hasn't been added or tracked yet by the version control software, we will add it with:
+<cli>hg add README</cli>
+and you can verify that it did this by running again:
+<cli>hg status</cli>
+which now shows:
+<cli>A README</cli>
+the A next to the README file for ADD because it will add this file with the commit to the repo.  If its an existing file that you modified, you will see after "hg status"
+<cli>M README</cli>
+showing that the file has been modified from its last known state and needs to be committed again.  In both cases we are now going to commit the changes with a hopefully useful message:
+<cli>hg commit -m "added README file, or made such and such changes to README, or something"</cli>
+this has made the changes to the repo locally on your machine, but if your machine catches on fire and blows up you will lose these changes that we spent so long writing that one line README, so we are going to push this commit back up to bitbucket.org with:
+<cli>hg push</cli>
+it should push the changes up and may ask for your bitbucket password and give feedback something akin to:
+<cli>
+remote: adding changesets
+remote: adding manifests
+remote: adding file changes
+remote: added 1 changesets with 1 changes to 1 files
+</cli>
+you can verify that there is nothing left to commit with "hg status" again which should have no output and return your prompt, with multiple files you just run the "hg add filename" for each file.
+
+Now say you've pushed these changes from Computer 1 (maybe your laptop) then later you decide to work on the file again from your desktop(computer 2), if you haven't cloned you would need to do that again, but if you had already cloned that repo, and you start working on the file without pulling first you will get an alternate branch (which is a common mistake I make as I have my repos cloned on several machines each.) So I have to remember that on any machine I am on, before I start working on files in my repo, I should do a pull first for any changes, so now lets say I'm on Computer 2 (say a desktop) and I want to add more to that README, but that file isn't in the /home/robgraves/script/class/cscs1320f14 on the desktop, so I have to pull the earlier pushed changes to this machine with:
+<cli>hg pull</cli>
+and I get output like this:
+<cli>
+pulling from https://mp010784@bitbucket.org/mp010784/CSCS1240S14/
+searching for changes
+adding changesets
+adding manifests
+adding file changes
+added 1 changesets with 1 changes to 1 files
+(run 'hg update' to get a working copy)
+</cli>
+which clearly states that I need to run "hg update" to get a working copy so I run:
+<cli>hg update</cli>
+and I get output as:
+<cli>
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+</cli>
+This is primarily my procedure for using mercurial on a linux command line, at least the commands I commonly use.  I use almost identical commands except for pathnames for windows command line usage of hg.  I rarely use TortoiseHg, but I have done everything once or twice on each machine via TortoiseHg.
+
+===End Week 1===
+
+====Tuesday, September 02, 2014====
+
+Class Notes Project (this)
+author - provides content
+designer - provides stylistic tweaks, DocuWiki syntax
+reviewer - provides recommendations to content and style
+
+Access Lab46 mail using alpine(e-mail system)
+will be implementing a points system for doing some ambiguous task of awesomeness or something to that effect per week and drawing a persons name to earn the point for that week?
+
+=== Variables ===
+
+
+
+73       integer
+3.14     float
+'c'      character
+"hello"  array of characters (or a "string")
+"\n"     special characters (in this case a newline"
+
+"hello\0" - the '\0' is an ASCII null terminator that ends a string in C
+
+single quotes are used for a single character,
+more than a single character and double quotes("") are used.
+
+0xdeadbeef memory address (usually in hexadecimal)
+
+
+your username in Unix is stored in the variable $USER
+
+=== To Make a Variable ===
+
+  * declaration of variable
+  * initialization of variable
+
+
+declaring variables:
+type name;
+declaring and initializing in one line:
+type name = 0;
+
+=== Datatypes of Variables ===
+
+
+int   - integer
+
+char  - character
+
+
+math style:
+x+2=y
+
+computer style - variable goes to the left, isolated:
+y=x+2
+
+'*' - reference pointer
+
+'&' - address of a pointer
+
+'0x...' is assumed to be hexadecimal
+
+'0...' is assumed to be an octal value
+
+=== Memory Address Table ===
+
+|            ^ 0                  ^ 1                ^ 2                  ^ 3                  ^  
+^ 0          |      int a         |                  |                    |                    |
+^ 1          |                    |                  |     073   (c)      |                    |
+^ 2          |                    |                  |                    |                    |
+^ 3          |      0x12   (d)    |                  |                    |                    |
+
+in class source code for datatypes and variables, var1.c:
+<code c 1>
+#include<stdio.h>
+
+int main()
+{
+    int a = 5;
+    int b = 0x3D, c = 073;
+    int *d;
+    char e, *f;
+    e = 'X';
+    d = &c;
+    f = &e;
+    
+    printf("address of a is : %p\n",&a);
+    printf("address of b is : %p\n",&b);
+    printf("address of c is : %p\n",&c);
+    printf("address of d is : %p\n",&d);
+    printf("address of e is : %p\n",&e);
+    printf("address of f is : %p\n",&f);
+
+    printf("a contains: %d\n", a);
+    printf("b contains: %d\n", b);
+    printf("c contains: %d\n", c);
+    printf("d contains: 0x%x\n", d);
+    printf("e contains: %c\n", e);
+    printf("f contains: 0x%hhX\n", f);
+
+    printf("d dereferenced is: %d\n", *d);
+    printf("f dereferenced is: %c\n", *f);
+
+    return (0);    
+}
+</code>
+ 
+This is compiled with:
+<cli>gcc var1.c -o var1</cli>
+or
+<cli>gcc -o var1 var1.c</cli>
+as long as the source code file (var1.c)isn't directly after the -o flag.
+
+
+program is run with:
+<cli>./var1</cli>
+
+
+my output: (which may be extraneous)\\
+
+address of a is : 0x7ffffa714a1c\\
+address of b is : 0x7ffffa714a18\\
+address of c is : 0x7ffffa714a14\\
+address of d is : 0x7ffffa714a08\\
+address of e is : 0x7ffffa714a07\\
+address of f is : 0x7ffffa7149f8\\
+a contains: 5\\
+b contains: 61\\
+c contains: 59\\
+d contains: 0xfa714a14\\
+e contains: X\\
+f contains: 0x7\\
+d dereferenced is: 59\\
+f dereferenced is: X\\
+
+====Thursday, September 04, 2014====
+
+You cannot initiate variables outside of a function, but you can declare variables outside a function.\\
+
+Variables in our code, var1.c, a,b,c,d,e,f are only available in the block of code called main(), this is called variable scope.  Anything declared outside of main() is called global or file scope.  You can also have sub-blocks of code within main() function that operate in sub-scope within that function.  This is inherited top down.  Variables outside of the curly braces are called Global or of block scope.  
+
+Youc an also have a super global scope when referrign to variables declared in one file, and then in another file the variables are initialized and used as needed, with source code than spans multiple files.
+
+
+<code>
+int c;
+{
+    int a;
+        {
+            int b;
+            int a;
+        }
+}
+</code>
+
+"int c;" in this example is of global scope, below that is "int a;" of block scope, and then "int b;" of sub-block scope.  A trick here is also that uin the innermost block where "int b;" is we hcan have a local "int a" that is different from "int a;" ont he global level and is used in that innermost nested block and then is gone when program control flow returns to the block outside it.\\
+
+Declarations of variables:  int a;\\
+
+Initialization of variables: a = 5;\\
+
+"*d" is a pointer.
+
+char - character can't store as much stuff as an integer.  A character has to be contained within single quotes.
+
+"d = &c;" set d equal to the address of c.\\
+
+"f = &e;" set f equal to address of e.\\
+
+"%p" substitutes a memory address.\\
+
+We cannot know the actual address of variable as it changes everytime we run the program, so we reference the address of the variable.\\
+
+a,b,c are integers\\
+"%d" - a format specifier, "%d" is used for integers.\\
+"%d" is for signed integers.\\
+"%u" is for unsigned integers.\\
+
+"%x/%X"  hexidecimal values.
+
+"%c" displays it as an ASCII character [[http://www.asciitable.com]]
+American Standard Code for Information Interchange.\\
+7-bit/8-bit ASCII
+16-bit Unicode (first 8 bytes are ASCII)
+other ones, IBM-EBCDIC
+
+e = 'A';\\
+same as:\\
+e = 65;\\
+
+4 byte integer\\
+2 bytes "%hd" - half signed int (cuts range and size in half)\\
+1 byte  "%hdd" - half half signed int(cuts range and size in half, then cuts both in half again.)\\
+
+return (0);  original C method
+return 0;   concessions and shortcuts made in modern versions and compielrs and onset of C++
+
+After running this program modified as seen here:
+<code c 1>
+/*
+ * Matthew Page
+ * CSCS 1320 C/C++ September 02, 2014
+ *
+ * var1.c - a program showing a few types of variables 
+ *          and a couple pointer variables.
+ *
+ *
+ * */
+
+#include<stdio.h>
+
+int main()
+{
+    int a=5;
+    int b=0x3D, c=073;
+    int *d;
+    char e, *f;
+    e = 'X';
+    d=&c;
+    f=&e;
+
+    printf("address of a is : %p\n",&a);
+    printf("address of b is : %p\n",&b);    
+    printf("address of c is : %p\n",&c);
+    printf("address of d is : %p\n",&d);
+    printf("address of e is : %p\n",&e);
+    printf("address of f is : %p\n",&f);
+
+    printf("a contains: %d\n", a);
+    printf("b contains: %d\n", b);
+    printf("c contains: %d\n", c);
+    printf("d contains: %p\n", d);
+    printf("e contains: '%c'(%hhd)\n", e, e);
+    printf("f contains: %p\n", f);
+
+    printf("d dereferenced is: %d\n", *d);
+    printf("f dereferenced is: '%c'(%hhd)\n", *f, *f);
+
+    return (0);
+}
+
+</code>
+
+compile with:\\
+<cli>gcc var1.c -o var1</cli>
+
+and then runt he program with:\\
+<cli>./var1</cli>
+
+We get for output:\\
+
+<code>
+address of a is : 0x7fff8e490134
+address of b is : 0x7fff8e490138
+address of c is : 0x7fff8e49013c
+address of d is : 0x7fff8e490140
+address of e is : 0x7fff8e490133
+address of f is : 0x7fff8e490148
+a contains: 5
+b contains: 61
+c contains: 59
+d contains: 0x7fff8e49013c
+e contains: 'X'(88)
+f contains: 0x7fff8e490133
+d dereferenced is: 59
+f dereferenced is: 'X'(88)
+</code>
+
+we can see that d is the address of c, and d dereferenced is the same data as in c.\\
+
+and we can also see that f is the address of e, and f dereferenced is the same data as in e.\\
+
+====Week 2 - C/C++ Lab Class====
+
+In Joe's Lab class this week we did some setting up MinGW on our flash drives, and looking at some of the documentation for gcc (GNU C Compiler, fhs (Filesystem Hierarchy Standard), and the ISO/IEC for C programmign language (International Standardization Organization/International Electrotechnical Commision).  We also have started to discuss what pointers are in class and on our "Issues" section on Joe's repo for CSCS1320 for fall 2014 on bitbucket. 
+
+[[https://bbuseruploads.s3.amazonaws.com/joppenheim/cscs1320f14/downloads/gcc.pdf?Signature=6BjznVzHhprnYFZGCVTiY4Z071g%3D&Expires=1410034932&AWSAccessKeyId=0EMWEFSGA12Z1HF1TZ82|gcc.pdf]]
+
+[[https://bbuseruploads.s3.amazonaws.com/joppenheim/cscs1320f14/downloads/fhs-2.3.pdf?Signature=rr%2FlvA42QykDGPLjzZTHlbfbkRY%3D&Expires=1410034609&AWSAccessKeyId=0EMWEFSGA12Z1HF1TZ82|fhs-2.3.pdf]]
+
+[[https://bbuseruploads.s3.amazonaws.com/joppenheim/cscs1320f14/downloads/IncitsIsoIec9899_1999.pdf?Signature=srfjkrjr7hNpCNoit06RhoVr%2F70%3D&Expires=1410034629&AWSAccessKeyId=0EMWEFSGA12Z1HF1TZ82|IncitsIsoIec9899_1999.pdf]]
+
+[[https://bbuseruploads.s3.amazonaws.com/joppenheim/cscs1320f14/downloads/Toolchains.pdf?Signature=FxouUmjdmP6H3VGhLxywpaSv068%3D&Expires=1410034627&AWSAccessKeyId=0EMWEFSGA12Z1HF1TZ82|Toolchains.pdf]]
+
+Ongoing Discussions on "Issues" on Bitbucket:\\
+[[https://bitbucket.org/joppenheim/cscs1320f14/issues?status=new&status=open|Bibucket -joppenheim - Issues]]
+
+
+===End Week 2===
+
+====Tuesday, September 09, 2014====
+
+There's now a status script for lab46.  Running it while connected to lab46 with the argument of the class you are in will display stats tracked for you for that class.  For example:
+
+<cli>status cprog</cli>
+
+or\\
+
+<cli>status unix</cli>
+
+output of the command looks like:
+
+<code>
+mp010784@lab46 ~ $ status cprog
+ATTENDANCE
+         [CPROG] 238 240 245 247 
+      [mp010784] 238 240 245 247 
+ 
+OPUS
+    1:opus:week1entry
+    1:opus:week2entry
+    1:opus:week1entry
+    1:opus:week2entry
+ 
+PROJECTS
+    1:titlecustomize:customized Opus title section
+    1:helloworldsubmit:submitted hello world project
+    1:introsubmit:submitted URL to Opus intro as per assignment criteria
+    1:titlecustomize:customized Opus title section
+ 
+mp010784@lab46 ~ $
+</code>
+
+Currently some fo the stuff for the Opus is repeating, and something in the projects is off, but the attendence is correct.  It lists numbers based on number of the day of that year.  So 08/26/2014 is the 238th day fo the year, it shows 2 rows, one with cprog and a number for each day of class, and below it in this case my username and a number for each class attended below the class number column.  If I had missed a class the space would be filled with an 'X' instead of the day number.  
+
+We started to talk about ranges of variables.  We then started working into our next in class code.\\
+<code>int a;  //memory allocated, a label "a" is associated with that memory.</code>
+
+Only ONE number can go into that, ANY number, but only ONE instance of that number.
+<cli>int b;  //maybe if we have multiple values then maybe we set up multiple variables.</cli>
+
+==Variable Names==
+We want variable names to be useful but terse.  Using variable names like a, b, c, d, etc. don;t tell you anythign about the purpose of those variables.  Yet you also do not want really long variable names as the C compiler starts ignoring variable names for uniqueness after 8 characters.\\
+FOr example: score, hitpoints, fps are more meaningful than a,b,c\\
+
+**float** - number that uses a decimal point.  
+
+prompt user for test scores, the complete code from today (09/09/2014) I originally thought we were going to output daty type sizes so I named it datatypes.c which turns out to be maybe a bit of a misnomer, I will probably rename it to something like average.c or something liek that:
+<code c 1>
+/* Matthew Page 09/09/2014
+ * CSCS1320 Fall 2014
+ *
+ * datatypes.c -    program that takes user input for four
+ *                  test scores and then finds and outputs
+ *                  the average of those test scores.
+ *
+ * */
+
+#include<stdio.h>
+
+int main()
+{
+    int a;
+    int b;
+    int c;
+    int d;
+    float avg;
+
+    printf("Enter score 1: ");
+    scanf("%d", &a);
+    printf("Enter score 2: ");
+    scanf("%d", &b);
+    printf("Enter score 3: ");
+    scanf("%d", &c);
+    printf("Enter score 4: ");
+    scanf("%d", &d);
+
+    avg = (float)(a+b+c+d)/4;
+
+    printf("The average of  %d, %d, %d, %d, %.2f\n",a,b,c,d,avg);
+
+    return (0);
+}
+</code>
+
+**scanf()** - takes input and takes a minimum of 2 arguments.\\
+1)format identifiers\\
+2)address of the data\\
+
+Equations or algorithms on computers you always put the result to the left and the equationt o the right.  Also we take into account the order of operations PEMDAS (Please Excuse My Dear Aunt Sally)(1-Parentheses 2-Exponents 3-Multiplication and Division from left to right 4-Addition and Subtraction from left to right)
+
+so to calculate the average we take out float avg an put it to the left of th eequaion we would use to calculate an average of 4 test scores, stored in variables a, b, c, and d.\\  
+<code c>avg = (a + b + c + d)/4;</code>
+we also can force override the usual order of operations or ensure that the conmputer does the math in the order we want it to by using parentheses.  Later we insert a "(float)" in here after the "="\\
+
+We looked at different ways to do division, because if we do
+42/4 = 10 but this truncates off the remainder portion.
+The modulus operator is usually "%" which will show the remainder of that division operation:
+42%4 = 2
+When we were younger we would do 42/4 = 10 remainder 2.\\
+but to get the precision we need our answer to be a floating point decimal.  So we changed the equation to:\\
+<code c>avg = (float)(a + b + c + d)/4;</code>
+
+%f - float format identifier defaults to 5 decimals it appears.\\
+%.2f - will have 2 digits after the decimal place or 2 digits of precision.
+<code c>printf("The average of  %d, %d, %d, %d, %.2f\n",a,b,c,d,avg);</code>
+
+
+we can also modify a %d for say the integer a, to add padding and so many spaces with:\\
+%6.4d - which will add 6 spaces, right justified with 4 shown digits written in code as:\\
+<code c>printf("The average of  %6.4d, %d, %d, %d, %.2f\n",a,b,c,d,avg);</code>
+which if the value of intger a is 73 it would appear to the right of 6 spaces the last 4 being "0073" first 2 are blank. 6 spaces, 4 padded, to appear something like:\\
+_____ _____ __0__ __0__ __7__ __3__  \\
+
+We can modify this again to make it left justified with %-6.4d int he code shown here:\\
+<code c>printf("The average of  %-6.4d, %d, %d, %d, %.2f\n",a,b,c,d,avg);</code>
+which again if the value of integer a is 73 it would appear "0073" starting from the left on 6 spaces, first 4 padded, and then 2 more after left blank, to appear something like:\\
+__0__ __0__ __7__ __3__ _____ _____ \\
+
+This line of code to people unfamiliar to the format may appear more complex, but it is written for writability so the programmer can write a line of code as they intend for the output to appear and not necessarily for readability, especially towards someone who isn't use to seeing output formatted that way.
+
+
+====Week 3 Cprog Lab Class with Joe====
+
+Pics from the board 9/10/2014 Lb class:
+{{http://i.imgur.com/HveQV7B.jpg|09102104clab1}}
+{{http://i.imgur.com/tNpmcFh.jpg|09102014clab2}}
+{{http://i.imgur.com/HAzD2Ex.jpg|09102014clab3}}
+{{http://i.imgur.com/EdORTrg.jpg|09102014clab4}}
+
+====Thursday, September 11, 2014====
+
+I don't remember exactly how we got sidetracked into discussing the old steaming pile of dog poo that is the E.T. video game for the Atari 2600, which I actually owned and played in my early years, but it had something to do with trying to avoid the holes to succeed in the E.T. game.  How that was connected to C programming, I forgot.  But it was mentioned that someone might link back to or post an E.T. map from the Atari 2600.  Only because I'm not sure if any body else would actually do this, I will take it upon myself to represent the map of the E.T. video, which I remind you was SOOOOO BAD and sold so poorly, that excess copies were buried in the desert. [[http://www.thegamingliberty.com/2014/04/new-mexico-landfill-excavation-reveals-buried-e-t-atari-cartridges/|http://www.thegamingliberty.com/2014/04/new-mexico-landfill-excavation-reveals-buried-e-t-atari-cartridges/]]
+
+{{http://www.thegamingliberty.com/wp-content/uploads/etatari_cart.jpg|E.T. Atari Landfill}} 
+
+[[http://www.randomterrain.com/atari-2600-memories-et-map.html|The Atari 2600 E.T. game map]]
+{{http://www.thelimeydragon.com/images/ETmap.png|E.T. for Atari 2600 Map}}
+
+**Back to C programming**
+
+What if we had 5000 variable names?
+
+Version 1: from a to score 1 through 4, then how computers count to 4, 0 through 3.\\
+int a  =>  score1  =>  score0\\
+int b  =>  score2  =>  score1\\
+int c  =>  score3  =>  score2\\
+int d  =>  score4  =>  score3\\
+
+Factor out the commion part of the variable to get:\\
+
+<code c>int score[4]; //place maximum quanity of containers, this is an interger array</code>
+
+Our full average calculating program behaves the same as our last class's code, but does the same job more efficiently by using an array and a for loop:\\
+
+<code c 1>
+/* Matthew Page
+ * CSCS 1320 Fall 2014
+ *
+ * arrayavg.c - takes user input for 4 test scores and
+ *              calculates the average but instead of using
+ *              4 integers it uses and integer array.
+ *
+ * */
+
+#include <stdio.h>
+
+int main()
+{
+    float avg=0;
+    int max = 4;
+    int score[max], count=0;
+
+    for (count=0;count<max;count=count+1)
+    {
+        printf("Enter score %d: ",(count+1));    //maths! zOMG!
+        scanf("%d", &score[count]);
+        avg = avg + score[count];
+    }
+    avg = avg/count;
+    printf("The average is: %.2f\n", avg);
+    return (0);
+}
+</code>
+
+Then we started discussing counting in other number base systems, we are use to decimal or 10-base counting, but many times we use other bases in computing.  Discussing how we would carry digits and rollover, like an odometer in a car, with other bases, and we also wrote a program that will rollover 2 digits, currently for decimal or 10 base, but we can easily modify this for other number base counting:
+
+<code c 1>
+/* Matthew Page 
+ * CSCS 1320 Fall 2014
+ *
+ * odometer.c - rollover 2 digits
+ *              like an odometer in 
+ *              a car.
+ *
+ * */
+
+#include <stdio.h>
+
+int main()
+{
+    int number[2];
+    int i, input;
+    number[0] = 0;
+    number[1] = 0;
+
+    printf("How much to count?");
+    scanf("%d", &input);
+
+    for(i=0;i<input;i=i+1)
+    {
+        number[1]=number[1]+1;
+        if (number[1]>9)
+        {
+            number[1]=0;
+            number[0]=number[0]+1;
+        }
+    printf("%d %d\n", number[0], number[1]);
+    }
+    return (0);
+}
+</code>
+
+We discussed how the number 534, the first number right to left we call the ones place, and in decimal:\\
+10 to the 0 power is 1.\\ 
+Then the second place is the tens place, 10 to the 1st power is 10.\\
+then the third place is the hundreds place, 10 to the 2nd power is 100.\\
+
+If we switch this, same 3 digit number, 534 to octal based numbering, then the first place, again right to left is:\\
+8 to the 0 power is 1 making the first place still the ones place.\\
+then in the second place 8 to the 1st power is 8.\\
+then int he third place is the 64th place, 8 to the 3rd power is 64.\\
+
+===Saturday, September 13, 2014===
+
+I've been working on revising the what I named the odometer.c program.  Originally it was 2 digits and it woudl rollover the ones place, but if you enter say "101" it will output 10 and 1, if this was anactual 2 digit odometer it woudl be impossible as each reel only has 0 through 9, so i modified it to rollover from 99 to 00:
+<code c 1>
+/* Matthew Page 
+ * CSCS 1320 Fall 2014
+ *
+ * odometer.c - rollover 2 digits
+ *              like an odometer in 
+ *              a car.
+ *
+ * */
+
+#include <stdio.h>
+
+int main()
+{
+    int number[2];
+    int i, input;
+    number[0] = 0;
+    number[1] = 0;
+
+    printf("How much to count?");
+    scanf("%d", &input);
+
+    for(i=0;i<input;i=i+1)
+    {
+        number[1]=number[1]+1;
+        if (number[1]>9)
+        {
+            number[1]=0;
+            number[0]=number[0]+1;
+            if (number[0]>9)
+            {
+                number[0] = 0;
+            }
+        }
+    printf("%d %d\n", number[0], number[1]);
+    }
+    return (0);
+}
+</code>
+
+Then I modified it to show 6 digits, more like a car odometer and rollover from 999999 to 000000, but currently it's done with nested if statements.  I'm currently working on trying to automate the nested portions to shorten up and simplify the code, but this currently compiles and works as desired:
+<code c 1>
+/* Matthew Page 
+ * CSCS 1320 Fall 2014
+ *
+ * odometer.c - rollover 2 digits
+ *              like an odometer in 
+ *              a car.
+ *
+ *              Revised to contain 6
+ *              digits and rollover
+ *              from 999999 to 000000
+ *              but using nested if
+ *              statements, trying to
+ *              find alternate means
+ *              of accomplishing this.
+ *
+ * */
+
+#include <stdio.h>
+
+int main()
+{
+    int number[6];
+    int i, input;
+    number[0] = 0;
+    number[1] = 0;
+    number[2] = 0;
+    number[3] = 0;
+    number[4] = 0;
+    number[5] = 0;
+
+    printf("How much to count?");
+    scanf("%d", &input);
+
+    for(i=0;i<input;i=i+1)    
+    {
+        number[5]=number[5]+1;
+        if (number[5]>9)
+        {
+            number[5]=0;
+            number[4]=number[4]+1;
+            if (number[4]>9)
+            {
+                number[4] = 0;
+                number[3] = number[3]+1;
+                if (number[3]>9)
+                {
+                    number[3] = 0;
+                    number[2] = number[2]+1;
+                    if (number[2]>9)
+                    {
+                        number[2] = 0;
+                        number[1] = number[1]+1;
+                        if (number[1]>9)
+                        {
+                            number[1] = 0;
+                            number[0] = number[0]+1;
+                            if (number[0]>9)
+                            {
+                                number[0] = 0;
+                            }
+                        }               
+                    } 
+                }
+            }
+        }
+    printf("%d %d %d %d %d %d\n", number[0], number[1], number[2], number[3], number[4], number[5]);
+    }
+    return (0);
+}
+
+</code>
+
+====Tuesday September 16, 2014====
+
+I got the bonus points today, w00t! "I got the loot, Steve!" --Pirates of Silicon Valley\\
+
+We're going to start changing the number base ont he countign program from last week.\\  
+
+CPROG Project due 9/24/2014\\
+
+**squares**\\ 
+- apparently Matt Haas is a fan of useless knowldge\\
+-visual math\\
+-can learn to program better by doing mental math\\\
+-show tricks\\
+
+**2 digit numbers that end in 5 squared**
+
+35<sup>2</sup> = if you didn;t know the trick you wouldn't be able to do this real quick without a calculator.
+
+35<sup>2</sup> = take 1's place (always 5 for this trick) sqaure it to make 25 which are the last 2 digits of the answer.  Then take the tens place, in this case 2 and multiply it by its increment (the next number up) which int his case is 4, so 3 times 4 is 12, to make final answer of 35 squared 1225.
+
+35<sup>2</sup> = 1225\\
+
+65<sup>2</sup> = 4225\\
+
+85<sup>2</sup> = 7225\\
+
+**multiplying 2 digit numbers by 11 shortcut**\\
+
+32\\
+11\\
+----\\
+
+The 3 comes down and to the left for leftmost digit and the 2 comes down and right for the rightmost digit, then the 2 digits up top are added together for the middle digit. int his case the answer is 352.\\
+
+43\\
+11\\
+----\\
+473\\
+
+56\\
+11\\
+----\\
+616\\
+
+In the last example the addition of the two numbers for center digit was 11, makign the digit 1 and carrying the 1 to the leftmost digit.\\
+
+**Subtracting from a large number with all zeros**
+
+100000\\
+-72386\\
+------------\\
+27614\\
+
+the answer and subtracted number's digits total 9 in each place except for the last place (the ones place) in which they total 10.\\
+
+----------------------------------------------------------------------------------------------\\
+
+**Shorthand for incrementing and decrementing in C and others**
+
+i = i + 1; => i++;\\
+i = i - 1; => i--;\\
+also ++i; is incremented before the value is tested.\\
+and --i; is decremented before the value is tested.\\
+i+=1; => i = i + 1;\\
+i-=17; => i = i - 17;\\
+i*=4; => i = i * 4;\\
+i/=8; => i = i / 8;\\
+i%=2; => i = i % 2;\\
+
+slightly modified code from last week:\\
+<code c 1>
+#include <stdio.h>
+
+int main()
+{
+    int number[2]; //number[]={0,0};
+    int i, input;
+    
+    number[0] = number[1] = 0;
+    printf("How much to count? ");
+    scanf("%d", &input);
+
+    for(i=0;i<input;i++)
+    {
+        number[1]=number[1]+1; //number[1]++;
+        if (number[1]>9)
+        {
+            number[1]=0;
+            number[0]++;
+        }
+    printf("%d %d\n", number[0], number[1]);
+    }
+    return (0);
+}
+</code>
+
+And now out code from class today (09/16/2014) that counts with 2 digits and rolls over the first digit, the tens place, but can do it in any number base 2 through 10, called basecounter.c:
+<code c 1>
+#include <stdio.h>
+#define MAX 2
+
+int main()
+{
+    int base, i, input, number[MAX];
+    for (i=0;i<MAX;i++)
+    {
+        number[i]=0;  //initialized
+    }
+    printf("What base? (2-10): ");
+    scanf("%d", &base);
+    printf("How much to count? ");
+    scanf("%d", &input);
+    for (i=0;i<input;i++)
+    {
+        number[MAX-1]=number[MAX-1]+1;
+        if (number[MAX-1]>(base-1))
+        {
+            number[MAX-1]=0;
+            number[MAX-2]++;
+        }
+    printf("%d %d\n", number[0], number[1]);
+    }
+    return (0);
+}
+
+</code>
+
+====Thursday, September 18, 2014====
+
+**New feature to submit script**\\
+
+run from command line while logged into lab46:\\
+<cli>submit cprog</cli>\\
+or:\\
+<cli>submit unix</cli>
+to see what projects you have, when you submitted them or when they are due.\\
+example outputs:\\
+<cli>
+mp010784@lab46 ~ $ submit cprog
+cprog projects:
+    helloworld, submitted on 20140901-220108
+    intro, submitted on 20140831-132227
+    squares, due on 20140924 (in 6 days)
+mp010784@lab46 ~ $
+</cli>\\
+or:\\
+<cli>
+mp010784@lab46 ~ $ submit unix
+unix projects:
+    puzzlebox, submitted on 20140918-133831
+    resume, submitted on 20140901-220455
+    intro, submitted on 20140831-132213
+    archives, submitted on 20140906-171904
+mp010784@lab46 ~ $
+</cli>\\
+
+**More Mental Math**\\
+
+more multiplication tricks:\\
+
+97  diff of -3 from say 100\\
+94  diff of -6 from 100\\
+--------\\
+9118\\
+
+the above numbers criss cross and say 94 -3 is 91 or 97 -6 is 91 then -3 times -6 is 18, put the two together to get 9118.\\
+
+A similar one I saw on Google Plus a few years ago is this:\\
+
+{{http://i.imgur.com/0jNvG1x.jpg|Multiplying Large Numbers}}\\
+
+Looking back on our basecounter.c program from Tuesday, we changed the program to incorporate 3 or 4 digits with nested if statements.  Now we look to optimize the program, and to see how certain parts are repeating within the nested if statements.  So here we can create a for loop within a for loop.\\
+
+<code c 1>
+/* Matthew Page
+ *
+ * CSCS 1320 Fall 2014  
+ *
+ * basecounter.c -  a program that prompts the user
+ *                  for the number base to be used
+ *                  and then asks for a number to 
+ *                  to count to and displays numbers
+ *                  in an odometer like fashion, but
+ *                  with any number base 2 through 10
+ *
+ * */
+
+#include <stdio.h>
+#define MAX 4       // a one stop defined MAX to change number of digits
+
+int main()
+{
+    int base, i, input, number[MAX],j;  // declaring variables
+    for (i=0;i<MAX;i++)     // loop intializing the array
+    {
+        number[i]=0;  // initialized array
+    }
+    printf("What base? (2-10): ");  // user input
+    scanf("%d", &base);             
+    printf("How much to count? ");  
+    scanf("%d", &input);
+    for (i=0;i<input;i++)   // outer loop start
+    {
+        number[MAX-1]=number[MAX-1]+1;
+        for(j=1;j<MAX;j++)              // inner loop start
+        {
+            if (number[MAX-j]>(base-1))
+            {
+                number[MAX-j]=0;        // sets current digit to 0 if exceed base limit
+                number[MAX-(j+1)]++;    // increments the next digit over (carrying) after above occurs 
+            }
+        }                               // inner loop end
+        if (number[0]>(base-1))
+        {                               // this loop allows the program
+            number[0] = 0;              // to rollover for example if base 10,
+        }                               // from 9999 to 0000 on given 10000
+    for (j=0;j<MAX;j++)             // print loop
+        printf("%d ", number[j]);   // print loop
+    printf("\n");
+    }                       //outer loop end
+    return (0);
+}
+</code>
+
+====Tuesday, September 23, 2014====
+
+**New Project announced - Day of the Week**\\
+
+a programmatic solution to a mental math trick to determine the day of the week that January 1st of a given year willf all on, by associating a number with each day of the week as:\\
+
+^ Sunday    ^ Monday    ^ Tuesday   ^ Wednesday ^ Thursday  ^ Friday    ^ Saturday  ^ 
+| 0         | 1         | 2         | 3         | 4         | 5         | 6         |
+
+
+
+this is the safe way to determine sizes instead of hard coding, as for example, a 32 bit system and a 64 bit system would have diffent sizes:\\ 
+<code>
+sizeof(long int)*6
+</code>
+
+code from class today that shows the size of the datatypes we are using:\\
+<code c 1>
+ /*******************************************************
+ * Matthew Page
+ * CSCS1320 Fall 2014 
+ * 09/23/2014
+ *
+ * sizes.c -    a program that calculates and displays
+ *              the sizes of certain datatypes.
+ *
+ *
+ *
+ *
+ *
+ * ***************************************************/
+
+#include <stdio.h>
+
+int main()
+{
+    printf("A char is %ld bytes.\n", sizeof(char));
+    printf("A short int is %ld bytes.\n", sizeof(short int));
+    printf("A int is %ld bytes.\n", sizeof(int));
+    printf("A long int is %ld bytes.\n", sizeof(long int));
+    printf("A long long in is %ld bytes.\n", sizeof(long long int));
+
+    return(0);
+}
+
+</code> 
+
+====Thursday, September 25, 2014====
+
+{{http://www.matthewjpage.com/IMAG0200.jpg | lab class 09/24/2014}}
+{{http://www.matthewjpage.com/IMAG0201.jpg | lab class 09/24/2014}}
+{{http://www.matthewjpage.com/IMAG0202.jpg | lab class 09/24/2014}}
+{{http://www.matthewjpage.com/IMAG0203.jpg | LAIR board 09/25/2014}}
+{{http://www.matthewjpage.com/IMAG0204.jpg | LAIR board 09/25/2014}}
+
+Forkbomb brought lab46 to its knees last night ~10:00 PM.\\  
+
+**ps** - process status\\
+
+if we type:\\
+<cli>bash</cli>\\
+in a bash shell we get a shell within a shell.\\
+
+forkbomb is a kind of Denial of Service(DoS) attack.\\
+
+**signed or unsigned:**\\
+char\\
+short int\\
+int\\
+long int\\
+long long int\\
+
+Using 3-bits:\\
+<code>
+000
+001
+010
+011
+100
+101
+110
+111
+</code>
+
+**Two's Compliment**\\
+-invert the number\\
+-add one\\
+
+first bit is the signed bit:\\
+0 = +\\
+1 = -\\
+
+^ 3-bits ^ unsigned ^ signed   ^
+|  000   |  0       |  +0      |
+|  001   |  1       |  +1      |
+|  010   |  2       |  +2      |
+|  011   |  3       |  +3      |
+|  100   |  4       |  -4      |
+|  101   |  5       |  -3      |
+|  110   |  6       |  -2      |
+|  111   |  7       |  -1      |
+
+unsigned char: 0 to 255\\
+
+signed char -128 to 127\\
+
+in class code, numberfun7.c:\\
+<code>
+/**************************************************
+ *
+ * Matthew Page
+ * 09/25/2014
+ * CSCS1320 Fall 2014
+ *
+ * numberfun7.c -   this program does something
+ *
+ * ***********************************************/
+
+#include <stdio.h>
+
+int main()
+{
+    unsigned short int a=0;
+    signed short int b=0;
+
+    printf("Before, a is %hd\n", a);
+    printf("Before, b is %hd\n", b);
+
+    a=a-1;
+    b=b-1;
+
+    printf("-1, a is %hu\n", a);
+    printf("-1, b is %hu\n", b);
+
+    a=a|0xFFFF;
+    //b=b|0xFFFF;
+
+    a=a&0x7FFF;
+    
+    printf("Max positive signed value is: %hd\n", a);
+
+    return (0);
+}
+</code>
+
+**LOGIC in C**\\
+<nowiki>& </nowiki>- bitwise AND\\
+<nowiki>| </nowiki>- bitwise OR\\
+<nowiki>^ </nowiki>- bitwise XOR\\
+
+====Tuesday, September 30, 2014====
+
+fprintf(stdout <---the stdout here is called a FILE pointer\\
+
+there are three we ddeal with:\\
+-stdout (usually a monitor)\\
+-stdin  (usually a keyboard)\\
+-stderr (usually the monitor again)\\
+
+these can be redirected and can come from or go to places other than the examples listed above.\\
+
+**Pipe Command**\\
+
+
+**New Project: Pipemath**\\
+clone the repo:\\
+<cli>hg clone http://www/hg/project/pipemath-fall2014 pipemath</cli>\\
+
+<cli>cd pipemath</cli>\\
+
+for simple hg config setup:\\
+<cli>make config</cli>\\
+
+Usually we compile programs manually with gcc, the Makefile here is the traditional Unix build system and contains variables, targets, and recipes.  Each target has instuctions.\\
+
+to show more options to make:\\
+<cli>make help</cli>\\
+
+A menu appears showing make clean, make debug, etc.\\
+
+<cli>cd src</cli>
+int his directory we have another Makefile and three folders, bases, maths, and numbers:\\
+-numbers will contain source files for each number digit.\\
+-maths will contain source code for operations.\\
+-bases contain source code to convert to different number bases.\\
+
+type:\\
+<cli>make</cli>\\
+to build these.\\
+
+now we can run from within the bin subdirectory of the pipemath repo:
+./one or ./zero to see them output those numbers.\\
+
+now we can pipe things such as:\\
+<cli>./one | ./increment | ./increment</cli>
+which would output 2.\\
+
+**Command Line Arguments**\\
+
+Up till now we've been using:\\
+<code c>
+int main()
+</code>\\
+
+Now we are goin to use:\\
+<code c>
+int main(int argc, char **argv) 
+</code>\\ 
+this can also be expressed (the last part) as *argv[] or argv[][]\\
+because an array is already a pointer so it's a pointer to an array, which is really
+a pointer to a pointer.  Regardless, they can have any names, the first has to be an integer, and the second one is a char pointer to a pointer.\\
+
+code from class today I called clargs.c for **c**ommand **l**ine **arg**ument**s**:\\
+<code c 1>
+/***********************************************
+ *
+ *  Matthew Page
+ *  CSCS1320 Fall 2014
+ *  09/30/2014
+ *
+ *  clargs.c -  command line arguments 
+ *              called clargs.c   
+ *
+ *
+ * ********************************************/
+
+#include <stdio.h>
+
+int main(int argc, char **argv)
+{
+    int i;
+    printf("You called %s with %d arguments\n", argv[0], argc-1);
+    printf("Argument breakdown as follows:\n");
+    for (i=0;i<argc;i++)
+        printf("argv[%d]: %s\n", i, argv[i]);
+    return (0);
+}
+
+</code>\\
+
+<cli>./one | ./plus 5</cli>\\
+should be 6, but the two arguments here are:\\
+argv[0]="./plus\0"\\
+argv[1]="5\0"\\ 
+this is the character 5 and not the numeric 5.\\
+
+we have to use:\\
+atoi(3)\\
+<cli>man 3 atoi</cli>\\
+
+<code c>
+value = atoi(argv[1]);
+</code>\\
+
+For the pipemath project, my personal assignments:\\
+from numbers folder: 3.c\\
+from maths folder: modulus.c\\
+from bases folder: tobase9\\
+
+and I'll probably pull up the slack files too, if no one else does, or if dan (shadeck) can try to beat me to it, he's welcome to try! 8-) \\
+
+
+====Thursday October 02, 2014====
+
+For self reference, after my assigned source code files in the PipeMath project are complete I intend to go after the ones that are up for grabs.\\
+From numbers directory: 0-9 are taken...which is apparently all of them, unless we add A thru F to account for hexidecimal values.\\
+From the maths directory: plus, minus, toplaces, topower, multiply, divide, modulus, and log are taken leaving increment and decrement, actually i think increment is done, ok and apparently decrement, so nothign here either.\\
+From bases directory: tobase2, tobase3, tobase4, tobase5, tobase6, tobase7, tobase9, tobase11 are taken, leaving tobase12-16 and tobase8,I think.\\
+
+//"First they ignore you,\\
+then they laugh at you,\\
+then they fight you,\\
+then you win.\\
+--Ghandi//
+
+two possible scenarios for if statements:\\
+<code c 1>
+if (a == 1)
+{
+    //something here
+}
+if (a == 2)
+{
+    //something else here
+}
+</code>
+Versus:\\
+<code c 1>
+if (a == 1)
+{
+    //something here
+}
+else if (a == 2)
+{
+    /something else here
+}
+</code>
+in the first example it has to evaluate both sets of if statements to compare a to 1 or 2, in the second example, if a was to be evaluated as equal to 1 it runs the relevant code after then skips the rest, this making it more efficient.\\
+
+<code>
+~~~~~~~~
+~~~~~~~~
+comp a,1
+bneq part1
+~~~~~~~~
+~~~~~~~~
+</code>
+
+fetch - fetches an instruction\\
+decode - determines how many bytes per operators\\
+execute - executes\\
+store - stores it back in its original location\\
+
+^ Fetch   ^ Decode  ^ Execute ^ Store   ^
+| 1       |         |         |         |
+| 2       | 1       |         |         |
+| 3       | 2       | 1       |         |
+| 4       | 3       | 2       | 1       |
+| 5       | 4       | 3       | 2       |
+
+this is called a 4 stage pipeline.\\
+Once you fill the pipeline you can execute 4 things at once.\\
+
+**Readability vs Writability**\\
+typically the more writability code has the less readable it is, this is made up for with comments
+whereas readability means its easier to read but may not run as efficiently.\\
+
+-modularity\\
+-subroutine\\
+-procedure\\
+-function\\
+in math:\\
+y=f(x)\\
+y=atoi(argv[1])\\
+y=f(atoi(argv[1]))\\
+
+**variable** - a name associated with a piece of memory.\\
+-declare them\\
+-define them/initialize them\\
+
+sum\\
+average\\
+highest\\
+lowest\\
+
+our in class code from 10/02/2014 making use of function declarations and calls, but isn't finished as the function definitions aren;t done yet, we should finish next week:\\
+<code c 1>
+/*************************************************
+ *
+ *  Matthew Page
+ *  CSCS1320 Fal 2014
+ *  10/02/2014
+ *
+ *  functionfun.c - Having fun with functions in    
+ *                  the C programming language.
+ *
+ ************************************************/ 
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int sum(int *, int);
+
+float average(int, int);
+
+int main()
+{
+    int highest(int *, int);
+    int lowest(int *, int);
+    int num =4;
+    int scores=[num];
+    int i, total=0;
+    float avg;
+    for (i=0;i<num;i++)
+    {
+        printf("Enter score %d: ", i);
+        scanf("%d", &scores[i];
+    }
+    total = sum(scores, num);
+    avg = average(total, num);
+    high = highest(scores, num);
+    low = lowest(scores, num);
+    printf("The total is %d\n", total);
+    printf("The average is %d\n", avg);
+    printf("The highest is %d\n", high);
+    printf("The lowest is %d\n", low);
+    return (0);
+}
+
+int sum(int *arr, int n)
+{
+
+}
+
+float average()
+{
+
+}
+</code>
+
+====Tuesday, October 07, 2014====
+
+Extended time on pipemath project to 10/22/2014, the Wednesday after break.\\
+
+showed switch usage in C:\\
+<code>
+switch(variable)
+{
+    case 0:
+        thing;
+        break;
+    case 1:
+        thing;
+        break;
+    case 2:
+        thing;
+        break;
+}
+</code>
+
+It has to be a precise number for a switch to work, can do like greater than some number or a range of numbers.\\
+Also a switch won;t be as useful for many conditions.\\
+
+In class code we did today was playign with somethign graphical, to create a basic box that we could move around.\\
+Mine I titled graphixfun.c:\\
+
+<code>
+/*************************************************
+ *
+ *  Matthew Page
+ *  CSCS1320 Fall 2014
+ *  10/07/2014
+ *
+ *  graphixfun.c -  a program to play around with
+ *                  interactive graphics.
+ *
+ ************************************************/
+
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+
+int main()
+{
+    int i, quit=0;
+    SDL_Surface *screen;
+    SDL_Surface *box;
+    SDL_Event event;
+    SDL_Rect offset;
+
+    SDL_Init(SDL_INIT_EVERYTHING);
+    screen=SDL_SetVideoMode(640,480,32,SDL_SWSURFACE);
+    box=IMG_Load("box.bmp");
+    
+    while (quit==0)
+    {
+        if (event.type==SDL_KEYDOWN)
+        {
+            switch(event.key.keysym.sym)
+            {
+                case SDLK_ESCAPE:
+                    quit=1;
+                    break;
+                case SDLK_RETURN:
+                    offset.x=320;
+                    offset.y=240;
+                    offset.w=box->w;
+                    offset.h=box->h;
+                    break;
+                case SDLK_UP:
+                    offset.y=offset.y-10;
+                    break;
+                case SDLK_DOWN:
+                    offset.y=offset.y+10;
+                    break;
+                case SDLK_LEFT:
+                    offset.x=offset.x-10;
+                    break;
+                case SDLK_RIGHT:
+                    offset.x=offset.x+10;
+                    break;
+            }
+        }
+        SDL_BlitSurface(box,NULL,screen,&offset);
+        SDL_Flip(screen);
+    }
+    return (0);
+}
+
+</code>
+
+Compiled this has to be linked SDL and SDL_image, so the command is:\\
+<cli>gcc -o graphixfun graphixfun.c -lSDL -lSDL_image</cli>
+====Thursday, October 09, 2014====
+
+We modified Tuesdays's code, graphixfun.c to add a few more features and fix a few things today.\\
+
+The revised graphixfun.c code:\\
+<code c 1>
+/*************************************************
+ *
+ *  Matthew Page
+ *  CSCS1320 Fall 2014
+ *  10/07/2014
+ *
+ *  graphixfun.c -  a program to play around with
+ *                  interactive graphics.
+ *
+ ************************************************/
+
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+
+int main()
+{
+    int i, j,quit=0;
+    SDL_Surface *screen;
+    SDL_Surface *box;
+    SDL_Surface *box2;
+    SDL_Surface *background;
+    SDL_Event event;
+    SDL_Rect offset;
+    SDL_Rect offset2;
+
+    SDL_Init(SDL_INIT_EVERYTHING);
+
+    screen=SDL_SetVideoMode(640,480,32,SDL_SWSURFACE);
+
+    box=IMG_Load("box.bmp");
+    box2=IMG_Load("box.bmp");
+    background=IMG_Load("background.bmp");
+    offset.x = 320;
+    offset.y = 240;
+    offset2.x = 0;
+    offset2.y = 0;
+
+    offset.x = 320;
+    offset.y = 240;
+
+    while (quit==0)
+    {
+        SDL_BlitSurface(background, NULL, screen, NULL);
+
+        if (SDL_PollEvent(&event))
+        {
+            if (event.type==SDL_KEYDOWN)
+            {
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE:
+                        quit=1;
+                        break;
+                    case SDLK_RETURN:
+                        offset.x=320;
+                        offset.y=240;
+                        //offset.w=box->w;
+                        //offset.h=box->h;
+                        break;
+                    case SDLK_UP:
+                        offset.y=offset.y-10;
+                        break;
+                    case SDLK_DOWN:
+                        offset.y=offset.y+10;
+                        break;
+                    case SDLK_LEFT:
+                        offset.x=offset.x-10;
+                        break;
+                    case SDLK_RIGHT:
+                        offset.x=offset.x+10;
+                        break;
+                }
+            }
+            else if (event.type == SDL_QUIT)
+                quit = 1;
+
+        }
+        if (offset2.x <= 0)
+            i=10;
+        else if (offset2.x >= 640)
+            i=-10;
+        if (offset2.y <= 0)
+            j=10;
+        else if (offset2.y >= 480)
+            j=-10;
+        offset2.x +=i;
+        offset2.y +=j;
+
+        SDL_BlitSurface(box2,NULL,screen,&offset2);
+        SDL_BlitSurface(box,NULL,screen,&offset);
+        SDL_Flip(screen);
+        SDL_Delay(20);
+    }
+    return (0);
+}
+</code>
+
+We also need these 2 files accompanied with this:\\
+
+[[http://www.matthewjpage.com/background.bmp|http://www.matthewjpage.com/background.bmp]]\\
+
+[[http://www.matthewjpage.com/box.bmp|http://www.matthewjpage.com/box.bmp]]\\
+
+This is still compiled with:\\
+
+<cli>gcc graphixfun.c -o graphixfun -lSDL -lSDL_image</cli>\\
+
+Which looks like this:\\
+
+{{http://www.matthewjpage.com/graphixfunscrot.png|graphixfun.c executing}}
+
+The one box bounces around the background, and the other box is movable by the user with arrow keys.\\
+
+====Tuesday, October 21, 2014====
+
+Thursday, October 30th, "Knowledge Assessment" a.k.a. Test.\\
+
+run:\\
+<cli>grabit</cli>\\
+on lab46.\\
+
+will retrieve the file sumarghighlow.c = functionfun.c\\
+
+Functions create a little more overhead than if we didn't use them, not that we need to use them, but they are more for makign our lives writing code and reading code simpler.\\
+
+Like Warcraft 2 with its fog of war, you could only see a certain area of the map, would be like a local scope.  Alternatively you could remove fog of war and see the whole map, which would be like a global scope.\\
+{{http://classic.battle.net/images/battle/war2/basic/pics/over/fog1.gif|Warcraft 2 - Fog of War}}
+{{http://i276.photobucket.com/albums/kk38/johnnie_waves/Warcraft2.jpg|Warcraft 2 - No Fog of War}}
+
+Arrays we looked at again as likea six pack of beer, it all contains the same thing, but there are 6 different bottles.  We can reference them in a single dimenntional array like sixpack[1] to refer to the 2nd item in the set of 6, if it wa sarranged liek a six pack, 2 sets of 3, woudl be mor eliek a 2 dimensional array and you could reference: sixpack [0][2] to choose the first row, then then 3rd column.\\
+
+y=f(x)\\
+<code c>total = sum(scores, num);</code>\\
+
+scores is the array passed, and num is the size of the array.\\
+in C size is not automatically sent.\\
+
+for a function prototype you just need to list the datatypes.\\
+
+for a function definition you have a name and a datatype. (NOTE: the name of the variable doesn;t have to be the same in the function as the variable of the data sent.)\\
+
+added sum function definition:\\
+<code c 1>
+int sum(int *arr, int n)
+{
+    int i, result=0;
+    for (i=0;i<n;i++)
+    {
+        result = result+arr[i];
+    }
+    return result;
+}
+</code>
+
+so the completed code, thus far is:\\
+<code c 1>
+/*************************************************
+ *
+ *  Matthew Page
+ *  CSCS1320 Fal 2014
+ *  10/02/2014
+ *
+ *  functionfun.c - Having fun with functions in    
+ *                  the C programming language.
+ *
+ ************************************************/ 
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int sum(int *, int);
+
+float average(int, int);
+
+int main()
+{
+    int highest(int *, int);
+    int lowest(int *, int);
+    int num =4;
+    int scores=[num];
+    int i, total=0;
+    float avg;
+    for (i=0;i<num;i++)
+    {
+        printf("Enter score %d: ", i);
+        scanf("%d", &scores[i];
+    }
+    total = sum(scores, num);
+    avg = average(total, num);
+    high = highest(scores, num);
+    low = lowest(scores, num);
+    printf("The total is %d\n", total);
+    printf("The average is %f\n", avg);
+    printf("The highest is %d\n", high);
+    printf("The lowest is %d\n", low);
+    return (0);
+}
+
+int sum(int *arr, int n)
+{
+    int i, result=0;
+    for (i=0;i<n;i++)
+    {
+        result = result+arr[i];
+    }
+    return result;
+}
+
+float average(int total, int number)
+{
+    float result=0.0;
+    result = (total/number);
+    return result;
+}
+
+int highest(int *arr, int n)
+{
+
+}
+
+int lowest(int *arr, int n)
+{
+
+}
+</code>
+====Thursday, October 23, 2014====
+
+**Functions**\\
+1)name\\
+2)return type\\
+3)data type\\
+
+In C we need to pass the name of the array and the size of the array to a function.\\
+Functions let us organize things.\\
+
+<code c>int scores[num];</code>\\
+
+is the same as:\\
+
+<code c>
+int *scores
+scores=(int *)malloc(sizeof(int)*num);
+</code>\\
+
+**Pointers for Dummies**
+
+//"A pointer is just a memory address" --Matt Haas//\\
+
+A pointer to a char, a pointer to an int, etc is all just 8 bytes.\\
+In these 8 bytes of memory are a memory address.\\
+
+^                ^                 ^                    ^
+| **Truth**      | *(scores+0)     | *(scores+1)        |
+|                  is the same as:                    |||
+| **Lies **      | scores[0]       | scores[1]          |
+
+Data Structures is the 2nd best class in the universe, (not actually how he said it, but How I translated it.)\\
+
+Arrays, after compile time, cannot change size. In other languages when they appear to change array sizes, they create a new array of the new size and copy over the data fromt he original array.  This incurs the extra overhead of copying.  
+
+We have a structure called a linked list:\\
+
+{{http://www.matthewjpage.com/linkedlist.png|Linked List}}\\
+
+An array is a homogenous type - all the same data, different data an array can't handle.\\
+
+In Data Structures we create struct nodes.\\
+
+A struct is a programmable data type.\\
+
+A structure is a heterogenous type.\\
+
+<code c>
+struct node {
+    id[8];
+    int value;
+    struct node *next;
+}
+</code>\\
+
+<code c>struct node data[5]</code>\\
+
+<code c>
+struct node data;
+data.value=12;
+</code>\\
+
+**In structures:**\\
+If it's not a pointer, it's a dot.\\
+If it's not a dot it's a -> \\
+
+<code c>struct node *start;</code>\\
+Allocated memory and start is pointing to it.\\
+
+You can have nested structs:\\
+data.something.something.something.etc\\
+
+<code c>
+start=(struct node *)malloc(sizeof(struct node));
+start->value=37;
+</code>\\
+
+A struct node is about 12 bytes.\\
+
+<code c>
+start->next=(struct node *)malloc(sizeof(struct node));
+</code>\\
+
+-loops\\
+-arrays\\
+-functions\\
+-structs\\
+All of these are not needed to write code, but make our lives easier.\\
+
+**Object Oriented Programming:**\\
+-Classes\\
+-Inheritence\\
+-Polymorphism\\
+(All of this is just more ways to say more with less.)\\
+
+All a class is is a struct with more capability.\\
+In C you can;t put a function in a struct, in a\\
+class you can.\\
+
+Example code we looked at implementing this:\\
+structs1.c:\\
+<code c 1>
+/*
+ * structs.c
+ *
+ *  An example of using structs in C, along with arrays.
+ *
+ * To compile: gcc -o structs1 structs1.c
+ *
+ */
+#include<stdio.h>
+//#include<string.h>
+
+int main()
+{
+    int i;
+    char entry[80], entries = 4, junk;
+
+    struct person {
+        char name[80];
+        int age;
+        float height;
+    };
+
+    do {
+        printf("How many people in your database? ");
+        scanf("%d", &entries);
+    } while (entries <= 0);
+
+    struct person people[entries];
+
+    for(i=0; i<entries; i++)
+    {
+        printf("Person %d of %d:\n", (i+1), entries);
+        printf("==============\n");
+
+        // prompt for name (string)
+        printf("Please enter the person's first name: ");
+
+        scanf("%s", people[i].name);
+//      fgets(entry, sizeof(entry), stdin);
+//      strcpy(people[i].name, entry);
+
+        // prompt for age (integer)
+        printf("Please enter %s's age: ", people[i].name);
+        scanf("%d", &people[i].age);
+
+        // prompt for height (float)
+        printf("Please enter %s's height: ", people[i].name);
+        scanf("%f", &people[i].height);
+
+        // Get newline out of the input stream
+        junk = fgetc(stdin);
+//      fgets(junk, sizeof(junk), stdin);
+    }
+
+    printf("\n\nThe names of the people are:\n");
+    for(i=0; i<entries; i++)
+    {
+        printf("#%d: %s\t", (i+1), people[i].name);
+    }
+    printf("\n\n");
+
+    printf("The full bios of the people are:\n");
+    for(i=0; i<entries; i++)
+    {
+        printf("#%d: %s, age: %d, height: %f\n", (i+1), people[i].name, people[i].age, people[i].height);
+    }
+
+    return(0);
+}
+</code>
+
+====Tuesday, October 28, 2014====
+
+"Knowledge Assessment" on Thursday (Next class)\\
+All of the class period will be allotted for the "Knowledge Assessment"\\
+Will be open notes, open web, but no interaction with others.\\
+
+**Files**\\
+-open\\
+-read\\
+-write\\
+-append\\
+-close\\
+-create\\
+-remove/delete\\
+-seek\\
+
+We created a data file with a sentence in it, mine was called nothing.dat, containing:\\
+<file>
+The quick brown fox jumps over the lazy dog.
+</file>
+
+reading is safe.\\
+writing is destructive.\\
+append is like a safe write.\\
+
+If we need to do read and writes to a file we should create seperate file pointer for each.\\
+
+Think of a file as one long string or tape of characters.\\
+
+<code c 1>
+/*************************************************
+ *
+ * Matthew Page
+ * 10/28/2014
+ * CSCS 1320 
+ * Fall 2014
+ *
+ * filefun.c -  something goes here
+ *
+ * **********************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    char c;
+    int i;
+    int count=0;
+    FILE *fptr;
+    fptr=fopen("nothing.dat", "r");
+    if(fptr==NULL)
+    {
+        fprintf(stdout, "Error opening file!\n");
+        exit(1);
+    }
+    //for(i=0;i<5;i++)
+    while((c=fgetc(fptr))!=EOF)
+    {
+        //c=fgetc(fptr);
+        fprintf(stdout, "I just read a '%c'\n", c);
+    }
+    fclose(fptr);
+    return(0);
+}
+</code>
+
+====Lab Class with Joe - 10/29/2014====
+
+**4 steps to gcc**\\
+1)preprocessing\\
+2)compile\\
+3)assembly\\
+4)linking\\
+====Thursday, October 30, 2014====
+
+"Knowledge Asssessment" *cough*Test*cough* Day\\
+
+Assignment was to write a program that took user input, without writing anything to the user, and convert the user's input to ascii.  For example if the user entered "ABC" then it woudl output "65 66 67" or if the user entered "ABC DE0" then it woudl output "65 66 67 32 68 69 48 10"\\
+
+my code for this, knowledgeassessment.c:\\
+<code c 1>
+/*************************************************
+ *
+ * Matthew Page
+ * 10/30/2014
+ * CSCS 1320
+ * Fall 2014
+ * 
+ * knowledgeassessment.c -  write a program that
+ *      that doesn;t write anythign for a prompt
+ *      but waits for user input, then when a user
+ *      enters say "ABC" it outputs "65 66 67" or
+ *      say "ABC DE0" would output "65 66 67 32 68
+ *      48 10"
+ *
+ * **********************************************/
+
+#include <stdio.h>
+
+int main()
+{
+    //variable declarations and initializations
+    //char input[256];    //an array to house user input
+    //int i=0;            //iteration count/index of array       
+    int askey=0;        //ASCII value
+
+    //prompt user for input, sort of
+    //while(input[i]!="\n")
+    while(askey!=EOF)
+    {
+        askey=fgetc(stdin);
+        //scanf("%c", &input[i]);
+        //askey=atoi(input[i]);
+        printf("%d ", askey);
+        //i++;
+    }
+    printf("\n");
+    return (0);
+}
+</code>
+
+====Lab Class with Joe - 10/31/2014====
+
+**Fun with Logic Gates**
+
+{{http://www.matthewjpage.com/IMAG0249.jpg|Friday, October 31, 2014}}
+
+{{http://www.matthewjpage.com/IMAG0251.jpg|Friday, October 31, 2014}}
+
+====Tuesday, November 04, 2014====
+
+**Object Oriented Programming**\\
+
+-polymorphism\\
+-inheritance\\
+-encapsulation\\
+
+Classes & Objects\\
+are like structs:\\
+
+<code c>
+struct rectangle {
+    int length;
+    int width;
+}
+
+struct rectangle rect1;
+rect1.length=10;
+rect1.width=5;
+</code>
+
+structs cannot store functions. (but can store function pointers.)\\
+
+If you sprinkle some magic powder on structs and say "You can do functions now."\\
+now we can call it a class.\\
+
+<code c>
+class rectangle {
+    public:
+        int area;               // Member functions 
+        int perimeter;          // Member functions
+        rectangle();            // These are constructors (see below)
+        rectangle(int, int);    // These are constructors (see below)
+    private:
+        int length;             // Member variables
+        int width;              // Member variables
+};
+</code>
+
+Also added to Classes are Access Control:\\
+
+**Access Control**\\
+-public -accessible outside the class (like a struct)\\
+-private -can't use until we get to inheritance (later in semester)\\
+-private -accessed only from within the class\\
+
+Object Oriented Programming isn't the end all be all of programming, its for managing larger tasks.\\
+
+A function without a return type with the exact same name as the class is called a **constructor.**\\
+
+**Function overloading**- allows for functions to share the same name as long as some part, like return type or its parameters, differ.\\
+
+**Instantiation** -creating an instance of a class.\\
+
+If there is a constructor, upon instantiation, that constructor will run.\\
+
+**Destructor**-freeing up resources allocated to an object when an object goes out of scope or is explicitly released.\\
+
+Now with C++ we use one of the following file extensions for the compiler to be happy:\\
+//filename//.cc\\
+//filename//.C\\
+//filename//.cpp\\
+//filename//.c++ \\
+
+completed code from class today as an intorduction to C++ and object oriented programming, I called mine **rectangle.cpp**:\\
+<code c 1>
+/****************************************************
+ *
+ * Matthew Page
+ * 11/04/2014
+ * CSCS 1320
+ * 
+ * rectangle.cpp -  Introduction to C++ and Object
+ *                  Oriented Programming and classes
+ *                  and stuff.
+ *
+ ***************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+class rectangle {
+    public:
+        rectangle();
+        rectangle(int, int);
+        int area();
+        int perimeter();
+    private:
+        int length;
+        int width;
+};
+
+int rectangle::area()
+{
+    return ((length*width));
+}
+
+int rectangle::perimeter()
+{
+    return ((length+width+length+width));
+}
+
+rectangle::rectangle()
+{
+    length=0;
+    width=0;
+}
+
+rectangle::rectangle(int length, int width)
+{
+    this->length=length;
+    this->width=width;
+}
+
+int main()
+{
+    int area;
+    int perimeter;
+    area=0;
+    perimeter=0;
+
+    rectangle rect1;
+    rectangle *rect2;
+    rect2=new rectangle(4,10);
+
+    area=rect1.area();
+    perimeter=rect1.perimeter();
+
+    printf("rect1 area is %d\n", area);
+    printf("rect1 perimeter is %d\n", perimeter);
+
+    area=rect2->area();
+    perimeter=rect2->perimeter();
+
+    printf("rect2 area is %d\n", area);
+    printf("rect2 perimeter is %d\n", perimeter);
+
+    return (0);
+}
+</code>
+
+
+====Thursday, November 06, 2014====
+
+A class is just a struct with  extra capability.\\
+-member variables\\
+-member functions\\
+
+Access Control\\
+-public\\
+-protected\\
+-private\\
+
+Variables do NOT have to go under private.\\
+Functions do NOT have to go under public.\\
+Usually these are the case but not always.\\
+
+Public is for outside things accessing your class.\\
+
+Constructors automatically run when a class is instantiated.\\
+
+"this" is a class pointer - private member variable.\\
+
+<code c>
+this->length=length;
+this->width=width;
+</code>
+
+This is not needed in the first constructor because there are no conflicting variable names.\\
+
+An instance of a class is called an object.\\
+
+"new" - a keyword in C++ allocating memory and creates and instance of the class,\\
+like malloc and a constructor.\\
+
+Opposite of "new" is "delete" which frees up that allocated resources.\\
+
+<code c>
+area=rect1.area();
+</code>
+Use a dot to access the sub-element of the object.\\
+
+<code c>
+area=rect2->area();
+</code>
+when it's a pointer, you don't use a dot, you use and arrow.\\
+
+compile C++ code with g++ like:\\
+<cli>g++ -o class class.cc</cli>\\
+
+**Accessor Functions**
+<code c>
+public:
+    int getLength();
+    void setLength(int);
+    int getWidth();
+    void setWidth(int);
+</code>\\
+
+This gets places with the other function definitions:\\
+<code c>
+int rectangle::getLength()
+{
+    return (length);
+}
+
+void rectangle::setLength(int length)
+{
+    this->length=length;
+}
+
+int rectangle::getWidth()
+{
+    return (width);
+}
+
+void rectangle::setWidth(int width)
+{
+    this->width=width;
+}
+</code>
+
+This gets placed in the main() function before area and perimeter are calculated:\\
+<code c>
+rect1.setLength(7);
+rect1.setWidth(11);
+</code>
+
+full code of rectangle.cpp as of now:\\
+<code c 1>
+/****************************************************
+ *
+ * Matthew Page
+ * 11/04/2014
+ * CSCS 1320
+ * 
+ * rectangle.cpp -  Introduction to C++ and Object
+ *                  Oriented Programming and classes
+ *                  and stuff.
+ *
+ ***************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+class rectangle {
+    public:
+        rectangle();
+        rectangle(int, int);
+        int area();
+        int perimeter();
+        int getLength();
+        void setLength(int);
+        int getWidth();
+        void setWidth(int);
+    private:
+        int length;
+        int width;
+};
+
+int rectangle::area()
+{
+    return ((length*width));
+}
+
+int rectangle::perimeter()
+{
+    return ((length+width+length+width));
+}
+
+rectangle::rectangle()
+{
+    length=0;
+    width=0;
+}
+
+rectangle::rectangle(int length, int width)
+{
+    this->length=length;
+    this->width=width;
+}
+
+int rectangle::getLength()
+{
+    return (length);
+}
+
+void rectangle::setLength(int length)
+{
+    this->length=length;
+}
+
+int rectangle::getWidth()
+{
+    return (width);
+}
+
+void rectangle::setWidth(int width)
+{
+    this->width=width;
+}
+
+int main()
+{
+    int area;
+    int perimeter;
+    area=0;
+    perimeter=0;
+
+    rectangle rect1;
+    rectangle *rect2;
+    rect1.setLength(7);
+    rect1.setWidth(11);
+    rect2=new rectangle(4,10);
+
+    area=rect1.area();
+    perimeter=rect1.perimeter();
+
+    printf("rect1 area is %d\n", area);
+    printf("rect1 perimeter is %d\n", perimeter);
+
+    area=rect2->area();
+    perimeter=rect2->perimeter();
+
+    printf("rect2 area is %d\n", area);
+    printf("rect2 perimeter is %d\n", perimeter);
+
+    return (0);
+}
+</code>
+
+**Inheritance**\\
+
+Parent Class:\\
+<code c>
+class shape
+{
+    public:
+        shape();
+        void setLength(int);
+        int getLength();
+        void setWidth(int);
+        int getWidth();
+    private:
+        int length;
+        int width;
+};
+</code>\\
+
+Child Class:\\
+<code c>
+class rectangle:public shape
+{
+
+}
+</code>\\
+
+//"Children cannot access their parents private parts" --Matt Haas//\\
+
+If something is public in parent class then it is public in the child class.\\
+
+If something is protected in parent class it is protected in the child class.\\
+
+If we use "class rectangle:protected shape" members of public in parent class become protected in child class.\\
+
+<code c>
+class rectangle:public shape
+{
+    public:
+        rectangle();
+        int area();
+        int perimeter();
+    private:
+        int thing;
+};
+</code> 
+
+Put whats common in the parent class and then derive it into child classes.\\
+
+<code c>
+class square:public rectangle
+{
+    //something
+}
+</code>
+
+<code c>
+class triangle:public shape
+{
+    public:
+        //something
+}
+</code>
+
+**Friends with Benefits**\\
+
+Access Control\\
+-public\\
+-private\\
+-protected\\
+-friend\\
+
+If triangle is a "friend" with rectangle, then triangle can play with rectangle's thing.\\
+
+====Lab Class, Week 10===
+
+Talking about Logic Gates and Function pointers.  I started working on my own logic library in C, I plan to move the helper code that calls the functions (the main() function) into an external file and then only include this logic library of functions into another program that calls them:\\
+
+<code c 1>
+/***********************************************
+ *
+ * Matthew Page
+ * 11/05/2014
+ * CSCS1320 Fall 2014
+ * 
+ * logic_library.c -    Attempting to recreate
+ *                      logic library from 
+ *                      CSCS1240 originaly in
+ *                      VBscript to C.
+ *
+ * ********************************************/
+
+#include <stdio.h>
+
+#define PREFERRED      '1'  
+#define NOTPREFERRED   '0'
+
+char input;     //originally created for single input in the case of nott 
+char input1;    //written for 2 inputs like every other function
+char input2;    //written for 2 inputs like every other function
+char carryin;   //written for 3 inputs like fullsum and fullcarry
+
+int newvalue;   //returned from function value
+
+//function declarations, prototypes
+char nott(char);
+char andd(char, char);
+char nandd(char, char);
+char orr(char, char);
+char xorr(char, char);
+char halfsum(char, char);
+char halfcarry(char, char);
+char fullsum(char, char, char);
+char fullcarry(char, char, char);
+
+//nott function 
+char nott(char input)
+{
+    if (input == PREFERRED)
+    {
+        return (NOTPREFERRED);
+    }
+    else
+    {
+        return PREFERRED;
+    }
+}
+
+//andd function
+char andd(char input1, char input2)
+{
+    char result;
+    result = NOTPREFERRED;
+    if (input1 == PREFERRED)
+    {
+        if (input2 == PREFERRED)
+        {
+            result = PREFERRED;
+        }
+    }
+    return result;   
+}
+
+//nandd function
+char nandd(char input1, char input2)
+{
+    char result;
+    result = nott(andd(input1, input2));
+}
+
+//orr function
+char orr(char input1, char input2)
+{
+    char result;
+    result = NOTPREFERRED;
+    if (input1 == PREFERRED)
+    {
+        result = PREFERRED;
+    }
+    else
+    {
+        if (input2 == PREFERRED)
+        {
+            result = PREFERRED;
+        }
+    }
+    return result;
+}
+
+//xorr function
+char xorr(char input1, char input2)
+{
+    char result;
+    result = NOTPREFERRED;
+    if (orr(input1, input2) == PREFERRED)
+    {
+        if (nandd(input1, input2) == PREFERRED)
+        {
+            result = PREFERRED;
+        }
+    }
+    return result;
+}
+
+//halfsum function
+char halfsum(char input1, char input2)
+{
+    char result;
+    result = xorr(input1, input2);
+    return result;
+}
+
+//halfcarry function
+char halfcarry(char input1, char input2)
+{
+    char result;
+    result = andd(input1, input2);
+    return result;
+}
+
+//fullsum function
+char fullsum(char input1, char input2, char carryin)
+{
+    char result;
+    char firstop;
+    firstop = halfsum(input1, input2);
+    result = xorr(firstop, carryin);
+    return result;
+}
+
+//fullcarry function
+char fullcarry(char input1, char input2, char carryin)
+{
+    char result;
+    char firstset;
+    char secondset;
+    char thirdset;
+    char firstor;
+    firstset = andd(input1, input2);
+    secondset = andd(input2, carryin);
+    thirdset = andd(input1, carryin);
+    firstor = orr(firstset, secondset);
+    result = orr(firstor, thirdset);
+    return result;
+}
+
+//calling portion of the program
+//(to be moved outside of this file eventually)
+int main()
+{
+    /*
+    printf("Enter a 1 or 0:\n"); //for 1 input
+    scanf("%c", &input);        //for 1 input
+    newvalue = nott(input);     //for 1 input
+    */
+
+    /*
+    printf("Enter first value, 1 or 0:\n");     //for 2 inputs
+    scanf("%c", &input1);                       //for 2 inputs
+    printf("Enter second value, 1 or 0:\n");    //for 2 inputs
+    scanf("%c", &input2);                       //for 2 inputs
+    */
+
+    /*
+    printf("Enter 2 values (1 or 0) seperated by a space:\n");  //for 2 inputs version 2
+    scanf("%c %c", &input1, &input2);                           //for 2 inputs version 2
+    newvalue = halfcarry(input1, input2);            //for 2 inputs function call
+    */
+
+    printf("Enter 3 values, seperated by spaces, 2 inputs, and a carryin value (1 or 0):\n");   //for 3 inputs
+    scanf("%c %c %c", &input1, &input2, &carryin);                                              //for 3 inputs                     
+    newvalue = fullcarry(input1, input2, carryin);                                                //for 3 inputs
+
+    printf("%c\n", newvalue);
+
+    return (0);
+}
+</code>
+
+====Tuesday, November 11, 2014====
+
+**Inheritance**\\
+-We're doing a base class and then from that a derived class.\\
+
+Today's code included multiple source code files that we archived together into libraries.\\
+
+Starting with **node.h**:\\
+<code c 1>
+/************************************************
+ *
+ * Matthew Page
+ *
+ * 11/11/2014
+ * CSCS 1320 
+ *
+ * node.h - a header file for something
+ *
+ *
+ * *********************************************/
+
+#ifndef _NODE_H     //if not defined, (if it's not included use this, if not skip it.)
+#define _NODE_H
+#include <cstdlib>
+
+class Node {
+    public:
+        Node();     //constructor
+        Node(int);  //2nd constructor
+        void setValue(int);   //accessor functions to access the private variable value.
+        int getValue();       //accessor functions
+    private:
+        int value;
+};
+#endif                        //ending ifndef (if not defined)
+</code>\\
+
+Next file, **create.cc**:\\
+<code c 1>
+/************************************************
+ *
+ * Matthew Page
+ *
+ * 11/11/2014
+ * CSCS 1320 
+ *
+ * create.cc - another file for something
+ *
+ *
+ * *********************************************/
+
+#include "node.h"
+
+Node::Node()
+{
+    value=0;
+}
+
+Node::Node(int value)
+{
+    this->value=value;
+}
+</code>\\
+
+Next file, **value.cc**:\\
+<code c 1>
+/************************************************
+ *
+ * Matthew Page
+ *
+ * 11/11/2014
+ * CSCS 1320 
+ *
+ * value.cc - another file for something
+ *
+ *
+ * *********************************************/
+
+#include "node.h"
+
+void Node::setValue(int value)
+{
+    this->value=value;
+}
+
+int Node::getValue()
+{
+    return(this->value);
+}
+</code>\\
+
+Now we decided to make some directories so within lab46 prompt we run the following commands:\\
+<cli>mkdir node</cli>\\
+to make a directory called "node."\\
+
+<cli>mv node.h node</cli>\\
+to move node.h into node directory.\\
+
+<cli>mv create.cc node</cli>\\
+to move create.cc into node directory.\\
+
+<cli>mv value.cc node</cli>\\
+to move value.cc into node directory.\\
+
+<cli>cd node</cli>\\
+to change into the node directory.\\
+
+Now we are creating object files from a couple of these source files, create.cc and value.cc with:\\
+<cli>g++ -c create.cc</cli>\\
+and:\\
+<cli>g++ -c value.cc</cli>\\
+and now if you look in the directory with ls:\\
+<cli>ls</cli>\\
+you can see the create.o and value.o object files.\\
+
+Now we are going to create a static library which is classified as the older, "classic" library type.\\
+A static library is really just an archive.\\
+
+Now we create this archive by running:\\
+<cli>ar rcs libnode.a create.o value.o</cli>\\
+we can see with ls:\\
+<cli>ls</cli>\\
+That we now have a library file called libnode.a in the directory.\\
+
+<WRAP tip>We can extract the object files back out of the archived library file with <cli>ar x libnode.a</cli></WRAP>\\
+
+Now we are going to make a new directory called "SinglyLinkedNode" with:\\
+<cli>cd ..</cli>\\
+(gets out of node directory into parent directory)\\
+<cli>mkdir SinglyLinkedNode</cli>\\
+creates directory called "SinglyLinkedNode"\\
+<cli>cd !$</cli>\\
+changes into previous argument of last command, which in this case is the same as:\\
+<cli>cd SinglyLinkedNode</cli>\\
+
+Now we have a new header file called, **SinglyLinkedNode.h**:\\
+<code c 1>
+/************************************************
+ *
+ * Matthew Page
+ *
+ * 11/11/2014
+ * CSCS 1320 
+ *
+ * SinglyLinkedNode.h - another file for something
+ *
+ *
+ * *********************************************/
+
+#ifndef _SINGLY_H
+#define _SINGLY_H
+#include "node.h"
+
+class SinglyLinkedNode:public Node {
+    public:
+        SinglyLinkedNode();
+        SinglyLinkedNode(int);
+        SinglyLinkedNode *getNext();
+        void setNext(SinglyLinkedNode *);
+    private:
+        SinglyLinkedNode *next;
+};
+#endif
+</code>\\
+
+Next file, Another, DIFFERENT, **create.cc**:\\
+<code c 1>
+/************************************************
+ *
+ * Matthew Page
+ *
+ * 11/11/2014
+ * CSCS 1320 
+ *
+ * create.cc -  another create.cc file for 
+ *              something.
+ *
+ * *********************************************/
+
+#include "SinglyLinkedNode.h"
+
+SinglyLinkedNode::SinglyLinkedNode()
+{
+    this->setValue(0);
+    this->next=NULL;
+}
+
+SinglyLinkedNode::SinglyLinkedNode(int value)
+{
+    this->setValue(value);
+    this->next=NULL;
+}
+</code>\\
+
+last file, **next.cc**:\\
+<code c 1>
+/************************************************
+ *
+ * Matthew Page
+ *
+ * 11/11/2014
+ * CSCS 1320 
+ *
+ * next.cc - another file for something
+ *
+ *
+ * *********************************************/
+
+#include "SinglyLinkedNode.h"
+
+SinglyLinkedNode * SinglyLinkedNode::getNext()
+{
+    return(this->next);
+}
+
+void SinglyLinkedNode::setNext(SinglyLinkedNode *next)
+{
+    this->next=next;
+}
+</code>\\
+
+Now we are creating object files again with these new files, create.cc (the new one) and nect.cc:\\
+<cli>g++ -c create.cc</cli>\\
+<cli>g++ -c next.cc</cli>\\
+
+which should create the two objecty files, create.o and next.o\\
+Actually these may fail because node.h is now in a new location.\\
+
+So to follow the same error we all did in class we create a new directory, up one level with:\\
+<cli>mkdir ../inc</cli>\\
+creates a directory called "inc" for includes int he parent directory (along with node and SinglyLinkedNode directories)\\
+<cli>mv SinglyLinkedNode.h ../inc></cli>\\
+moves the SinglyLinkedNode.h header file to the inc directory in the parent directory.\\
+<cli>mv ../node/node.h ../inc</cli>\\
+moves the node.h header file in the node directory int he parent directory into the inc direcotry int he parent directory.\\
+<cli>ls ../inc</cli>\\
+shoudl show cirrent contents of ../inc which shoudl now include the two header files, SinglyLinkedNode.h and node.h.\\
+
+Now we can reattempt to create the object files with:\\
+<cli>g++ -c create.cc -I ../inc</cli>\\
+and then:\\
+<cli>g++ -c next.cc -I ../inc</cli>\\
+
+Now if we check the current directory with ls:\\
+<cli>ls</cli>\\
+It shoudl show the 2 object files, create.o and next.o\\
+
+Last step (for today, we are actually plannign on building on this for Thursday 11/13/2014) is to archive these object files into a library archive called libSinglyLinkedNode.a with:\\
+<cli>ar rcs libSinglyLinkedNode.a create.o next.o</cli>\\
+and ls should show this file:\\
+<cli>ls</cli>\\
+should see libSinglyLinkedNode.a\\
+
+<WRAP info>NOTE: There currently isn't any executable part to this program...yet.  We have no main() function.</WRAP>
+
+
+
+
+====Thursday, November 13, 2014====
+
+**Nodes**\\
+-By itself a node is useless.\\
+-Large companies have organizational units.\\\
+-productively useless, but organizationally valuable.\\
+
+SinglyLinkedNode inherits node.\\
+
+{{http://www.matthewjpage.com/pics/Diagram1.png|A list of singly linked nodes}}
+
+A list of singly linked nodes or a singly linked list.\\
+
+To access the the 3rd node we would go:\\
+a->next->next.\\
+
+The beauty is that you do not need to know how many nodes you need until runtime.\\
+this is dynamic programming.\\
+the notion of fixed position like we have with arrays, we don;t have with this.\\
+
+Doubly Linked List - a pointer to next and previous nodes.\\
+
+{{http://www.matthewjpage.com/pics/Diagram2.png|Appending/Inserting a node}}\\
+Appending/Inserting a node.\\ 
+
+This is like holding balloons you have to change things in such a way that you don;t lose connection to them.\\
+
+The code from class today, "nodefun.c" which builds on last class's source files, and is located on the same level as the directories inc, node, and SinglyLinkedNode from last class:\\
+<code c 1>
+/****************************************
+ *
+ * Matthew Page
+ * 
+ * 11/13/2014
+ * CSCS 1320
+ *
+ * nodefun.cc - A file for main function, 
+ *              I think, building on last
+ *              class.
+ *
+ ***************************************/
+
+#include <cstdio>
+#include "SinglyLinkedNode.h"
+
+int main()
+{
+    int i;
+    SinglyLinkedNode *start=NULL;
+    SinglyLinkedNode *tmp=NULL;
+    SinglyLinkedNode *tmp2=NULL;
+
+    //setting up List of Singly Linked Nodes
+    start=new SinglyLinkedNode(7);
+    start->setNext(new SinglyLinkedNode(39));
+    tmp=start->getNext();
+
+    //inserting a new node
+    tmp2=new SinglyLinkedNode(73);
+    tmp2->setNext(start->getNext());
+    start->setNext(tmp2);
+
+    //setting tmp to point to starting node
+    tmp=start;
+
+    //print out our list with a loop
+    while (tmp!=NULL)
+    {
+        printf("%d->", tmp->getValue());
+        tmp=tmp->getNext();
+    }
+    printf("NULL\n");
+    return (0);
+}
+</code>
+
+{{http://www.matthewjpage.com/pics/Diagram3.jpeg|setting pointers to NULL}}
+
+A List of Singly Linked Nodes (one dimensional) is different from a Singly Linked List of Singly Linked Nodes (two dimensional).\\
+
+{{http://www.matthewjpage.com/pics/Diagram4.jpeg|Appending a node}}
+
+we compile todays code in conjunction with last class's code with the following command:\\
+<cli>g++ -o nodefun nodefun.cc -I inc -L SinglyLinkedNode -l SinglyLinkedNode -L node -l node</cli>
+
+====Tuesday, November 18, 2014====
+
+Code from class today, which could have been C or C++, didn't matter, so I called mine **graphicalsmack.cc**:\\
+<code>
+/**************************************
+ *
+ * Matthew Page
+ * 
+ * 11/18/2014
+ * CSCS 1320
+ *
+ * graphicalsmack.cc -  more graphical
+ *                      stuff.
+ *
+ *************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <gd.h>
+
+int main()
+{
+    unsigned int red, green, blue, white, black;
+    FILE *out;
+    gdImagePtr img;
+    unsigned short int wide, high;
+    wide=800;
+    high=600;
+
+    img=gdImageCreateTrueColor(wide, high);
+    black=gdImageColorAllocate(img, 0x00, 0x00, 0x00);  //using hex colors for RGB
+    white=gdImageColorAllocate(img, 0xff, 0xff, 0xff);
+    red=gdImageColorAllocate(img, 0xff, 0x00, 0x00);
+    green=gdImageColorAllocate(img, 0x00, 0xff, 0x00);
+    blue=gdImageColorAllocate(img, 0x00, 0x00, 0xff);
+
+    gdImageFilledRectangle(img, 0, 0, wide, high, black);
+    gdImageFilledRectangle(img, 0, 0, 400, 200, white);
+    gdImageFilledRectangle(img, 0, 200, 400, 400, red);
+    gdImageFilledRectangle(img, 0, 400, 400, 600, black); //maybe unnecessary
+    gdImageFilledRectangle(img, 400, 0, 800, 300, green);
+    gdImageFilledRectangle(img, 400, 300, 800, 600, blue);
+
+    out=fopen("myfile.png", "wb");
+    gdImagePngEx(img, out, -1);
+    fclose(out);
+    gdImageDestroy(img);
+
+    return (0);
+}
+</code>
+
+We partitioned out the screen that was 800x600 into two halves vertically, the right half was split in 2 parts horizontally, and the left half was split into three equal parts horizontally.  The output of this program was the file myfile.png as shown here:\\
+
+{{http://lab46.corning-cc.edu/~mp010784/myfile.png|myfile.png}}
+
+then we modified the code by adding two lines (one for the color purple and another line to create a circle) and made the output file called myfile2.png, the new source code:\\
+<code>
+/**************************************
+ *
+ * Matthew Page
+ * 
+ * 11/18/2014
+ * CSCS 1320
+ *
+ * graphicalsmack.cc -  more graphical
+ *                      stuff.
+ *
+ *************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <gd.h>
+
+int main()
+{
+    unsigned int red, green, blue, white, black, purple; 
+    FILE *out;
+    gdImagePtr img;
+    unsigned short int wide, high;
+    wide=800;
+    high=600;
+
+    img=gdImageCreateTrueColor(wide, high);
+    black=gdImageColorAllocate(img, 0x00, 0x00, 0x00);
+    white=gdImageColorAllocate(img, 0xff, 0xff, 0xff);
+    red=gdImageColorAllocate(img, 0xff, 0x00, 0x00);
+    green=gdImageColorAllocate(img, 0x00, 0xff, 0x00);
+    blue=gdImageColorAllocate(img, 0x00, 0x00, 0xff);
+    purple=gdImageColorAllocate(img, 0xff, 0x00, 0xff);  //added purple
+
+    gdImageFilledRectangle(img, 0, 0, wide, high, black);
+    gdImageFilledRectangle(img, 0, 0, 400, 200, white);
+    gdImageFilledRectangle(img, 0, 200, 400, 400, red);
+    gdImageFilledRectangle(img, 0, 400, 400, 600, black); //maybe unnecessary
+    gdImageFilledRectangle(img, 400, 0, 800, 300, green);
+    gdImageFilledRectangle(img, 400, 300, 800, 600, blue);
+
+    gdImageFilledArc(img, 400, 300, 100, 100, 0, 360, purple, gdArc);  //added this to create circle
+    //(first img, then the point that's the center of the circle, then radius x direction, and radius
+    //y direction, then starting angle, and ending angle, color, then gdArc)
+    
+    out=fopen("myfile2.png", "wb");   //I edited this to create a different png file.
+    gdImagePngEx(img, out, -1);
+    fclose(out);
+    gdImageDestroy(img);
+
+    return (0);
+}
+</code>
+
+which outputs myfile2.png:\\
+
+{{http://lab46.corning-cc.edu/~mp010784/myfile2.png|myfile2.png}}
+
+both of the above are compiled with:\\
+<cli>g++ graphicalsmack.cc -o graphicalsmack -l gd</cli>
+then when you run it:\\
+<cli>./graphicalsmack</cli>
+it generates the corresponding image file.\\
+
+====Thursday, November 20, 2014====
+
+Today we meddled with last class's code to create polygons, first a triangle which you can see here as commented out (along with the rectangles from last class's code), then we each worked on our own creating a star, using the same polygon method in the gd (graphic design) library.\\
+
+My code for today I copied over last class's graphicalsmack.cc to my new file that I edited called polygonsmack.cc as seen here:\\
+
+<code>
+/**************************************
+ *
+ * Matthew Page
+ * 
+ * 11/20/2014
+ * CSCS 1320
+ *
+ * polygonsmack.cc -    more graphical
+ *                      stuff with 
+ *                      polygons.
+ *
+ *************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <gd.h>
+
+int main()
+{
+    unsigned int red, green, blue, white, black, purple, yellow; 
+    FILE *out;
+    gdImagePtr img;
+    unsigned short int wide, high;
+    wide=800;
+    high=800;
+    //gdPoint triangle[3];
+    gdPoint star[10];
+
+    img=gdImageCreateTrueColor(wide, high);
+    black=gdImageColorAllocate(img, 0x00, 0x00, 0x00);
+    white=gdImageColorAllocate(img, 0xff, 0xff, 0xff);
+    red=gdImageColorAllocate(img, 0xff, 0x00, 0x00);
+    green=gdImageColorAllocate(img, 0x00, 0xff, 0x00);
+    blue=gdImageColorAllocate(img, 0x00, 0x00, 0xff);
+    purple=gdImageColorAllocate(img, 0xff, 0x00, 0xff);
+    yellow=gdImageColorAllocate(img, 0xff, 0xff, 0x00);
+
+    //triangle[0].x=400;
+    //triangle[0].y=0;
+    //triangle[1].x=800;
+    //triangle[1].y=600;
+    //triangle[2].x=0;
+    //triangle[2].y=600;
+
+    star[0].x=100;
+    star[0].y=700;
+    star[1].x=400;
+    star[1].y=500;
+    star[2].x=700;
+    star[2].y=700;
+    star[3].x=550;
+    star[3].y=400;
+    star[4].x=800;
+    star[4].y=250;
+    star[5].x=500;
+    star[5].y=250;
+    star[6].x=400;
+    star[6].y=0;
+    star[7].x=300;
+    star[7].y=250;
+    star[8].x=0;
+    star[8].y=250;
+    star[9].x=250;
+    star[9].y=400;
+
+    /*    
+    gdImageFilledRectangle(img, 0, 0, wide, high, black);
+    gdImageFilledRectangle(img, 0, 0, 400, 200, white);
+    gdImageFilledRectangle(img, 0, 200, 400, 400, red);
+    gdImageFilledRectangle(img, 0, 400, 400, 600, black); //maybe unnecessary
+    gdImageFilledRectangle(img, 400, 0, 800, 300, green);
+    gdImageFilledRectangle(img, 400, 300, 800, 600, blue);
+
+    gdImageFilledArc(img, 400, 300, 100, 100, 30, 330, purple, gdArc);
+    */
+
+    //gdImageFilledPolygon(img, triangle, 3, yellow);
+    //gdImagePolygon(img, triangle, 3, green);
+    gdImageFilledPolygon(img, star, 10, yellow);
+
+    out=fopen("myfile4.png", "wb");
+    gdImagePngEx(img, out, -1);
+    fclose(out);
+    gdImageDestroy(img);
+
+    return (0);
+}
+</code>
+
+This code generates this image:\\
+
+{{http://lab46.corning-cc.edu/~mp010784/myfile4.png|myfile4.png}}
+
+The triangle created earlier showed up as:\\
+
+{{http://lab46.corning-cc.edu/~mp010784/myfile5.png|myfile5.png}}
+
+
+====Lab Class with Joe, Friday, November 21, 2014====
+
+After pressure all day long from what I'm assuming was Dan Shadeck, since he tried to push for it in the morning Object Oriented Problem Solving Class, Joe turned today's C lab class before break into a movie day, and we watched Revolution OS Documentary about the founding of GNU, Linux, and the Open Source movements.  The entirety of the movie can be seen on youtube, so I linked it here for as long as this youtube video exists:\\
+
+{{youtube>fxjElWL8igo?medium}} 
+====Tuesday, December 2, 2014====
+
+Today we had appended to our Opuses, Our "End of Course Experience", hereafter known as eoce, an unholy abomination of subprojects.  Actually not that bad, at first glance I was a little panicked, but after reading it all and having it all explained in class, I don;t expect it to be too bad.  This also marks the end of official attendance taking these two classes (cprog and unix) thus all subsequent class days are just free work time on our eoce projects, I still intend to attend every day at least until my eoce for both classes is totally completed.  
+====Thursday, December 4, 2014====
+
+====Tuesday, December 9, 2014====
+
+====Thursday, December 11, 2014====
+======UNIX/Linux Fundamentals Journal======
+{{http://i.imgur.com/MuA7lYK.jpg|Gentoo running on my netbook}}
+{{http://i.imgur.com/z0A4HZO.jpg|The Lair}}
+
+====Tuesday, August 26, 2014====
+
+First day of class for the Unix/Linux class, also consisted of reviewing the syllabus online and logging in initially, if you hadn't already done it in the C class.
+
+Same as C method above for logging into lab46 on both local LAIR machines and remotely/(via a laptop on wireless.)
+
+The addresses to the online course material, wiki, opus, etc is the same except for the end:
+Local: [[http://www/haas/fall2014/unix|http://www/haas/fall2014/unix]]  
+Remote: [[http://lab46.corning-cc.edu/haas/fall2014/unix|http://lab46.corning-cc.edu/haas/fall2014/unix]]
+
+Thankfully they share the Opus space, which is this document.
+
+====Thursday, August 28, 2014====
+
+Started this day with IRC session running from screen, a terminal multiplexer. This is a rehash of above so I'm going to skip this, although maybe the whole screen/tmux IRC segment would be more appropriate here than on C's Journal section.
+
+Started to learn (well others did) some basic commands:
+
+**ls** - for "list" to show the contents of a directory, current directory if no arguments, or can be fed a path to show contents of that directory.
+
+**who** - lists people currently logged into the system, lab46 in this case, by username, their psudoterminal, time they logged in, their time idle, process ID, and where they are logged in from.
+
+**man** - man with any command given as an argument "man ls" or "man who" or even "man man" to access the online manual for commands. The man command shows the various options and usage for each command.
+
+__**The Unix Philosphy**__
+
+1) Small is beautiful
+     -In early days of computing machines had kilobytes of memory and our hello world program in C was 9 kilobytes alone.
+  
+2) Do one thing and do that one thing well.
+     -who should only need to show the pertinent data for its purpose and not try todo other things
+     -*COUGH* Emacs! *COUGH* "It's a great operating system, all it lacks is a decent text editor" Emacs by default has games, a calendar, a calculator, email, etc. etc. etc. Eight Megabytes And Constantly Swapping, Easily Maintained with the Assistance of Chemical Solutions, Easily Mangles, Aborts, Crashes and Stupifies, etc.
+
+3)Everything is a file
+     -the keyboard is a file, the mouse is a file, the hard drive, etc
+     -run "cat /dev/psaux" and move your mouse.
+
+
+__**3 Types of Files In UNIX**__
+
+1) Regular/Ordinary files
+    -text, mp3, illegal torrent files
+
+2) Directory (links)
+    -a directory is a file that links to other files
+    -metadata
+
+3)Special Files
+      -keyboard, mouse, sockets, etc.
+
+
+__**Access Control**__
+
+3 tiers of ownership
+    -user
+    -group
+    -other(world)
+
+"ls -l" the -l are options, arguments given to the command
+
+each file given a set of permissions like "-rwx---r-x" 10 total bits, the first bit is occupied with a dash if its a regular file but could be d for a directory, l for a link, b,c,p,s for other special files
+the first three bits after the first one belong to the user who owns the file, the next three belong to the user's group, and the last three are "other" or everyone else.  these spaces can be occupied by r for read access, w for write access, or x for executable access, so each of the three bits for each group has its own rwx section, if any of these permissions are not there it is replaced with a dash.  Each of these permissions has a numerical value associated with it as well:\\
+4 for read\\
+2 for write\\
+1 for exec\\
+0 for - or none\\
+These can add up to any combination from 0 to 7 for each tier of ownership UGO, user, group, and other in that order.
+With the "chmod" we can issue a blanket command defining the permissions for a file for all 3 tiers with using only 3 numbers, for example:
+<cli>chmod 750 somefile.txt</cli>
+would set the user(owner) of the file's permissions to 7 (4 for read + 2 for write + 1 for exec) then 5 for user's group (4 for read + 1 for exec but NO write priveleges) then others, everyone else, or the world to 0 meaning no read, no write or no execute privileges.
+
+**End Week 1**
+
+====Tuesday, September 02, 2014====
+
+Class Notes Projects\\
+**author**  - provides content
+**designer** - provides stylistic tweaks and DocuWiki format
+**reviewer** - provides recommendations on content adn style
+
+A prompt ending in a '$' denotes a regular user.\\
+
+A prompt ending in a '#' denotes a superuser.\\
+
+A prompt like this <cli>lab46~$</cli> the tilde symbol (~) represents adn is a shortcut for a user's home directory, files can be copied to a path that starts in a user's home ~/some/path/here would translate to /home/username/some/path/here you also can cd to home with <cli>cd ~</cli> (also merely <cli>cd</cli> will take you home as well.)
+
+A prompt like <cli>lab46-src$</cli> would show that you are in the src directory.\\
+
+====Set up Lab 46 Mercurial Repository====
+<WRAP box round>
+
+
+1) <cli>cd src</cli>
+
+2) <cli>hg status</cli>
+
+3) <cli>cd ..</cli>
+
+4) <cli>mv src src.bak</cli>
+
+5) <cli>mkdir src</cli>
+
+6a)(cloning locally on lab46)\\
+<cli>hg clone http://www/hg/user/yourusername ~/src</cli>
+
+6b)(cloning remotely, from home or anywhere other than lab46)\\
+<cli>hg clone http://lab46.corning-cc.edu/hg/user/yourusername ~/src</cli>
+
+7) <cli>cd ~/src</cli>
+
+8) <cli>mv ~/src.bak/* ~/src/</cli>
+
+9) <cli>rmdir ~/src.bak</cli>
+
+10) <cli>nano ~/src/.hg/hgrc</cli>\\
+
+add the folowing into the file:\\
+<code>
+[paths]
+default = http://www/user/yourusername
+
+[web]
+push_ssl = False
+allow_push = *
+
+[ui]
+username = Firstname Lastname <yourusername@lab46.corning-cc.edu>
+
+[auth]
+lab46.prefix = http://www/hg/user/yourusername
+lab46.username = yourusername
+lab46.schemes = http 
+</code>
+
+save with Ctrl+X, then Y to say yes to save file, rename file if necessary or just Enter to confirm name of file (if using nano).
+
+11) <cli>nano .hgignore</cli>
+add the following to the file:\\
+<code>
+syntax: glob
+
+*.swp
+*.pyc
+*.o
+</code>
+
+save the file, same method as above.
+
+12) <cli>hg status</cli>
+
+13) <cli>hg add .hgignore</cli>
+
+14) <cli>hg status</cli>
+
+15) <cli>hg commit -m "created .hgignore file</cli>
+
+16) <cli>hg push</cli>
+Enter password and then all files, commits,etc should be uploaded.
+
+To pull updates:
+
+17) <cli>hg pull</cli>
+if there's nothign to pull, no updates, then it wil notify you after this command and the rest become irrelevant, but if there are changes to pull it will notify you and tell you to run the next command:\\
+
+18) <cli>hg update</cli>
+now any remote changes to your repository should be reflected on the machien you are working on.\\
+
+For help with hg run:\\
+19) <cli>hg help</cli>
+</WRAP>
+
+====Thursday, September 04, 2014====
+
+We learned who, and ls, and cd.
+
+**cd** - change directory.\\
+
+A directory is a file that points to other files.\\
+
+In the windows world all the filesystem is different for different devices and psuedodevices C:, D:, A: E:, etc.  In linux all is grafted into the same tree.  All starting with "/" the root directory.
+
+Inside the root directory ("/") there are other directories within that such as "etc", "bin", "home", "mnt".  Within the home directory there are usernames of users of the system, within each user's directory will be personal configuration files, personal files, and other data belonging to said user.  From directory like "mnt" we can graft in an mount other filesystems, like when a flash drive is inserted it may be mounted on /mnt/usb.  I personally force the issue, and manually mount and unmount everything so that I can dicattae where things go and I create sub folders to mount things on within /mnt with <cli>mkdir -p /mnt/usb</cli>
+or <cli>mkdir - /mnt/windows</cli> for the windows partition.  These are mounted by locating the device name, I run <cli># fdisk -l</cli> (the "#' is denoting superuser or root priovelges as doing this as root or with sudo if possible.) I may see that my flash drive is /dev/sdb1 (my hard drive is almost always /dev/sda# (number here being the partitons on the primary hard drive, it wil be a single number.) I moutn this to the mount point I created earlier with <cli># mount /dev/sdb1 /mnt/usb</cli> then I can access my flash drive at the path /mnt/usb **WARNING:** DO NOT keep data in these /mnt directories or any directory where you will mount something as the data will be lost when the device is mounted at that directory. Then to unmount it is <cli># umount /mnt/usb</cli> NOT __un__mount, __u__mount.\\
+
+**relative path** - path works off of current direcotry.\\
+**absolute path** - path fromt he top of the filesystem "/" root to location.\\
+
+"." - current directory.\\
+".." - one directory above current directory.\\
+
+<cli>cat file</cli>  cat displays contents of a file, came from "concatenate" to join together files or something.\\
+
+0 - STDIN - standard input - like keyboard usually.\\
+1 - STDOUT - standard output - monitor usually, today, in the past things liek telytype printer.\\
+2 - STDERR - standard error - usually monitor,\\
+
+<cli>echo "hello" > somefile</cli>  echo will display to stdout by default, the ">" redirection operator will redirect output to a file, in this case "somefile"\\
+
+">>" - redirects to stdout but appends, whereas above it will overwrite the whole file, here its tacked on the end of the file.\\
+
+"2>" - redirects the stderr to a file.\\
+
+"2>>" - redirects the stderr to a file but appends instead of overwiting said file like above.\\
+
+"<" - redirects stdin froma file.\\
+
+<cli>echo "some text here" >> file</cli>
+
+then
+
+<cli>tail -f file</cli>
+
+this will keep a contiuous montioring of the changes to the file.\\
+
+<cli>cat < file >> file2</cli>
+
+<cli>./myprog < input</cli>
+input from some file becomes stdin to go into myprog.\\
+
+"/dev/null" - a bitbucket,a black hole whwere things go to die and never return.\\\
+
+<cli>cd /home/wezlbot</cli>
+
+<cli>cat file 2> /dev/null</cli> the error message gets dumped into /dev/null which means its just gone.
+
+<cli>cat file 2> ~/err</cli>
+
+/bin has permisisons of 755 because it is "drwxr-xr-x" for owneruser its 4 for read + 2 for write plus 1 for exec, totaling 7, then for group its 4 for read, none for write, 1 for exec, totaling 5 for group, then for others/world 4 for read, none for write, 1 for exec, totaling 5.  Which when combined the bit permissions for this directory is 755.\\
+
+<cli>cd /bin</cli> and "ls" and we see green files for executales, loighter green for links, red on white for setUID or setGID
+
+<cli>ls -l ping</cli>
+
+"-rwsr-xr-x" the s in place of the x in owner permissions as lowercase s means it DOES have exec permissions, if it were a capital S in place of the x in owner permissions means it DOESN'T have exec permisisons.  When you run ping you get the permisisons of the user who owns the file, in this case root.  To run ping you are root.  This is a security issue.  You only want to setUID for things that are solid as if there were any holes in the program with setUID,t hey could get a root shell and have full access to a system.\\
+
+<cli>cd ..</cli>
+<cli>cd sbin</cli>
+<cli>./ifconfig</cli>
+<cli>cd /dev</cli>
+<cli>ls -l</cli>
+
+some new leading bit on permissions seen here on some special files:\\
+
+crw - character device\\
+
+brw - block device\\
+
+prw - pipe - a connection betwen to files,\\
+
+srw - socket - communication, more spotty than pipe\\
+
+<cli>tty</cli>
+this shows your current pseudoterminal.\\
+so then running:\\
+<cli>who</cli>
+you cna see your name and the pseudoterminal youa re connected on\\
+the column next to username shows "+" or "-" meaning whether that user is accepting 
+messages on the system.\\
+<cli>mesg</cli> will show your current status:\\
+<cli>mesg n</cli> will turn off messages for you for that session.\\
+<cli>mesg y</cli> will turn back on messages for you for that session.\\
+
+==Lab2==
+ASCII tree:
+
+    ASCII tree of filesystem for lab2
+
+                               /
+                               |
+    ------------------------------------------------------------------------------ ...
+    |                  |                 |                        |
+    bin                etc               home                     usr
+                                         |
+                                         mp010784
+                                         |
+    ------------------------------------------------------------------------------ ...
+    |                  |                 |                        |      
+    src                public_html       lab2                     Maildir
+    |
+    |
+    ------------------------------------------------------------------------------ ...
+    |                  |                 |                        |
+    Makefile           cprog             submit                   unix
+
+
+====Tuesday, September 9, 2014====
+
+There's now a status script for lab46.  Running it while connected to lab46 with the argument of the class you are in will display stats tracked for you for that class.  For example:
+
+<cli>status unix</cli>
+
+or\\
+
+<cli>status cprog</cli>
+
+output of the command looks like:
+
+<code>
+mp010784@lab46 ~ $ status unix
+ATTENDANCE
+          [UNIX] 238 240 245 247 
+      [mp010784] 238 240 245 247 
+ 
+OPUS
+    1:opus:week1entry
+    1:opus:week2entry
+ 
+PROJECTS
+    1:titlecustomize:customized Opus title section
+ 
+mp010784@lab46 ~ $
+</code>
+
+Currently something in the projects is off, but the attendence and opus appear to be correct.  It lists numbers based on number of the day of that year.  So 08/26/2014 is the 238th day fo the year, it shows 2 rows, one with unix and a number for each day of class, and below it in this case my username and a number for each class attended below the class number column.  If I had missed a class the space would be filled with an 'X' instead of the day number.  
+
+**cal** - shows calendar for current month, with current day highlighted.\\
+
+**cal 2014** - shows current full year calendar.\\
+
+This shows calendar for April 2014:\\
+<cli>cal 04 2014</cli> 
+
+You can look up your birth year, and see day of the week you were born on, or look up to see what day of the week your 5th birthday was on.  Or when the last leap year day was with **cal 02 2012**\\
+
+<cli>cal 09 1752</cli>
+This one is interesting because it shows the exact time Great Britain and thus the American colonies switched from the Julian calendar system to the Gregorian calendar system, so it appears like 11 days have just disappeared this month of September 1752, but it's really just adjusting the calendar to the new system.\\
+
+<cli>cal -j</cli>
+This displays julian days of the calendar, and this numbers each day, like the attendence on the status script shows.\\
+
+<cli>ncal</cli>
+shows Easter for that year, or can be given a specific year.\\
+
+**date** - shows current system date and time.\\
+
+Can give a specific date:\\
+<cli>date -d 20140803</cli>
+
+<cli> date +"%j"</cli>
+shows the numbered day or julian day of todays date.\\
+
+<cli>date +"%m/%d/%Y"</cli>
+displays the date in a specific format, in this case MM/DD/YYYY\\
+
+<cli>date -d "20070526 16:42:29" + "%s"</cli>
+displays seconds since "The Beginnign of Time" from given date, in this case the output is 1180212149.
+
+==The Beginning of Time== 
+The beginning of time is Jan 1, 1970, or epoch time.  The beginning of time in the UNIX universe.  There is a Y2K bug for UNIX systems that currently the OpenBSD team is working on a fix for.\\
+
+**pom** - or //phase of the moon// shows the current phase of the moon.\\ 
+
+When run currently pom shows:
+<code>
+mp010784@lab46 ~ $ pom
+The Moon is Waning Gibbous (98% of Full)
+</code>
+
+**...returning to the Unix Filesystem**
+
+we left off in:
+**/dev** - special files.\\
+
+<WRAP info>**Diversion into chatting with other users.** You can type "tty" to see your currently used pseudoterminal on the system.  With "who" you can see others pseudoterminals and whether or not they are accepting incoming messages, noted with a "+" for yes and "-" for no.  You can also see your own status with "mesg" or turn incoming messages off with "mesg n" or back on with "mesg y" for that session.  Using commands like "write username" or "write username@psudoterminal" will allow you to message another user on the system, or the talk command with "talk username" to communicate with other users logged into the system. </WRAP>
+
+**/etc** - system configuration files.\\
+
+ /etc/passwd - users and groups, system users, and daemons.\\
+
+ /etc/shadow - where the password hashes are usually stored.\\
+
+ cat /etc/motd - shows motd "message of the day."\\
+
+**/home** - each users hoem folders are stored in here.\\
+
+**/lib** - contains programming libraries, so that you don;t have to reinvent the wheel when programming
+which creates dependencies.\\
+           
+You can see the dependencies of "ls" with: <cli>ldd /bin/ls</cli>\\
+
+**/lost+found** - contains virtual filesystem for files lost in system crashes.\\
+
+**/media and /mnt** - mount locations for other filesystems or attached devices.\\
+
+**/opt** - optional software.\\
+
+**/proc** - processes - backported from Research Linux (plan 9)
+
+<cli>cat /proc/cpuinfo</cli> \\
+<cli>cat /proc/meminfo</cli> \\
+view cpu and memory info, respectively.\\
+
+**/root** - superuser's home directory.\\
+
+**/run** - virtual filesystem.\\
+
+**/sbin** - system binaries.\\
+
+**/tmp** - temporary directory.  permisisons shown as "drwxrwxrwt" t is a sticky bit showing that a user cannot delete this folder as other users may need to use it as well.\\
+
+**/var** - 2nd coming of /etc, stands for "variety" containing databases and other stuff.\\
+
+<cli>tail -f filename</cli>
+shows in real time the data entered into a file, like watching a log file in real time.\\
+
+**/usr** - short for user, supplementary applications, anything beyond the minimum needed to boot the system. The include files and compiler for programmign are located here.\\
+
+/usr/bin - 2nd tier of binary programs.\\
+
+/usr/include - include files, including stdio.h liek used currently in C class.\\
+
+/usr/lib - libraries for other applications, not necessary for the system.\\
+
+/usr/local/bin - 3rd tier of programs,\\
+/usr/local/lib - libraries to locally set up applications.\\
+/usr/local/include - includes for local machines.\\
+
+/usr/sbin - secondary tools for administrators, like cron.\\
+
+/usr/share - documentation icluding the man pages.\\
+
+/usr/src - a place for source code specific to local systems.\\
+
+/usr/games - many terminal based games, many are old and have retro or cultural references and appeal.\\
+
+====Tuesday, September 11, 2014====
+
+We spent the beginning of this class discussing the myarchive.tar.gz project or the archive project.  Which inicdentally I already did last week, cause it's easy for me.  But the project entails students navigating their way to the public directory for the class, which if logged into lab46, is located at\\ <cli>/var/public/UNIX</cli> \\
+within that directory is a "projects" directory, then a "archive_handling" directory.  Within this directory are 2 archives that we have to decompress and extract, which each contain 4 files, 3 of which are picture formats, jpeg, png, etc.  and one is .text or  .txt, regardless ALL, besides the empty and corrupt files, are ASCII art of various animals which from what I gathered we were suppose to arrange in order of size lightest or smallest to largest or heaviest, adn anem them as such: small, smallest, big, biggest, these new 4 renamed appropriately, will be tarred together and gzipped to the 2nd best on the best to fastest spectrum of compresson.  This new file becomes myarchive.tar.gz which is what I submitted.
+
+**Vi - Because Emacs is a great operating system that only lacks a decent text editor**
+
+We started learning about the vi text editor today.  Originally fromt he days when output was spit out onto printers instead of screens and monitors, there was an editor in unix called ed, which could only edit things a line at a time.  Bill Joy conceived what at the time was a revolutionary concept of seeing the whole file or multiple lines at once and navigating the file to edit.  This visual editing editor that he wrote was called "vi" We are actually using a modernized version of vi called vim for vi impromeved. Vi has two main modes of operation:\\
+  *Command mode (vi/vim starts in this mode)\\
+  *Insert mode (This is is the standard concept peopel have of editing text in a file.)\\
+
+On vim when you are in insert mode it shows "--INSERT--" in the bottom left corner.\\ 
+
+"i" to enter into insert mode.\\
+"Esc" to return to command mode.\\  
+
+**Navigation**\\
+h,j,k,l  are left,down,up,right respectively by 1 character or line at a time, from a time before keyboards had arrow keys.\\
+You can combine these with a number to move that number of spaces, 8l moves rigth 8 spaces, 6j moves down 6 lines.\\
+
+"w" - moves ahead one word at a time. This seperates by different characters.\\ "W" - moves ahead a word at a time, but considers any group of characters not seperated by a space as a word.\\
+"b" - moves backwards a word at a time. This is seperated by different characters.\\ "B" - moves backwards a word at a time, but considers any group of characters not seperated by a space as a word.\\
+"e" - moves ahead to the end of a word, seperated by different characters.\\  "E" - moves ahead to the end of a word considering words as only what is seperated by spaces.\\
+
+"^" -moves to the beginning of a line.\\
+"$" - moves to the end of the line.\\
+"G" - goto a line, "3G" goes to the 3rd line.\\
+"$G" - goto the last line.\\
+"1G" - goto the 1st line.\\
+
+**Manipulation**\\
+
+"x" - deletes a character, combines with numbers like "4x" deletes 4 characters.\\
+"X" - a backspace.\\
+
+"dw" - deletes a word.\\
+"db" - deletes the previous word.\\
+"dW" - deletes a word specified as any group of characters seperated by a space.\\
+"dB" - deletes a previous word specified as any group of characters seperated by a space.\\
+"d^" - deletes from cursor position to beginning of line.\\
+"d$" - deletes from cursor position to end of line.\\
+"dd" - deletes the entire current line.\\
+
+"p" - pastes at current position if a word, if a line pastes below current line.\\
+"P" - pastes before current position if a word, if a line pastes above current line.\\
+can be combined like "2p" to paste 2 copies of whatever was in the buffer to below the current line.\\
+
+"s" -replace under cursor, but stay in insert mode.\\
+"r" - replace a single character in command mode, and stays in command mode.\\
+
+"cw", "CW" - changes word from current cursor position, word defined as broken by special characters with lowercase or by spaces with uppercase.\\
+"cb", "CB" - - changes word behind current position, word defined as broken by special characters with lowercase or by spaces with uppercase.\\
+"c^" - change to the beginning of line to current position.\\
+"c$" - change to the end of the current line from current position.\\
+
+**Ways to get into Insert Mode**
+"i" - takes you into insert mode at the current cursor position.\\
+"a" - takes you into insert mode after (a for append) from current cursor position.\\
+"I" - insert at the beginning of the current line.\\
+"A" - append to the end of the current line.\\
+"o" - insert a line below the current line, leaving you in insert mode.\\
+"O" - insert a line above the current line, leaving you in insert mode.\\
+
+"yw" - yank (copy) current word.\\
+(this goes into a buffer, like a clipboard in Windows. Can have multiple buffers, all named having different contents.)
+"yb" - yank word behind current word.\\
+"yW", "yB" - same as above with the usual word definition differences.\\ 
+"yy" - yanks the entire current line.\\
+"y^" - yanks from beginning of current line to current position.\\
+"y$" - yanks from current position to the end of the current line.\\
+"u", "U" - limited undo capability, on original vi could only undo if you hadn't left the edited line.\\
+
+**Searching**\\
+
+"/" - search enter the forward slash and then a string of characters to perform a searhc for that string in the current file.\\
+"n" - moves ahead one word to matched string, can be repeated to next matched string.\\
+"N" - moves backwards to matched string, can be repeated to move back to previous matched strings.\\
+"4n" - forward 4 instances of a matched string.\\
+"4N" - backward 4 instances of a matched string.\\
+
+**Starting vi/vim**\\
+<cli>vi</cli> or <cli>vim</cli>\\
+or with a filename given:\\
+<cli>vi filename</cli>\\
+<cli>vim filename</cli>\\
+
+**Saving and exiting vi/vim**\\
+If no filename given when vi/vim invoked can save to a specific filename with(while in command mode):\\
+<cli>:w filename</cli>\\
+if a filename was given it coudl be saved with:\\
+<cli>:w</cli>\\
+to quit you can enter:\\
+<cli>:q</cli>\\
+these can be combined with:\\
+<cli>:wq</cli> 
+to save AND quit in one command.\\
+to quit without saving:
+<cli>:q!</cli>
+
+You can also run commands from within vim with:\\
+<cli>:! command here</cli>
+for example you could list the current contenst fo the current directory in long form from within vim with:
+<cli>:! ls -l</cli>
+This will show the output of the command and wait for you to press ENTER to return to normal vim.
+Another example is while writing code, like odometer.c and you want to compile it youc an save the code with:\\
+<cli>:w odometer.c</cli>
+from within vim, then to compile the code run:
+<cli>:! gcc odometer.c -o odometer</cli>
+then you can hit ENTER to return to normal commadnmode in vim, and then even run the program from within vim (assumign it compiled correctly.):\\
+<cli>:! ./odometer</cli>
+and then see its output and/or ingteract with it until the program finishes executing and hit ENTER to return to normal command mode in vim.\\
+  
+An Interesting game to get you familiar with some basics of Vim in game form:
+[[http://vim-adventures.com/|VIM-Adventres Game]]
+{{http://i.imgur.com/glLGAYv.png|VIM Adventures Game}}
+
+====Tuesday, September 16, 2014====
+
+New Project - **puzzlebox** due 09/24/2014\\
+-test observation skills\\
+-if you come intot his project with preconceived notions then you might have a more difficult time.\\
+
+**utilities** -
+__dircolors__ - colorizes specific files\\
+__file__ - attempts to determine the actual type of a file by checking a series of properties\\
+1) filesystem test\\
+2) magic number test\\
+3) language test\\
+
+Practice puzzlebox by copying file from:\\
+/var/public/UNIX/projects/puzzlebox to your home directory.\\
+
+
+**Vi/Vim continued**
+
+<cli>cp /etc/motd ~</cli>
+
+/etc/motd - is an absolute path\\
+
+~ - is a shortcut for an absolute path to your home directory\\
+
+//"Vi is an elegant weapon, not as clumsy as a blaster." --Matt Hass//\\ 
+
+from vi/vim from command mode:\\
+
+<cli>:.co$</cli>\\
+the "." refers to current location, in this case the line currently on and "co" is short for copy and "$" refers to the end of the file.  So this command copies the current line to the end of the file.\\
+
+<cli>:2,4co9</cli>\\
+the 2,4 means lines 2 through 4, inclusive, including both lines 2 and 4, are copied to the 9th line, thus pushing the old line 9 to line 12 adn line 2 is the new line 9, line 3 is the new line 10, and line 4 is the new line 11 copied to this location.\\
+
+<cli>3m7</cli>\\
+moves line 3 to line 7\\
+
+<cli>:.,+4m16</cli>\\
+moves current line and the 4 following lines to line 16\\
+
+<cli>:r filename</cli>\\
+reads filename, reads in the file\\
+
+<cli>:w filename</cli>\\
+saves a file as filename\\
+
+<cli>:q</cli>\\
+quits\\
+
+<cli>:q!</cli>\\
+quits without saving\\
+
+<cli>:x</cli>\\
+saves and exits thus doing the same as:\\
+<cli>:wq</cli>\\
+
+<cli>:3,9s/lab46/LAB46/</cli>\\
+the lowercase "lab46" is the search pattern, the "LAB46" is the text to be replaced, but only on the first occurance of the search pattern found, within the 3rd through 9th lines.\\
+
+<cli>:3,9s/lab46/LAB46/g</cli>\\
+same as above but the "g" stands for global which changes each instance in the file of the seach pattern found to the replace pattern.\\
+
+<cli>:%s/#/;/g</cli>\\
+this searches for the "#" pattern in the file and replaces every instance with a ";"\\
+
+search patterns are a **Regular Expression** that will change your life:\\
+
+<cli>:%s/[a-z]$/Z/g</cli>\\
+this searches for any a to z character that ends a line and replaces that character with a cpaital z "Z" across the whole file.\\
+
+<cli>:%s/./DEADBABY/g</cli>\\
+the dot in this case is looking for any character in the file, so this changes every character int he file to "DEADBABY" which was explained to us was a strange internet thing going around a few years ago.\\
+
+**vi/vim configuring**\\
+within vi/vim you can enter:\\
+
+<cli>:set number</cli>\\
+and it will turn on numbering of lines, or:\\
+<cli>:set nonumber</cli>\\
+to turn them off\\
+
+<cli>:set tabstop=4</cli>\\
+to change the default 8 spaces fro a tab to a more reasonable for coding 4 spaces for tabs.\\
+
+<cli>:set shiftwidth=4</cli>\\
+control how many columns text is indented with the reindent operations (<< and >>)\\
+
+Vi specific:\\
+file for config: ~/.exrc\\
+put in:\\
+<file> 
+set tabstop=4
+set shiftwidth=4
+</file>
+
+Vim specific:\\
+file for config: ~/.vimrc\\
+put in:\\
+<file>
+set tabstop=4
+set shiftwidth=4
+set number
+syntax on
+set cursorline
+set smartindent
+</file>
+
+And experiment with other options.\\
+
+====Thursday, September 18, 2014====
+
+**New feature to submit script**\\
+
+run from command line while logged into lab46:\\
+<cli>submit cprog</cli>\\
+or:\\
+<cli>submit unix</cli>
+to see what projects you have, when you submitted them or when they are due.\\
+example outputs:\\
+<cli>
+mp010784@lab46 ~ $ submit cprog
+cprog projects:
+    helloworld, submitted on 20140901-220108
+    intro, submitted on 20140831-132227
+    squares, due on 20140924 (in 6 days)
+mp010784@lab46 ~ $
+</cli>\\
+or:\\
+<cli>
+mp010784@lab46 ~ $ submit unix
+unix projects:
+    puzzlebox, submitted on 20140918-133831
+    resume, submitted on 20140901-220455
+    intro, submitted on 20140831-132213
+    archives, submitted on 20140906-171904
+mp010784@lab46 ~ $
+</cli>\\
+
+Today showed the unix class the mental math tricks that were shown to the cprog class the other day:
+
+**2 digit numbers that end in 5 squared**
+
+35<sup>2</sup> = if you didn;t know the trick you wouldn't be able to do this real quick without a calculator.
+
+35<sup>2</sup> = take 1's place (always 5 for this trick) sqaure it to make 25 which are the last 2 digits of the answer.  Then take the tens place, in this case 2 and multiply it by its increment (the next number up) which int his case is 4, so 3 times 4 is 12, to make final answer of 35 squared 1225.
+
+35<sup>2</sup> = 1225\\
+
+65<sup>2</sup> = 4225\\
+
+85<sup>2</sup> = 7225\\
+
+**multiplying 2 digit numbers by 11 shortcut**\\
+
+32\\
+11\\
+----\\
+
+The 3 comes down and to the left for leftmost digit and the 2 comes down and right for the rightmost digit, then the 2 digits up top are added together for the middle digit. int his case the answer is 352.\\
+
+43\\
+11\\
+----\\
+473\\
+
+56\\
+11\\
+----\\
+616\\
+
+In the last example the addition of the two numbers for center digit was 11, makign the digit 1 and carrying the 1 to the leftmost digit.\\
+
+**Subtracting from a large number with all zeros**
+
+100000\\
+-72386\\
+------------\\
+27614\\
+
+the answer and subtracted number's digits total 9 in each place except for the last place (the ones place) in which they total 10.\\
+
+**Text Processing**\\
+-**vi** - text editors\\
+-**cat** - shows ASCII characters, but if it's a binary file, opposite of ASCII is a binary file, it will take the 8 bits at a time from within the binary file and convert them into their associated characters and display that.\\
+
+**ASCII**\\
+-8 bit\\
+2<sup>8</sup> = 256\\
+[[http://www.asciitable.com/|ASCII table]]
+-ASCII uses the lower 7 bits, 0-127 are characters on the keyboard.\\
+--first 33 are "whitespace characters", these include:\\
+"\t" - tabs\\
+"\n" - new lines\\
+" " - spaces\\
+In unix systems a '\n' or 10 in ASCII is the newline at the end of a line.
+In windows/dos systems a '\r\n' 13 adn 10 in ASCII respectively are there for carriage return and newline.\\
+
+Some of these characters are from old typewriter technology and similar teletype liek machines where 2 actions had to be performed to move to a new line, the carriage has to returnt o default position to the left and the line had to be moved to the next line (line feed).\\
+
+**Modems** - old modem technology, before broadband, with AT V1 connections, with the handshake sounds.  They use to have hardware flow control where the hardware would say "Wait, I'm still processing" before sending more information, but also software flow control, where terminals coudl have transmit turned on or off.  This can be inadvertandly done sometimes on a terminal in unix systems even today.\\
+-Ctrl+s will turn transmit off, and the terminal will seem liek its frozen and unresponsive.\\
+-Ctrl+q will turn transmit back on and bring the terminal back to its normal working state.\\ 
+
+**back to cat command**\\
+<cli>cat /etc/motd</cli>\\
+shows the contents of the message of the day file(motd)\\
+<cli>cat -n /etc/motd</cli>\\
+this also shows the contents of the file, but numbers the lines.\\
+<cli>cat -e /etc/motd</cli>\\
+shows "$" at the end of each line.\\
+
+**od** -octal dump\\
+<cli>od /etc/motd</cli>\\
+shows the octal values for the characters in the file.\\
+<cli>od -x /etc/motd</cli>\\
+shows the hexidecimal values for the characters in the file.\\
+
+45="E"  43="C"  3a=":"  53="S" from "CES:" "RESOURCES:" in /etc/motd\\
+shows 2 at a time, backwards, because its using Little Endian, where significant bits are put last.
+Big Endian woudl be the reverse the significant bits were put first. Little endian is used by Intel processors.\\
+Network Byte Order is Big Endian.\\
+Endianness comes from Gullivers Travels.\\
+
+**grep** - globally search for regular expressions and print\\
+<cli>grep 'the' /etc/motd</cli>\\
+this will find ALL instances of the substring 'the' in the file including 'the','them','they','there','heathen', 'weather'\\
+a way to force it to search for a specific word is:\\
+<cli>grep '\<the\>' /etc/motd</cli>\\
+finds the actual word 'the'\\
+<cli>grep -i '\<the\>' /etc/motd</cli>\\
+searches for the word the but the -i ignores case, making it case insensitive and would return a "THE" if one exists in the file.\\
+<cli>grep -o '\<the\>' /etc/motd</cli>\\
+only displays the actual matched pattern and not the whole line from each matched pattern.\\
+and -n to show line numbers.\\
+
+**Pipes**
+You can take the output from one command and "pipe" it to the input of another command, for as many commands as you need, to further refine searches.
+<cli>od -x /etc/motd | grep '0a'</cli>
+would show the hexidecimal values from the octal dump command of the /etc/motd file. and pipe those results to grep which is searching for '0a' pattern which is the "\n" newline character and will show only the newlines in hexidecimal from the od command.\\
+additionally:\\
+<cli>od -x /etc/motd | grep '0a' | wc -l</cli>
+which will just return the total number of lines where newline occurs in the file.\\
+
+====Tuesday, September 23, 2014====
+
+**Pipes - Revisted**\\
+
+<cli>cat /etc/motd | grep 'the' | wc -l</cli>\\
+
+we talked about paging programs, like less, more, and pg\\
+
+//less is more
+//\\
+
+If output from a command exceeds what can be seen at once on a terminal the output can be piped to one of these paging programs as such:\\
+<cli>somecommand | less</cli>
+
+cat derives from the word concatenate which means to combine.\\
+
+More on **Text Processing**\\
+
+<cli>who > who.dat</cli>\\
+we redirected the output from the who command to a file called who.dat\\
+then we use **head** and **tail** to split up who.dat into 3 new files, the first containing lines 1 through 19 called section1, lines 20 through 38 called section 2, and then 39 through 57 to section3 with thes commands:\\
+
+<cli>cat -n who.dat | head -n 19 > section1</cli>\\
+
+<cli>cat -n who.dat | tail -n 19 > section3</cli>\\
+
+and then a form of combining them to get the middle section:\\
+<cli>cat -n who.dat | head -n 38 | tail -n 19 > section2</cli>\\
+
+then we can combine the 3 files with cat:\\
+<cli>cat section2 section1 section3</cli>\\
+
+or redirect that to a new file:\\
+<cli>cat section2 section1 section3 > who.all</cli>\\
+
+then we can sort the output with:\\
+<cli>cat section2 section1 section3 | sort</cli>\\
+
+we then talked about the **getent** command, that gets entries from a file:\\
+<cli>getent passwd | grep "$USER"</cli>\\
+which shows your user entry in several seperated fields, the first fielfd is your username, second is where password hashes use to be kept, now it only shows an x referencing the shadow file that really contains the password hashes, the 3rd field is your own user's group, 4th field is the lab46 group, 5th field is your full name or  [[http://en.wikipedia.org/wiki/Gecos_field|GECOS field]], 6th field is your home directory, and the 7th field is the users shell path.\\
+
+We talked about passwords towards teh end of class and groups along with plaing with **bc** for a terminal calculator which youc an change the incoming and outgoing base of numbers.\\
+
+====Thursday, September 25, 2014====
+
+Forkbomb brought lab46 to its knees last night ~10:00 PM.\\  
+
+**ps** - process status\\
+
+if we type:\\
+<cli>bash</cli>\\
+in a bash shell we get a shell within a shell.\\
+
+forkbomb is a kind of Denial of Service(DoS) attack.\\
+
+**Dinosaurs in Hats Easter Egg on Vogue UK website**\\
+
+Enter konami code on [[http://www.vogue.co.uk/|http://www.vogue.co.uk/]]\\
+
+**UP, UP, DOWN, DOWN. LEFT, RIGHT, LEFT, RIGHT, B, A (keep tapping A)**\\
+
+**Text Processing**\\
+
+pipe to cut with ':' as a delimiter, and -f for fields 1 and 7\\
+<cli>getent passwd | cut -d ':' -f 1,7</cli>\\
+then\\
+<cli>getent passwd | cut -d ':' -f 1,7 | head -n 35</cli>\\
+
+<cli>getent passwd | cut -d ':' -f 1,7 | grep 'th' | tail -n 16 | wc -l</cli>\\
+
+**Quotes**\\
+<nowiki>'</nowiki> - single quote, full quotes or literal quote\\
+<nowiki>"</nowiki> - double quotes, allows for expansion\\
+<nowiki>`</nowiki> - backquote, backtick, command expansion\\
+
+now we start talkign about system variables:\\
+<cli>echo $USER</cli>\\
+which prints out the current user's username, for me this displayed:\\
+<code>mp010784</code>\\
+the beautifully garbage username that CCC assigned me.\\
+
+from last project puzzlebox we used:\\
+<cli>${USER}@offbyone.lan</cli>\\
+without the curly braces the shell cannot determine where the end of the variable name is in a situation like this so without it, it would think <code>@offbyone.lan</code> was part of the variable naem, which it is not.\\
+
+<cli>echo "$USER"</cli>\\
+does the same as above surrounded with double quotes.\\
+whereas:\\
+<cli>echo '$USER'</cli>\\
+
+to illustrate the backtick usage:\\
+<cli>echo "${USER}, you are logged in `who | grep "$USER" | wc -l` times"</cli>\\
+shows:\\
+<code>
+mp010784@lab46 cscs1320f14 $ echo "${USER}, you are logged in `who | grep "$USER" | wc -l` times"
+mp010784, you are logged in 2 times
+mp010784@lab46 cscs1320f14 $ 
+</code>\\
+
+then we can also set our own shell variables as such:\\
+<cli>uol=$(/usr/bin/who | wc -l)</cli>
+which if successful won't show anything, but stores as the variable uol the return of the command within the parentheses.\\
+we can see with:\\
+<cli>echo $uol</cli>
+outputting:\\
+<code>
+mp010784@lab46 cscs1320f14 $ uol=$(/usr/bin/who | wc -l)
+mp010784@lab46 cscs1320f14 $ echo $uol
+10
+mp010784@lab46 cscs1320f14 $ 
+</code>\\
+showing 10 users online at this very moment, at time of writing,\\
+
+another is:\\
+<cli>t=`echo "There are $uol users on the system"`</cli>\\
+which shows:\\
+<code>
+mp010784@lab46 cscs1320f14 $ t=`echo "There are $uol users on the system"`
+mp010784@lab46 cscs1320f14 $ echo $t
+There are 10 users on the system
+mp010784@lab46 cscs1320f14 $
+</code>\\
+
+and lastly ';' seperates commands on one line:\\
+<cli>clear; echo -n "Processing..."; sleep 30; echo "Done"</cli>\\
+and you will see the terminal screen clear, then the words "Processing..." for 30 seconds, followed by "Done" and then your prompt returns to you.\\
+
+====Tuesday, September 30, 2014====
+
+puzzlebox2 project wrapping up.\\
+the phrase in that project comes from a alternate reading of an audiobook of the first Harry Potter movie, called Wizard People, Dear Reader.\\
+
+**New Project - Data Processing**\\
+
+dataproc - /var/public/UNIX/projects/dataproc/info,c copy to your home directory.\\
+
+will use a lot of the commands we have learned already such as:\\
+-wc\\
+-head\\
+-tail\\
+-grep\\
+-cut\\
+-sort\\
+-cut\\
+
+and two new ones:\\
+-uniq - check man page for, which says:\\
+<code>
+
+NAME
+       uniq - report or omit repeated lines
+
+SYNOPSIS
+       uniq [OPTION]... [INPUT [OUTPUT]]
+
+DESCRIPTION
+       Filter  adjacent  matching  lines from INPUT (or standard input), writing to OUTPUT (or standard
+       output).
+
+       With no options, matching lines are merged to the first occurrence.
+
+       Mandatory arguments to long options are mandatory for short options too.
+
+       -c, --count
+              prefix lines by the number of occurrences
+
+       -d, --repeated
+              only print duplicate lines
+
+       -D, --all-repeated[=delimit-method]
+              print all duplicate lines delimit-method={none(default),prepend,separate}  Delimiting  is
+              done with blank lines
+
+       -f, --skip-fields=N
+              avoid comparing the first N fields
+
+       -i, --ignore-case
+              ignore differences in case when comparing
+
+       -s, --skip-chars=N
+              avoid comparing the first N characters
+
+       -u, --unique
+              only print unique lines
+
+       -z, --zero-terminated
+              end lines with 0 byte, not newline
+
+       -w, --check-chars=N
+              compare no more than N characters in lines
+
+       --help display this help and exit
+
+       --version
+              output version information and exit
+
+       A  field is a run of blanks (usually spaces and/or TABs), then non-blank characters.  Fields are
+       skipped before chars.
+
+       Note: 'uniq' does not detect repeated lines unless they are adjacent.  You may want to sort  the
+       input  first,  or  use 'sort -u' without 'uniq'.  Also, comparisons honor the rules specified by
+       'LC_COLLATE'.
+
+</code>
+
+and also:\\
+-tr - which stands for translate, used like:\\
+
+<cli>printf "\tHello\tthere\n | tr '\t' '\n'</cli>\\
+
+or:\\
+<cli>printf "\tHello\tthere\n | tr '\t' '\v'</cli>\\
+
+or:\\
+<cli>printf "\tHello\tthere\n | tr '\t' ' '</cli>\\
+
+**special characters:**\\
+<nowiki>\</nowiki>- escape character\\
+<nowiki>\n</nowiki>- newline character\\
+<nowiki>\t</nowiki>- tab character\\
+
+By the way this printf statement above is the UNIX printf command so if you:\\
+<cli>man printf</cli>\\
+you get the man page for the UNIX printf command.\\
+
+for the programming library printf man page you have to run:\\
+<cli>man 3 prntf</cli>\\
+
+to see more extensive breakdown of how man works:\\
+<cli>man man</cli>\\
+of note here is the different types of man pages:\\
+<code>
+The table below shows the section numbers of the manual followed by the types of pages they contain.
+
+
+       1   Executable programs or shell commands
+       2   System calls (functions provided by the kernel)
+       3   Library calls (functions within program libraries)
+       4   Special files (usually found in /dev)
+       5   File formats and conventions eg /etc/passwd
+       6   Games
+       7   Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)
+       8   System administration commands (usually only for root)
+       9   Kernel routines [Non standard]
+
+</code>\\
+
+We can also run:\\
+<cli>man 7 ascii</cli>\\
+to print out an ascii table in the terminal:\\
+<code>
+ASCII(7)                                                                                   Linux Programmer's Manual                                                                                  ASCII(7)
+
+
+
+NAME
+       ascii - ASCII character set encoded in octal, decimal, and hexadecimal
+
+DESCRIPTION
+       ASCII  is  the American Standard Code for Information Interchange.  It is a 7-bit code.  Many 8-bit codes (such as ISO 8859-1, the Linux default character set) contain ASCII as their lower half.  The
+       international counterpart of ASCII is known as ISO 646.
+
+       The following table contains the 128 ASCII characters.
+
+       C program '\X' escapes are noted.
+
+       Oct   Dec   Hex   Char                        Oct   Dec   Hex   Char
+       ────────────────────────────────────────────────────────────────────────
+       000   0     00    NUL '\0'                    100   64    40    @
+       001   1     01    SOH (start of heading)      101   65    41    A
+       002   2     02    STX (start of text)         102   66    42    B
+       003   3     03    ETX (end of text)           103   67    43    C
+       004   4     04    EOT (end of transmission)   104   68    44    D
+       005   5     05    ENQ (enquiry)               105   69    45    E
+       006   6     06    ACK (acknowledge)           106   70    46    F
+       007   7     07    BEL '\a' (bell)             107   71    47    G
+       010   8     08    BS  '\b' (backspace)        110   72    48    H
+       011   9     09    HT  '\t' (horizontal tab)   111   73    49    I
+       012   10    0A    LF  '\n' (new line)         112   74    4A    J
+       013   11    0B    VT  '\v' (vertical tab)     113   75    4B    K
+       014   12    0C    FF  '\f' (form feed)        114   76    4C    L
+       015   13    0D    CR  '\r' (carriage ret)     115   77    4D    M
+       016   14    0E    SO  (shift out)             116   78    4E    N
+       017   15    0F    SI  (shift in)              117   79    4F    O
+       020   16    10    DLE (data link escape)      120   80    50    P
+       021   17    11    DC1 (device control 1)      121   81    51    Q
+       022   18    12    DC2 (device control 2)      122   82    52    R
+       023   19    13    DC3 (device control 3)      123   83    53    S
+       024   20    14    DC4 (device control 4)      124   84    54    T
+       025   21    15    NAK (negative ack.)         125   85    55    U
+       026   22    16    SYN (synchronous idle)      126   86    56    V
+       027   23    17    ETB (end of trans. blk)     127   87    57    W
+       030   24    18    CAN (cancel)                130   88    58    X
+       031   25    19    EM  (end of medium)         131   89    59    Y
+       032   26    1A    SUB (substitute)            132   90    5A    Z
+       033   27    1B    ESC (escape)                133   91    5B    [
+       034   28    1C    FS  (file separator)        134   92    5C    \  '\\'
+       035   29    1D    GS  (group separator)       135   93    5D    ]
+       036   30    1E    RS  (record separator)      136   94    5E    ^
+       037   31    1F    US  (unit separator)        137   95    5F    _
+       040   32    20    SPACE                       140   96    60    `
+       041   33    21    !                           141   97    61    a
+       042   34    22    "                           142   98    62    b
+       043   35    23    #                           143   99    63    c
+       044   36    24    $                           144   100   64    d
+       045   37    25    %                           145   101   65    e
+       046   38    26    &                           146   102   66    f
+       047   39    27    ´                           147   103   67    g
+       050   40    28    (                           150   104   68    h
+       051   41    29    )                           151   105   69    i
+       052   42    2A    *                           152   106   6A    j
+       053   43    2B    +                           153   107   6B    k
+       054   44    2C    ,                           154   108   6C    l
+       055   45    2D    -                           155   109   6D    m
+       056   46    2E    .                           156   110   6E    n
+       057      060   48    30    0                           160   112   70    p
+       061   49    31    1                           161   113   71    q
+       062   50    32    2                           162   114   72    r
+       063   51    33    3                           163   115   73    s
+       064   52    34    4                           164   116   74    t
+       065   53    35    5                           165   117   75    u
+       066   54    36    6                           166   118   76    v
+       067   55    37    7                           167   119   77    w
+       070   56    38    8                           170   120   78    x
+       071   57    39    9                           171   121   79    y
+       072   58    3A    :                           172   122   7A    z
+       073   59    3B    ;                           173   123   7B    {
+       074   60    3C    <                           174   124   7C    |
+       075   61    3D    =                           175   125   7D    }
+       076   62    3E    >                           176   126   7E    ~
+       077   63    3F    ?                           177   127   7F    DEL
+
+   Tables
+       For convenience, let us give more compact tables in hex and decimal.
+
+          2 3 4 5 6 7       30 40 50 60 70 80 90 100 110 120
+        -------------      ---------------------------------
+       0:   0 @ P ` p     0:    (  2  <  F  P  Z  d   n   x
+       1: ! 1 A Q a q     1:    )  3  =  G  Q  [  e   o   y
+       2: " 2 B R b r     2:    *  4  >  H  R  \  f   p   z
+       3: # 3 C S c s     3: !  +  5  ?  I  S  ]  g   q   {
+       4: $ 4 D T d t     4: "  ,  6  @  J  T  ^  h   r   |
+       5: % 5 E U e u     5: #  -  7  A  K  U  _  i   s   }
+       6: & 6 F V f v     6: $  .  8  B  L  V  `  j   t   ~
+       7: ´ 7 G W g w     7: %  /  9  C  M  W  a  k   u  DEL
+       8: ( 8 H X h x     8: &  0  :  D  N  X  b  l   v
+       9: ) 9 I Y i y     9: ´  1  ;  E  O  Y  c  m   w
+       A: * : J Z j z
+       B: + ; K [ k {
+       C: , < L \ l |
+       D: - = M ] m }
+       E: . > N ^ n ~
+       F: / ? O _ o DEL
+
+NOTES
+   History
+       An ascii manual page appeared in Version 7 of AT&T UNIX.
+
+       On older terminals, the underscore code is displayed as a left arrow, called backarrow, the caret is displayed as an up-arrow and the vertical bar has a hole in the middle.
+
+       Uppercase and lowercase characters differ by just one bit and the ASCII character 2 differs from the double quote by just one bit, too.  That made it much easier to encode characters mechanically  or
+       with a non-microcontroller-based electronic keyboard and that pairing was found on old teletypes.
+
+       The ASCII standard was published by the United States of America Standards Institute (USASI) in 1968.
+
+SEE ALSO
+       iso_8859-1(7), iso_8859-10(7), iso_8859-13(7), iso_8859-14(7), iso_8859-15(7), iso_8859-16(7), iso_8859-2(7), iso_8859-3(7), iso_8859-4(7), iso_8859-5(7), iso_8859-6(7), iso_8859-7(7), iso_8859-8(7),
+       iso_8859-9(7)
+
+COLOPHON
+       This page is part of release 3.54 of the Linux man-pages project.  A description of the project, and information about reporting bugs, can be found at http://www.kernel.org/doc/man-pages/.
+
+
+
+Linux                                                                                             2009-02-12                                                                                          ASCII(7)
+  47    2F    /                           157   111   6F    o
+
+</code>\\
+
+also you can search man pages with:\\
+<cli>man -k ascii</cli>\\
+or:\\
+<cli>apropos cut</cli>\\
+which also returns anythign with exe**cut**e in the man page.\\
+
+**Wildcards** - a watered down regular expressions.\\
+
+<nowiki>?</nowiki> - matches any single character.\\
+
+<cli>ls ???? | wc -l</cli>\\
+returns the number of 4 character files in the current directory.\\
+
+<nowiki>*</nowiki> - matches 0 or more characters.\\
+
+<cli>ls l* | wc -l</cli>\\
+shows all files that start with l.\\
+or:\\
+<cli>ls *.zip</cli>\\
+shows all zip files in a directory.\\
+or:\\
+<cli>ls *.tar.*</cli>\\
+show all tar files.\\
+
+<nowiki>[]</nowiki> - matches any one of enclosed characters.\\
+<cli>ls ?[aeiou]?</cli>\\
+this shows any 3 character filenames with a,e,i,o, or u as the middle character.\\
+or:\\
+<cli>ls c[aeiou]t </cli>\\
+
+<nowiki>[^ ]</nowiki> - does not match any one of enclosed characters.\\
+
+<cli>ls c[^aeiou]t </cli>\\
+this would display any file starting with c, ending in t, but NOT a vowel in the middle character.\\
+
+====Thursday, October 02, 2014====
+
+**Wild Cards**\\
+%%?%% - matches any single character.\\
+%%*%% - matches 0 or more characters.\\
+%%[ ]%% - character class, matches any of the enclosed characters.\\
+%%[^ ]%% - inverted character class, do not match any of these characters.\\
+
+<cli>cd /usr/bin</cli>\\
+
+find 4 character commands:\\
+<cli>ls ???? | wc -w</cli>\\
+
+find 3 character commands:\\
+<cli>ls ??? | wc -l</cli>
+
+we discovered /X11 directory in /usr/bin has a symbolic link back to this current directory which e had to account for by specifing to ls with -d to not go into subdirectories.\\
+
+<cli>ls -d ??? | wc -l</cli>\\
+
+find commands that are at least 5 characters long:\\
+<cli>ls -d ?????* | wc -l</cli>\\
+
+find commands that are four or more characters long AND first 2 characters adn last character are the Wheel of Fortune letters (rstlne):\\
+<cli>ls -d [rstlne][rstlne]?*[rstlne] | wc -l</cli>\\
+NOTE: in this command the "?" and "*" both have to be in that space but either could go first, this would produce the same results:\\ 
+<cli>ls -d [rstlne][rstlne]*?[rstlne] | wc -l</cli>\\
+
+find 3 character commands that don't have a vowel in them:\\
+<cli>ls -d [^aeiouy][^aeiouy][^aeiouy] | wc -l</cli>\\
+
+can do ranges too:\\
+%%[a-y]%%\\
+%%[0-9a-zA-Z]%%\\
+%%[0-4j-u]%%\\
+
+find all directories and symbolic links:\\
+<cli>ls -l | egrep '^(l|d)' | wc -l</cli>\\
+the caret here symbolizes the beginning of the line, like in vim.\\
+egrep is for extended regular expressions.\\ 
+
+ ====Tuesday, October 07, 2014====
+
+The deadline for the dataproc project has been extended to 10/22/2014, the Wednesday after break.\\
+
+A process is a program in action.\\
+
+PID - Process ID\\
+
+16 bit value, starts at one\\
+
+2<sup>16</sup> = 65536\\
+
+1 - reserved for init\\
+
+<cli>ps</cli>\\
+process status\\
+
+<cli>kill -l</cli>\\
+
+<cli>kill -1 PID</cli>\\
+<cli>kill -HUP PID</cli>\\
+<cli>kill -SIGHUP PID</cli>\\
+
+In another terminal we run:\\
+<cli>cat -</cli>\\
+
+Back to original terminal:\\
+<cli>kill -2 PID</cli>\\
+<cli>kill -SIGINT PID</cli>\\
+
+<cli>cp /bin/cat deadbaby</cli>\\
+or:\\
+<cli>cp /bin/cat aardvark</cli>\\
+
+<cli>kill PID</cli>
+assumes you want SIGTERM (SIGNAL 15)\\
+
+<cli>kill -9 PID</cli>
+the end all be all of kill signals, the SIGKILL, signal 9\\
+
+All signals:\\
+<cli>
+lab46:~$ kill -l
+ 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP
+ 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1
+11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM
+16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
+21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ
+26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR
+31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
+38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
+53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
+58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+63) SIGRTMAX-1  64) SIGRTMAX
+</cli>
+
+<cli>ps a</cli>
+<cli>ps aux</cli>
+shows everythign on the system.\\
+
+<cli>ps aux | grep $USER</cli>
+shows all processes by current user.\\
+
+<cli>top</cli>
+an interactive commmand whetre youc an see in real time, processes, memory usage, CPU usage, etc.\\
+
+**Shells**
+
+AT&T UNIX VS. BSD UNIX SHELLS
+
+^Shells      ^ Meaning            ^
+| AT&T- sh   | bourne shell       |
+| AT&T- bash | bourne again shell |
+| BSD-  csh  | C shell            |
+
+
+<cli>help</cli>
+shows built in bash commands
+
+Ctrl+Z -stops processes.\\
+
+<cli>jobs</cli>
+shows currenty processes running, stopped, int he backgorund or foreground.\\
+
+<cli>bg</cli>
+moves a process to the background.\\
+
+<cli>fg</cli>
+brings a background process to the foreground.\\
+====Thursday, October 09, 2014====
+
+Showing hidden files with:\\
+<cli>ls -a</cli>\\
+
+Some configuration files we created earlier can be seen here:\\
+.vimrc\\
+.exrc\\
+
+Creating aliases:\\
+<cli>alias cp="cp -i"</cli>\\
+
+<cli>alias bob='echo boo'</cli>
+
+to unalias:\\
+<cli>unalias bob</cli>\\
+
+Your shell prompt is determind by the PS1 variable set in .bashrc in your home directory:\\
+<cli>PS1='C:\w> '</cli>\\
+
+Your default shell prompt:\\
+<cli>PS1='\h:\w\$ '</cli>\\
+
+Environment variables:\\
+<cli>echo $PATH</cli>\\
+
+this saves current PATH variable.\\
+<cli>op=$PATH</cli>\\
+
+This sets PATH variable to nothing so the shell doesn't know where to look for commands.\\  
+<cli>PATH=</cli>\\
+
+You can still run commands by giving the path to the command like:\\
+<cli>/bin/ls</cli>\\
+
+To reset the PATH variable back to what it originally was:\\
+<cli>PATH=$op</cli>
+
+**Shell Scripts**\\
+
+We created a first shell called myscript.sh:\\
+<file>
+df
+who
+ls
+</file>
+
+then we ran it with:\\
+<cli>bash myscript.sh</cli>
+
+to make it executable you can run:\\
+<cli>chmod 700 myscript.sh</cli>
+
+then we add to the top of our file:
+<file>
+#!/bin/bash
+</file>
+
+This shows what environment we run this script under, as we may not always be using a bash shell.\\
+The first 2 symbols "#!" is called a shebang.\\
+
+something:
+<code bash 1>
+#!/bin/bash
+echo -n "What is your name?"
+read name
+echo "Hello, $name, nice to meet you."
+exit 0
+</code>
+
+<cli>chmod 700 something</cli>
+
+then it can be run with:\\
+
+<cli>./something</cli>\\
+
+We discussed higher versus lower level programming languages.  Lower level languages are closer to the specs of dust, gets mor einto the minute details of how the system operates and usually performs better.  At this end of the spectrum we have machine code, assembly language, binary.  Above that we have languages like C, then above that C++, then things like Java, and abpoev that towards the higher level programmign languages we have bash, VB, PHP, Python.\\
+
+Shell Hack - Tab Completion, match enough characters and you can TAB complete.\\
+
+another shell script we wrote, something2:
+<code bash 1>
+#!/bin/bash
+while [ ! "$choice" = "n" ]; do
+echo -n "Pick a number "
+read number
+if [ $number = 5 ]; then
+    echo "correct"
+elif [ $number -gt 5 ]; then
+    echo "too high"
+else
+    echo "too low"
+fi
+echo -n "Do you want to play again?"
+read choice
+done
+exit 0
+</code>
+
+In bash:\\
+-If is closed with fi\\
+-case is closed with esac\\
+-loops are closed with done\\
+
+with the [ ] we use:\\
+-gt for greater than\\
+-lt for less than\\
+-ge for greater than or equal to\\
+-le for less than or equal to\\
+-ne for not equal to\\
+-eq for equal to\\
+
+====Tuesday, October 21, 2014====
+
+Thursday, October 30th we will have a "Knowledge Assessment" a.k.a. a Test.\\
+
+**Shell Scripting**\\
+
+<cli>echo $RANDOM</cli>\\
+
+<nowiki>%</nowiki> - modulus\\
+<nowiki>/</nowiki> - division\\
+
+{{http://images.tutorvista.com/cms/images/38/simple-division.jpg| Division with a remainder}} 
+
+The remainder is the modulus.\\
+
+34 % 5 = 4\\
+34 / 5 = 6\\
+
+<cli>echo $(($RANDOM%100))</cli>\\
+gives a random number between 0 and 100, but no higher than 99.\\
+
+<cli>echo $((($RANDOM%100)+1))</cli>
+this modification chooses a random number in the range 1 to 100, including both upper and lower bounds.\\
+
+We wrote a newer number guess script in bash, I named mine "bestgameever":
+<code bash>
+#!/bin/bash
+
+choice=$((($RANDOM%100)+1))
+guess=0
+while [ "$guess" -lt 6 ];do
+    echo -n "Guess a number: "
+    read number
+    if [ "$number" -eq "$choice" ];then
+        echo "Correct."
+        exit 0
+    elif [ "$number" -lt "$choice" ];then
+        echo "Higher."
+    else
+        echo "Lower."
+    fi
+    let guess=$guess+1
+done
+exit 0
+</code>\\
+
+We run this with:\\
+<cli>bash bestgameever</cli>\\
+
+or we can make it executable with:\\
+<cli>chmod +x bestgameever</cli>\\
+then run:\\
+<cli>./bestgameever</cli>
+
+And a quote from today taken out of context:\\
+
+//"If you're not sure, force it."\\
+--Matt Haas//\\
+
+And another quote today taken out of context:\\
+
+//"Everyone should be free to make their own choices...Oh GNOME 3, that's a bad choice."\\
+--Dan Shadeck//\\
+
+
+
+====Thursday, October 23, 2014====
+
+Created a file called datastuff.\\
+we put about 20 integers inside it.\\
+
+<cli>cat datasuff</cli>\\
+
+<cli>cat datasuff | grep '2'</cli>\\
+
+<cli>cat datasuff | grep '2' | wc -l</cli>\\
+
+<cli>bc</cli>\\
+<cli>obase=16</cli>\\
+<cli>4095</cli>\\
+outputs: FFF\\
+<cli>quit</cli>\\
+
+<cli>echo "2+2"</cli>\\
+outputs: 2+2\\
+<cli>echo "2+2" | bc</cli>\\
+outputs: 4\\
+
+<cli>answer=`echo "2+2" | bc`</cli>\\
+
+<cli>echo $answer</cli>\\
+
+New bash script written today in class, called funscript17:\\
+<code bash>
+#!/bin/bash
+
+total=0
+evens=0
+for number in `cat datastuff`;do
+    evenchk=`echo "$number%2" | bc`
+    if [ "$evenchk" -eq 0 ];then
+        let evens=$evens+1
+    fi
+    let total=$total+1
+done
+echo "Out of $total numbers, there are $evens even numbers."
+exit 0 
+</code>
+
+Ran with:\\
+<cli>bash funscript17</cli>\\
+
+Or made executable with:\\
+<cli>chmod +x funscript17</cli>\\
+then ran with:\\
+<cli>./funscript17</cli>\\
+
+**New ongoing project to calculate grade in class from status command on lab46:**\\
+
+take status output:\\
+-calculate project points\\
+-calculate opus points\\
+-calculate attendance (might be a little more difficult based on layout of attandence)\\
+-calculate project percentage - 36% of overall grade\\
+-calculate opus percentage - 36% of overall grade\\
+-calculate attendance percentage - 28% of overall grade\\
+-calculate current overall grade\\
+-display stuff (output current overall grade)\\
+
+Started working on this towards the end of the class.\\
+
+
+====Tuesday, October 28, 2014====
+
+"Knowledge Assessment" on Thursday (Next class)\\
+All of the class period will be allotted for the "Knowledge Assessment"\\
+Will be open notes, open web, but no interaction with others.\\
+
+Working on bash scripting some more, with out script to calculate our grade from the output of the status command on lab46.\\ 
+
+<cli>echo "6/7" | bc</cli>\\
+
+
+<cli>echo "6/7" | bc -l</cli>\\
+
+
+<cli>echo "(6/7)*100" | bc -l | cut -d '.' -f1</cli>\\
+
+<cli>echo "(6/7)*100" | bc -l | cut -c 1-5</cli>\\
+
+<cli>echo "$(echo "(6/7)*100" | bc -l | cut -c 1-5)%"</cli>\\
+
+<cli>status unix | grep $USER | tr " " "\n"</cli>\\
+
+<cli>status unix | grep $USER | tr " " "\n" | grep -v "^$"</cli>\\
+
+<cli>status unix | grep $USER | tr " " "\n" | grep -v "^$" | tail -n +2</cli>\\
+
+<cli>status unix | grep $USER | tr " " "\n" | grep -v "^$" | grep -v $USER</cli>\\
+
+
+
+====Thursday, October 30, 2014====
+
+"Knowledge Asssessment" *cough*Test*cough* Day\\
+
+retrieve the file from /var/public/UNX/fall2014/unixka0.tar.xz\\
+
+then did commands shown under ASCII picture (which was the final result along with commands saved in a file called results to be submitted):\\
+
+{{http://www.matthewjpage.com/unixKA.png|"Knowledge Assessment for Unix/Linux}}
+
+Also I completed my bashscript to figure out my grade:\\
+
+<code bash 1>
+#!/bin/bash
+
+####################################################################
+# 
+# Matthew Page
+# me@matthewjpage.com
+# 10/25/2014
+# CSCS 1730 Unix/Linux
+#
+# gradescript - a script to take the output from the status script
+#               and then calculate the grade, section by section, 
+#               and then ultimately calculate the overall grade.
+#
+####################################################################
+
+#ATTENDANCE SECTION
+attendance_total=`status unix | grep UNIX | tr " " "\n" | grep -v "^$" | grep -v "UNIX" | wc -l`
+attendance_missed=`status unix | grep $USER | tr " " "\n" | grep -v "^$" | grep -v $USER | grep 'X' | wc -l `
+attendance_user=$(echo "($attendance_total-$attendance_missed)" | bc -l)
+attendance_percent=$(echo "($attendance_user/$attendance_total)*100" | bc -l | cut -d '.' -f1)
+
+#OPUS SECTION
+opus_points_total=`status unix | sed -n '/OPUS/,/PROJECTS/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "OPUS" | grep -v "PROJECTS" | wc -l`
+opus_points_earned=`status unix | sed -n '/OPUS/,/PROJECTS/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "OPUS" | grep -v "PROJECTS" | grep '1' | wc -l`
+opus_percent=$(echo "($opus_points_earned/$opus_points_total)*100" | bc -l | cut -d '.' -f1)
+
+#PROJECT SECTION
+project_points_total=`status unix | sed -n '/PROJECTS/,/SUBMISSION/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "PROJECTS" | grep -v "SUBMISSION" | wc -l`
+project_points_earned=`status unix | sed -n '/PROJECTS/,/SUBMISSION/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "PROJECTS" | grep -v "SUBMISSION" | grep '1' | wc -l`
+project_percent=$(echo "($project_points_earned/$project_points_total)*100" | bc -l | cut -d '.' -f1)
+
+#WEIGHTED SECTION
+weighted_attendance=$(echo "(28*$attendance_user)/$attendance_total" | bc -l | cut -d '.' -f1)
+weighted_opus=$(echo "(36*$opus_points_earned)/$opus_points_total" | bc -l | cut -d '.' -f1)
+weighted_project=$(echo "(36*$project_points_earned)/$project_points_total" | bc -l | cut -d '.' -f1)
+
+#TOTAL GRADE
+total_grade=$(echo "($weighted_attendance+$weighted_opus+$weighted_project)" | bc -l)
+
+#OUTPUT RESULTS
+echo "You attended $attendance_user out of $attendance_total class days for $attendance_percent% Attendance score."
+echo "You completed $opus_points_earned opus entries out of $opus_points_total for $opus_percent% Opus score."
+echo "You earned $project_points_earned project points out of $project_points_total for $project_percent% Projects score."
+echo "For a total grade of $total_grade in Unix/Linux class!"
+</code>
+
+I then noticed that my gradescript takes a while to execute before it displays the output, and wondering if calling the status script several times might be slowing it down, so I modified my code to create a file in the current directory called gradescript.dat, which willc ontain a snapshot of the status command that the rest of the script will use for everything else, thus only using the status command only once.\\
+
+<code bash 1>
+#!/bin/bash
+
+####################################################################
+# 
+# Matthew Page
+# me@matthewjpage.com
+# 10/25/2014
+# CSCS 1730 Unix/Linux
+#
+# gradescript - a script to take the output from the status script
+#               and then calculate the grade, section by section, 
+#               and then ultimately calculate the overall grade.
+#
+####################################################################
+
+status unix > gradescript.dat 
+
+#ATTENDANCE SECTION
+attendance_total=`cat gradescript.dat | grep UNIX | tr " " "\n" | grep -v "^$" | grep -v "UNIX" | wc -l`
+attendance_missed=`cat gradescript.dat | grep $USER | tr " " "\n" | grep -v "^$" | grep -v $USER | grep 'X' | wc -l `
+attendance_user=$(echo "($attendance_total-$attendance_missed)" | bc -l)
+attendance_percent=$(echo "($attendance_user/$attendance_total)*100" | bc -l | cut -d '.' -f1)
+
+#OPUS SECTION
+opus_points_total=`cat gradescript.dat | sed -n '/OPUS/,/PROJECTS/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "OPUS" | grep -v "PROJECTS" | wc -l`
+opus_points_earned=`cat gradescript.dat | sed -n '/OPUS/,/PROJECTS/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "OPUS" | grep -v "PROJECTS" | grep '1' | wc -l`
+opus_percent=$(echo "($opus_points_earned/$opus_points_total)*100" | bc -l | cut -d '.' -f1)
+
+#PROJECT SECTION
+project_points_total=`cat gradescript.dat | sed -n '/PROJECTS/,/SUBMISSION/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "PROJECTS" | grep -v "SUBMISSION" | wc -l`
+project_points_earned=`cat gradescript.dat | sed -n '/PROJECTS/,/SUBMISSION/p' | cut -d ':' -f1 | grep -v "^$" | grep -v "PROJECTS" | grep -v "SUBMISSION" | grep '1' | wc -l`
+project_percent=$(echo "($project_points_earned/$project_points_total)*100" | bc -l | cut -d '.' -f1)
+
+#WEIGHTED SECTION
+weighted_attendance=$(echo "(28*$attendance_user)/$attendance_total" | bc -l | cut -d '.' -f1)
+weighted_opus=$(echo "(36*$opus_points_earned)/$opus_points_total" | bc -l | cut -d '.' -f1)
+weighted_project=$(echo "(36*$project_points_earned)/$project_points_total" | bc -l | cut -d '.' -f1)
+
+#TOTAL GRADE
+total_grade=$(echo "($weighted_attendance+$weighted_opus+$weighted_project)" | bc -l)
+
+#OUTPUT RESULTS
+echo "You attended $attendance_user out of $attendance_total class days for $attendance_percent% Attendance score."
+echo "You completed $opus_points_earned opus entries out of $opus_points_total for $opus_percent% Opus score."
+echo "You earned $project_points_earned project points out of $project_points_total for $project_percent% Projects score."
+echo "For a total grade of $total_grade in Unix/Linux class!"
+</code>  
+ 
+
+====Tuesday, November 04, 2014====
+
+Wildcards are used on the shell with files:\\ 
+//Refresher//:\\
+
+**Wild Cards**\\
+%%?%% - matches any single character.\\
+%%*%% - matches 0 or more characters.\\
+%%[ ]%% - character class, matches any of the enclosed characters.\\
+%%[^ ]%% - inverted character class, do not match any of these characters.\\
+
+Regular Expressions are used on text, within files\\
+
+**Regular Expressions (RegEx)**\\
+**also commonly shown as "RegEx"**\\
+
+Symbols, metacharacters\\
+
+**Basic Regular Expressions**\\
+%%.%% - matches any single character.\\
+%%*%% - 0 or more of the previous.\\
+%%[]%% - character class, match one of the enclosed.\\
+%%[^ ]%% - inverted character class, do NOT match enclosed.\\
+%%\<%% - match start of word.\\
+%%\>%% - match end of word.\\
+%%^%% - match start of line.\\
+%%$%% - match end of line.\\
+
+Perl - slices and dices regular expressions.\\
+Also there are Extended Regular Expressions.\\
+
+**Extended RegEx**\\
+%%|%% - Or\\
+%%( )%% - grouping, like we'll be using later with sed.\\
+%%+%% - match 1 or more of the previous.\\
+
+<cli>cd /usr/share/dict</cli>\\
+
+<cli>ls</cli>\\
+and see american-english and words files.\\
+
+<cli>ls -lh</cli>\\
+shows size of american-english as 917 kilobytes.\\
+
+What's defined as a word in regular expressions is different than what may be expected, for example if given "unix's" the in this a regular expression views:\\
+__unix__'s\\
+as the word, and not anythign after the apostraphe.\\
+
+to capture all of the "word" as we know it including after the apostraphe, as such:\\
+__unix's__\\
+we have to treat it as a whole line as the dictionary only shows one word per line.\\
+
+<cli>cat words | grep 'REGEX' </cli>\\
+using **grep** now as it was designed for:\\
+**g**lobally search for **r**egular **e**xpressions and **p**rint.\\
+
+match 4 character words:\\
+<cli>cat words | grep '^....$' | wc -l</cli>\\
+
+match 4 or more that end in g.\\
+<cli>cat words | grep '...g$' | wc -l</cli>\\
+or:\\
+<cli>cat words | grep '^....*g$' | wc -l</cli>\\
+
+match all words 3 characters or more and contain only lowercase letters.\\
+<cli>cat words | grep '[a-z][a-z][a-z]*$' | wc -l</cli>\\
+
+match all words with 3 or more lowercase vowels.\\
+<cli>cat words | grep '^.*[aeiouy].*[aeiouy].*[aeiouy].*$' | wc -l</cli>\\
+
+**egrep** -extended grep\\
+-egrep -grep plus more\\
+-fgrep -fast grep, no RegEx\\
+
+<cli>cat words | egrep 'REGEX'</cli>\\
+
+Find all words that end in lowercase "ed" or lowercase "ing"\\
+<cli>cat words | egrep '^.*ed$|ing$' | wc -l</cli>\\
+or:\\
+<cli>cat words | egrep 'ed$|ing$' | wc -l</cli>\\
+or:\\
+<cli>cat words | egrep '(ed$|ing$)' | wc -l</cli>\\
+or:\\
+<cli>cat words | egrep '(ed|ing)$' | wc -l</cli>\\
+
+====Thursday, November 06, 2014====
+
+**sed**\\
+
+And RegEx:\\
+
+<cli>status unix | grep 'opus'</cli>\\
+
+<cli>status unix | grep 'opus' | grep 'week[02468]'</cli>\\
+
+<cli>status unix | grep 'opus' | grep '[02468]entry$'</cli>\\
+
+<cli>status unix | grep 'opus' | egrep 'week([02468]|[0-9][02468])'</cli>\\
+
+searching in the opus for lines that appear as:\\
+<cli>
+1:opus:week2entry
+</cli>
+
+and making them display as:\\
+<cli>
+entry for week 2 opus [1]
+</cli>
+
+<cli>status unix | grep 'opus' | sed 's/^.*\([01]\):\([a-z][a-z]*\):\(week\)\([0-9]\)\(.*\)$/\5 for \3 \4 \2 [\1]/g'</cli>\\
+
+Now we are working on a command that uses sed to get initials of the user and display other usernames that start with any of that persons initials.\\
+
+My current NON-functioning one:\\
+<cli>getent passwd | grep '^[mjp]' | sed 's/^.*\([a-z][a-z]*\):x:\([0-9][0-9][0-9][0-9]\):5000:\([A-Z][a-z]\).*\([A-Z]\). \([A-Z][a-z].*\):.*$/\3 \4 \5 is username \1 with a userid of \2/g'</cli>\\
+
+A functioning one:\\
+<cli>getent passwd | grep '^[mjp]' | sed 's/^.*\([a-z][a-z]*\):x:\([0-9][0-9][0-9][0-9]\):5000:\([A-Z][a-z]\).*\([A-Z]\). \([A-Z][a-z].*\):.*$/\3 \4 \5 is username \1 with a userid of \2/g'</cli>\\
+
+Another functioning one:\\
+<cli>getent passwd | grep '^[mjp]' | sed 's/^\([mjp][a-z0-9]*\):x:\([0-9][0-9][0-9][0-9]\):[0-9][0-9][0-9][0-9]:\(.*\):\/home.*$/\3 is user \1 with user id of \2    /g'</cli>\\
+
+
+====Tuesday, November 11, 2014====
+
+status calc project due next week (bash script calculating your grade).\\
+
+<cli>whereis status</cli>\\
+shows the location of the status script\\
+
+<cli>cd /usr/local/bin</cli>\\
+changing to location of status script\\
+
+<cli>ls</cli>\\
+shows statis script and status.logic amongst others.\\
+
+<cli>cat status</cli>\\
+we can look at the contents of the status script\\
+
+<cli>cat status.logic</cli>\\
+to look at the status.logic file\\
+
+<cli>groups</cli>\\
+to see groups we belong to\\
+
+**Scripting Arguments**
+-works kind of like argv[] and argc in C\\
+<cli>./myscript a b c</cli>\\
+three arguments to myscript called a, b and c respectively\\
+
+%%$#%% - count of arguments\\
+%%$#%% = 3 in this instance.\\
+%%$*%% = all your arguments/ "a b c"\\
+%%$0%% = your scriptname\\
+%%$1%% = a\\
+%%$2%% = b\\
+%%$3%% = c\\
+
+"${1}" - super safe way to do variables\\
+like:
+echo "$1stuff" - doesn't show whether variable ends after 1 or not\\
+echo "${1}stuff" - explicitly shows the 1 as being part of the variable.\\
+
+<cli>man [</cli>\\
+not a typo, to see possible expression combinations manpage.\\
+
+<code bash>
+if [ -z "${1}" ];then
+</code>\\
+z flag here denotes a null/empty string\\
+
+Lookign at ways to optimize our script for large data.\\
+<cli>status unix > ~/tmp/output</cli>\\
+<cli>rm -f output</cli>\\
+
+<code bash>
+if [ -e "~/tmp/output" ];then
+    status unix > ~/tmp/output
+fi
+</code>
+The e flag here is checking to see if the file exists.\\
+
+runnign this again to create a file called output:\\
+<cli>status unix > output</cli>\\
+
+<cli>stat output</cli>\\
+shows stats like modify time down to milliseconds, etc.\\
+
+<cli>stat output | grep "Modify"</cli>\\
+showing just the Modify line.\\
+
+<cli>stat output | grep "Modify" | sed 's/^Modify://g'</cli>\\
+shows Modify line and then pipes that to sed to replace from beginnign of line through Modify and replaces it with nothing.\\
+
+<cli>date -d "$(stat output | grep "Modify" | sed 's/^Modify://g')" +%s</cli>\\
+shows number of seconds since "Beginning of Time" (Unix time) that the file was created.\\
+
+<cli>ftime=`date -d "$(stat output | grep "Modify" | sed 's/^Modify://g')" +%s`</cli>\\
+saving the above commands output to a variable named ftime, for file time it was modified.\\
+
+can verify with:\\
+<cli>echo $ftime</cli>\\
+
+<cli>time ls</cli>\\
+system time used to execute the program ls.\\
+
+<cli>time ./gradescript</cli>\\
+system time used to execute my gradescript bash script.\\
+
+<cli>ctime=`date +%s`</cli>\\
+grabbing current time in a variable called ctime in same format as ftime variable above.\\
+
+can verify again with:\\
+<cli>echo $ctime</cli>\\
+
+<cli>let dtime=$ctime-$ftime</cli>\\
+setting new variable dtime to ctime minus ftime, to show how old the file has been since modified in seconds.\\
+
+verify dtime veriable:\\
+<cli>echo $dtime</cli>\\
+
+Now if we want to use existing output file unless it is over an hour old, we can make our script run:\\
+<code bash>
+if [ $dtime -gt 3600 ];then
+    rm -f output
+    status unix > output
+fi
+</code>
+
+**At** command runs something at a specific time:\\
+<cli>at 5:09 ./gradescript</cli>\\
+would run my gradescript bash script at 5:09\\
+
+cron/crontab - scheduled processes and/or scripts for system administration.\\ 
+====Thursday, November 13, 2014====
+
+**At**\\
+
+We run:\\
+<cli>at 16:16</cli>\\
+which at the time we ran this was a couple minutes into the future.\\
+
+which gives us an at prompt which appears as:\\
+<file>
+at>
+</file>
+
+On this prompt we enter a command we want to have run at teh specified time:\\
+<cli>ls > out</cli>\\
+then we hit Ctrl+D to send the EOF (End of File) signal and we should return to a bash prompt.\\
+
+We can now run:\\
+<cli>atq</cli>\\
+which shows at's queue or pending jobs.\\
+
+We could also run "atrm" with corresponding job number to remove that job from at's queue.\\
+
+**cron/crontab**\\
+-scheduled jobs
+
+crontab - cron table.\\
+
+We run:\\
+<cli>crontab -l</cli>\\
+to show a list of the users current crontab.\\
+
+And now running:\\
+<cli>crontab -e</cli>\\
+would allow us to edit the users crontab:\\
+
+The crontab file is structured in a way such as:\\
+<file>
+m h dom mon dow command
+</file>
+what these mean are minute, hour, day of month, month, day of week, and lastly the command you want to run at the specified time(s).\\
+
+so we can add into this file the following line:\\
+<file>
+*/4 * * * * /usr/bin/who
+</file>
+which will run the who command every 4 minutes over and over again.\\
+
+We walked through and reviewed Matt's (Haas) diskreport.sh shell script as seen here:\\
+<code>
+#!/bin/bash
+##
+## diskreport.sh - a script to display the disk utilization on a
+##                 bunch of machines (for daily output perusal)
+##
+## 20140324 - enhancements to improve reliability (mth)
+##
+obo_machines="wedge@caprisun:/data sokraits:/export halfadder:/export wedge@lab46 www:/var/repos,/var/www auth1 auth2 mail irc log"
+lair_machines="wedge@juicebox ahhcobras mthsvn auth3 nfs1:/export nfs2:/export"
+projects_machines="router vmserver00 vmserver01 vmserver02 vmserver03 backup00 backup01 backup02 backup03"
+dslab_machines="data:/export node00 node01 node02 node03 node04 node05 node06 node07"
+
+for subnet in lair offbyone dslab; do
+    title="${subnet} subnet"
+    len=`echo " ${title} " | wc -c`
+    linelen=$(((50-${len})/2))
+
+    for((i=0; i<${linelen}; i++)); do
+        echo -n "-"
+    done
+
+    echo -n " ${title} "
+
+    for((i=0; i<${linelen}; i++)); do
+        echo -n "-"
+    done
+
+    total=$((${len}+${linelen}+${linelen}))
+    if [ "${total}" -lt 50 ]; then
+        echo -n "-"
+    fi
+    echo
+
+    echo "                    Total   Used    Free   % Used"
+    echo "-------------------------------------------------"
+
+    if [ "${subnet}" = "lair" ]; then
+        machines="${lair_machines}"
+    elif [ "${subnet}" = "offbyone" ]; then
+        machines="${obo_machines}"
+    elif [ "${subnet}" = "projects" ]; then
+        machines="${projects_machines}"
+    elif [ "${subnet}" = "dslab" ]; then
+        machines="${projects_machines}"
+        ssh root@data.dslab.lan "/export/data/global/bin/status nfs; /export/data/global/bin/status disk; /export/data/global/bin/status uptime"
+        continue
+    else
+        echo "unconfigured subnet"
+        continue
+    fi
+    
+    for box in $machines; do
+        user="`echo ${box}     | cut -d'@' -f1`"
+        cpu="`echo ${box}      | cut -d'@' -f2 | cut -d':' -f1`"
+        disklist="`echo ${box} | cut -d'@' -f2 | cut -d':' -f2`"
+        if [ "${user}" = "${box}" ]; then
+            user="root"
+            cpu="`echo ${box}  | cut -d'@' -f2 | cut -d':' -f1`"
+        else
+            cpu="`echo ${box}  | cut -d'@' -f2 | cut -d':' -f1`"
+        fi
+
+        if [ "${cpu}" = "${disklist}" ]; then
+            disklist="/"
+        else
+            disklist="/,${disklist}"
+        fi
+
+        for mount in `echo "${disklist}" | tr ',' ' '`; do
+            cmd="df -h | grep "${mount}\$" | sed 's/ [ ]*/:/g' | cut -d':' -f2,3,4,5"
+            output="`ssh ${user}@${cpu}.${subnet}.lan \"$cmd\" 2>/dev/null`"
+            if [ ! -z "${output}" ]; then
+                if [ "${mount}" = "/" ]; then
+                    printf "%-20s" "${cpu}:"
+                else
+                    printf "  %-18s" "${mount}"
+                fi
+                printf "%-5s" "`echo $output | cut -d':' -f1`"
+                echo -n " "
+                printf "%6s" "`echo $output | cut -d':' -f2`"
+                echo -n "   "
+                printf "%5s" "`echo $output | cut -d':' -f3`"
+                echo -n "    "
+                printf "%5s" "`echo $output | cut -d':' -f4`"
+                echo
+            fi
+        done
+    done
+    echo "-------------------------------------------------"
+    echo
+done
+
+exit
+
+echo "------------ OffByOne subnet ------------"
+echo "           Total   Used    Free    % Used"
+echo "-----------------------------------------"
+for box in $obo_machines; do
+    user="`echo ${box} | cut -d'@' -f1`"
+    if [ "${user}" = "${box}" ]; then
+        user="root"
+    else
+        box="`echo ${box} | cut -d'@' -f2`"
+    fi
+
+    printf "%-11s" "$box: "
+    output="`ssh ${user}@${box}.offbyone.lan \"$cmd\" 2>/dev/null`"
+    printf "%-5s" "`echo $output | cut -d':' -f1`"
+    echo -n " "
+    printf "%6s" "`echo $output | cut -d':' -f2`"
+    echo -n "   "
+    printf "%5s" "`echo $output | cut -d':' -f3`"
+    echo -n "    "
+    printf "%5s" "`echo $output | cut -d':' -f4`"
+    echo
+done
+echo "-----------------------------------------"
+echo
+
+#echo "----------- StudentLab subnet -----------"
+#echo "           Total   Used    Free    % Used"
+#echo "-----------------------------------------"
+#for box in $student_machines; do
+    #printf "%-11s" "$box: "
+    #output="`ssh ${box}.student.lab \"$cmd\" 2>/dev/null`"
+    #printf "%-5s" "`echo $output | cut -d':' -f1`"
+    #echo -n " "
+    #printf "%6s" "`echo $output | cut -d':' -f2`"
+    #echo -n "   "
+    #printf "%5s" "`echo $output | cut -d':' -f3`"
+    #echo -n "    "
+    #printf "%5s" "`echo $output | cut -d':' -f4`"
+    #echo
+#done
+#echo "-----------------------------------------"
+#echo
+
+echo "------------------ DSLAB subnet -------------------"
+echo "           Total   Used    Free    % Used    Global"
+echo "---------------------------------------------------"
+for box in $dslab_machines; do
+    user="`echo ${box} | cut -d'@' -f1`"
+    if [ "${user}" = "${box}" ]; then
+        user="root"
+    else
+        box="`echo ${box} | cut -d'@' -f2`"
+    fi
+
+    printf "%-11s" "$box: "
+    output="`ssh ${user}@${box}.dslab.lan \"$cmd; df | grep global >/dev/null && echo -n :Y\" 2>/dev/null`"
+    printf "%-5s" "`echo $output | cut -d':' -f1`"
+    echo -n " "
+    printf "%6s" "`echo $output | cut -d':' -f2`"
+    echo -n "   "
+    printf "%5s" "`echo $output | cut -d':' -f3`"
+    echo -n "    "
+    printf "%5s" "`echo $output | cut -d':' -f4`"
+    echo -n "    "
+    printf "%5s" "`echo $output | cut -d':' -f5`"
+    echo
+done
+echo "---------------------------------------------------"
+echo
+</code>
+
+**last**
+-we can see all logins per calendar year.\\
+
+<cli>last | grep mp010784</cli>\\
+see everytime I've logged in to lab46.\\
+
+<cli>last | grep mp010784 | wc -l</cli>\\
+see number of times I've logged in this year.\\
+
+<cli>last | grep $USER | wc -l</cli>\\
+same as above but a generic user one that gets current user.\\
+
+<cli>last | grep $USER | grep Oct | wc -l</cli>\\
+see number of times the user has logged in in October.\\
+
+we also discovered last can take a user as an argument, so we can remove a pipe and grep for username:\\
+<cli>last $USER | grep Oct | wc -l</cli>\\
+same as previous command.\\
+
+
+====Tuesday, November 18, 2014====
+
+gradescript, officially called "statuscalc" project is due this week.\\
+
+revisiting last command:\\
+<cli>last</cli>\\
+shows last logged in users per this calendar year.\\
+
+<cli>last | wc -l</cli>\\
+counts how many logged in this calendar year.\\
+
+<cli>last | grep $USER | wc -l</cli>\\
+shows how many times current user has logged in this calendar year.\\
+
+<cli>last | grep $USER | grep Oct | wc -l</cli>\\
+shows how many times current user was logged in the month of October.\\
+
+<cli>lastlog</cli>\\
+shows most recent login of a user or Never Logged In if applicable.\\
+
+**New Bash Script Project:**\\
+//Time Online-//\\
+
+<del>-prompt for user.</del>\\
+-accept via command line arguments for user input, if no user given then run for current user.\\
+-validate that the indicated user exists, else //**¡NO BUENO!**//, proceed only when okay.\\
+-for each month of the semester determine number of logins for the month for that user.\\
+-determine total time spent on the system that month in days, hours, and minutes.\\
+-total logins for the semester, total time for the semester.\\
+-Histograms like a boss, for cooler output.\\
+
+Sample Histogram:\\
+<cli>
+User: mp010784
+----------------------------
+Aug   | *** 31
+Sep   | ****** 62
+Oct   | ***** 54
+Nov   | ****41
+Dec   | 0
+----------------------------
+Total | 188
+</cli>
+
+ 
+
+
+====Thursday, November 20, 2014====
+
+This class period became a free period for us to work on our bash scripts.\\
+
+Currently I'm working on the **time online** bash script project and thinking out how I plan to attack this problem,\\
+I started by setting up some quick variables to get my monthly logins and echoing them back out, and was going to try to add the histogram part, which I'll probably work on later tonight.  Code in current state:\\
+<code bash 1>
+#!/bin/bash
+#
+# Matthew Page
+# 11/20/2014
+# CSCS 1730
+# 
+# timeonline -  a script to caclulate number of logins
+#               and time online.
+#
+
+#variables for number of logins per month
+auglogins=`last | grep $USER | grep Aug | wc -l`
+seplogins=`last | grep $USER | grep Sep | wc -l`
+octlogins=`last | grep $USER | grep Oct | wc -l`
+novlogins=`last | grep $USER | grep Nov | wc -l`
+declogins=`last | grep $USER | grep Dec | wc -l`
+totallogins=`($auglogins + $seplogins + $octlogins + $novlogins + $declogins)  | bc -l`
+
+echo $auglogins
+echo $seplogins
+echo $octlogins
+echo $novlogins
+echo $declogins
+</code>
+
+Also discussed with fellow CIST club members how we are planning to spend our funding money this semester.\\
+
+And lastly discussed multiple places to stop and eat on our way home before ultimately landing on Five Guys Burger and Fries.\\
+{{http://www.matthewjpage.com/five_guys.jpg|Five Guys Burger and Fries}}
+
+====Tuesday, December 2, 2014====
+
+Today we had appended to our Opuses, Our "End of Course Experience", hereafter known as eoce, an unholy abomination of subprojects.  Actually not that bad, at first glance I was a little panicked, but after reading it all and having it all explained in class, I don;t expect it to be too bad.  This also marks the end of official attendance taking these two classes (cprog and unix) thus all subsequent class days are just free work time on our eoce projects, I still intend to attend every day at least until my eoce for both classes is totally completed. 
+
+Plus I have a fully functioning timeonline script now, all I'm really lacking now is that I want to add the option to give an argument to the script for a username, and run it for that user, if no user is given then run it for current user.  My current **timeonline** bash script:\\
+
+<code bash 1>
+#!/bin/bash
+#
+# Matthew Page
+# 11/20/2014
+# CSCS 1730
+# 
+# timeonline -  a script to caclulate number of logins
+#               and time online.
+#
+
+#variables for number of logins per month
+auglogins=`last | grep $USER | grep Aug | wc -l`
+seplogins=`last | grep $USER | grep Sep | wc -l`
+octlogins=`last | grep $USER | grep Oct | wc -l`
+novlogins=`last | grep $USER | grep Nov | wc -l`
+declogins=`last | grep $USER | grep Dec | wc -l`
+totallogins=$(echo "($auglogins + $seplogins + $octlogins + $novlogins + $declogins)" | bc -l)
+
+days=`last | grep $USER | grep '+' | cut -d '(' -f2 | cut -d '+' -f1`
+totaldays=`echo $days | xargs | sed 's/\ /+/g' | bc -l` 
+
+#echo $totaldays
+
+hoursfrompluslines=`last | grep $USER | cut -d '(' -f2 | grep '+' | cut -d '+' -f2 | cut -d ':' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+minutesfrompluslines=`last | grep $USER | cut -d '(' -f2 | grep '+' | cut -d '+' -f2 | cut -d ':' -f2 | cut -d ')' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+
+#echo $hoursfrompluslines
+#echo $minutesfrompluslines
+
+hoursfromNONpluslines=`last | grep $USER | grep -v '+' | grep -v "still logged in" | cut -d '(' -f2 | cut -d ':' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+minutesfromNONpluslines=`last | grep $USER | grep -v '+' | grep -v "still logged in" | cut -d '(' -f2 | cut -d ':' -f2 | cut -d ')' -f1 | xargs | sed 's/\ /+/g' | bc -l`
+
+#echo $hoursfromNONpluslines
+#echo $minutesfromNONpluslines
+
+unrefinedhours=$(echo "($hoursfrompluslines + $hoursfromNONpluslines)" | bc -l)
+unrefinedminutes=$(echo "($minutesfrompluslines + $minutesfromNONpluslines)" | bc -l)
+
+#echo $unrefinedhours
+#echo $unrefinedminutes
+
+totalminutes=0
+while [ $unrefinedminutes -ge 60 ];do
+    unrefinedminutes=$(echo "($unrefinedminutes-60)" | bc -l)
+    unrefinedhours=$(echo "($unrefinedhours+1)" | bc -l)
+    totalminutes=$(echo $unrefinedminutes)
+done
+
+#echo $totalminutes
+#echo $unrefinedhours
+
+totalhours=0
+while [ $unrefinedhours -ge 24 ];do
+    unrefinedhours=$(echo "($unrefinedhours-24)" | bc -l)
+    totaldays=$(echo "($totaldays+1)" | bc -l)
+    totalhours=$(echo $unrefinedhours)
+done
+
+#echo $totalminutes
+#echo $totalhours
+#echo $totaldays
+
+augtemp=$(echo $auglogins)
+augstars=$(echo "")
+while [ $augtemp -ge 10 ];do
+    augtemp=$(echo "($augtemp-10)" | bc -l)
+    augstars=$(echo $augstars+"*")
+done
+
+septemp=$(echo $seplogins)
+sepstars=$(echo "")
+while [ $septemp -ge 10 ];do
+    septemp=$(echo "($septemp-10)" | bc -l)
+    sepstars=$(echo $sepstars+"*")
+done
+
+octtemp=$(echo $octlogins)
+octstars=$(echo "")
+while [ $octtemp -ge 10 ];do
+    octtemp=$(echo "($octtemp-10)" | bc -l)
+    octstars=$(echo $octstars+"*")
+done
+
+novtemp=$(echo $novlogins)
+novstars=$(echo "")
+while [ $novtemp -ge 10 ];do
+    novtemp=$(echo "($novtemp-10)" | bc -l)
+    novstars=$(echo $novstars+"*")
+done
+
+dectemp=$(echo $declogins)
+decstars=$(echo "")
+while [ $dectemp -ge 10 ];do
+    dectemp=$(echo "($dectemp-10)" | bc -l)
+    decstars=$(echo $decstars+"*")
+done
+
+totaltemp=$(echo $totallogins)
+totalstars=$(echo "")
+while [ $totaltemp -ge 10 ];do
+    totaltemp=$(echo "($totaltemp-10)" | bc -l)
+    totalstars=$(echo $totalstars+"*")
+done
+
+echo "_____________________________"
+echo " USER  : $USER   "
+echo "_____________________________"
+echo " Total Login Time: "
+echo "_____________________________"
+echo " Days:   | $totaldays"
+echo " Hours:  | $totalhours"
+echo " Minutes | $totalminutes"
+echo "_____________________________"
+echo " Total Logins Per Month: "
+echo "_____________________________"
+echo " Aug   | `echo $augstars | sed 's/+//g'` $auglogins"
+echo " Sep   | `echo $sepstars | sed 's/+//g'` $seplogins"
+echo " Oct   | `echo $octstars | sed 's/+//g'` $octlogins"
+echo " Nov   | `echo $novstars | sed 's/+//g'` $novlogins"
+echo " Dec   | `echo $decstars | sed 's/+//g'` $declogins"
+echo "_____________________________"
+echo " TOTAL : `echo $totalstars | sed 's/+//g'` $totallogins"
+</code>
+====Thursday, December 4, 2014====
+
+====Tuesday, December 9, 2014====
+
+====Thursday, December 11, 2014====
