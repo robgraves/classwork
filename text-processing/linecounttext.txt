@@ -1,4 +1,0 @@
-This is a file with multiple lines
-so that my script can count the number
-of lines in this file.
-test
